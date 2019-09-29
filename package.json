@@ -1,0 +1,32 @@
+{
+  "name": "icure",
+  "version": "1.0.0",
+  "description": "A Software Engineering Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DWJ01/iCure.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DWJ01/iCure/issues"
+  },
+  "homepage": "https://github.com/DWJ01/iCure#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^6.5.0",
+    "eslint-plugin-mocha": "^6.1.1",
+    "mocha": "^6.2.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "hbs": "^4.0.5",
+    "mongoose": "^5.7.1",
+    "mongoose-url-slugs": "^1.0.2"
+  }
+}
