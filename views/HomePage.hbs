@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>HomePage</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 </head>
@@ -13,7 +13,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
         <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
-            <a class="navbar-brand" href="#"><img src="images/logo.jpeg" height="65px"/></a>
+            <a class="navbar-brand" href="#"><img src="../public/img/logo.jpeg" height="65px"/></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -49,33 +49,33 @@
         </nav>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="images/homepage2.jpg" class="d-block w-100" alt="...">
+                <img src="../public/img/homepage2.jpg" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="images/homepage3.jpg" class="d-block w-100" alt="...">
+                <img src="../public/img/homepage3.jpg" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="images/homepage1.jpg" class="d-block w-100" alt="...">
+                <img src="../public/img/homepage1.jpg" class="d-block w-100" alt="...">
             </div>
         </div>
         <div class="introduction">
             Find cure, the professional way
         </div>
-        <form action="/search-result" method="get">
+        <form action="/search-result" method="get" id="search-form-mainpage">
         <div class="input-group" style="width:60%; position: absolute; top: 55%; left: 20%; height: 40px">
             <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary" type="button" style="color: #FEFCE3; border-color: #FEFCE3">Search</button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Doctor</a>
-                    <a class="dropdown-item" href="#">Hospital</a>
-                    <a class="dropdown-item" href="#">Article</a>
+                <select name="option" id="search-type">
+                    <option value="name">Name</option>
+                    <option value="hospital">Hospital</option>
+                    <option value="department">Department</option>
+                    <option value="position">Position</option>
                     <!-- <div role="separator" class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Separated link</a> -->
-                </div>
+                </select>
             </div>
-                <input name="hospital-name" id="hospital-name" type="text" aria-label="First name" class="form-control" placeholder="Hospital (Optional)">
-                <input name="doctor-name" id="doctor-name" type="text" aria-label="Last name" class="form-control" placeholder="Doctor (Optional)">
-                <button class="btn btn-outline-secondary" id="search-button" type="button" aria-haspopup="true" aria-expanded="false"><img src="images/baseline_search_white_18dp.png" height="30px"></button>
+                <input name="filter" id="input-text-mainpage" type="text" aria-label="" class="form-control" placeholder="">
+                <!-- input name="doctor-name" id="doctor-name" type="text" aria-label="Last name" class="form-control" placeholder="Doctor (Optional)" -->
+                <button class="btn btn-outline-secondary" id="search-button" type="button" aria-haspopup="true" aria-expanded="false" onclick="$('#search-form-mainpage').submit()"><img src="../public/img/baseline_search_white_18dp.png" height="30px"></button>
         </div>
         </form>
     </div>
@@ -83,7 +83,7 @@
 
 <div class="card-columns">
     <div class="card">
-        <img src="images/forum1.jpeg" class="card-img-top" alt="...">
+        <img src="../public/img/forum1.jpeg" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">Card title that wraps to a new line</h5>
             <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
@@ -100,7 +100,7 @@
         </blockquote>
     </div>
     <div class="card">
-        <img src="images/forum2.jpeg" class="card-img-top" alt="...">
+        <img src="../public/img/forum2.jpeg" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">Card title</h5>
             <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
@@ -125,7 +125,7 @@
         </div>
     </div>
     <div class="card">
-        <img src="images/forum3.jpeg" class="card-img-top" alt="...">
+        <img src="../public/img/forum3.jpeg" class="card-img-top" alt="...">
     </div>
     <div class="card p-3 text-right">
         <blockquote class="blockquote mb-0">

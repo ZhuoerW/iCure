@@ -6,6 +6,15 @@ const moment = require('moment');
 
 require('./db');
 const mongoose = require('mongoose');
+const Visitor = mongoose.model('Visitor');
+const Patient = mongoose.model('Patient');
+const Doctor = mongoose.model('Doctor');
+const Appointment = mongoose.model('Appointment');
+const Message = mongoose.model('Message');
+const Chat = mongoose.model('Chat');
+const Post = mongoose.model('Post');
+const Comment = mongoose.model('Comment');
+const MedicalProfile = mongoose.model('MedicalProfile');
 
 const app = express();
 
@@ -21,5 +30,22 @@ const sessionOptions = {
 	resave: false
 };
 app.use(session(sessionOptions));
+
+
+app.get('/search-result', (req, res) => {
+	Doctor.find(function(err, doctors) {
+		if (req.query.option === "") {
+			res.render('SearchResults', {doctors: doctors});
+		} else {
+			const option = sanitize(req.query.option);
+			const filter = sanitize(req.query.filter);
+			const filteredDoctors = doctors.filter(function(doctorObj) {
+				return doctorObj[filter] === option;
+			});
+			res.render('SearchResults', {doctors: filteredDoctors});
+		}
+	});
+})
+
 
 app.listen(3000);
