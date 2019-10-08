@@ -126,7 +126,7 @@ MedicalProfile.plugin(URLSlugs('patient_id'));
 
 mongoose.model('Visitor', Visitor);
 mongoose.model('Patient', Patient);
-mongoose.model('Docter', Docter);
+mongoose.model('Doctor', Doctor);
 mongoose.model('Appointment', Appointment);
 mongoose.model('Message', Message);
 mongoose.model('Chat', Chat);
