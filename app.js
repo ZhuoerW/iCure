@@ -2,7 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const sanitize = require('mongo-sanitize');
-const moment = require('moment');
+//const moment = require('moment');
 
 require('./db');
 const mongoose = require('mongoose');
@@ -31,9 +31,13 @@ const sessionOptions = {
 };
 app.use(session(sessionOptions));
 
+app.get('/', (req, res) => {
+	res.render('HomePage');
+});
 
 app.get('/search-result', (req, res) => {
 	Doctor.find(function(err, doctors) {
+		console.log(doctors);
 		if (req.query.option === "") {
 			res.render('SearchResults', {doctors: doctors});
 		} else {
@@ -45,7 +49,18 @@ app.get('/search-result', (req, res) => {
 			res.render('SearchResults', {doctors: filteredDoctors});
 		}
 	});
-})
+});
+
+app.get('/doctors/:slug', (req, res) => {
+	const slug = sanitize(req.params.slug);
+	Doctor.findOne({slug: slug}, function(err, doctor) {
+		if (err || topic === null) {
+			res.render('DoctorDetail', {error: true});
+		} else {
+			res.render('DoctorDetail', {doctor: doctor});
+		}
+	});
+});
 
 
 app.listen(3000);

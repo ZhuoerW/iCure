@@ -22,8 +22,8 @@ const Patient = new mongoose.Schema({
 
 //doctor
 const Doctor = new mongoose.Schema({
-	id: {type: String,required: true, length: 10},
-	name: {tyep: String, required: true},
+	id: {type: String,required: true},
+	name: {type: String, required: true},
 	password: {type: String, required: true, minlength: 5, maxlength: 20},
 	date_of_birth: {type: Date, required: true},
 	gender: {type: String, required: true},
@@ -50,7 +50,7 @@ const Appointment = new mongoose.Schema({
 	prescription: String,
 	status: {type: String,required: true},
 	rating: {type: Number, required: true},
-	raleted_profile: {type: mongoose.Schema.Types.ObjectId, ref:'MedicalProfile', required: true}
+	related_profile: {type: mongoose.Schema.Types.ObjectId, ref:'MedicalProfile', required: true}
 });
 
 //message
@@ -78,7 +78,7 @@ const Chat = new mongoose.Schema({
 // * each post contains 0 or more comments
 const Post = new mongoose.Schema({
 	title: {type: String, required: true},
-	auther_id: {type: String, required: true, length:10},
+	author_id: {type: String, required: true, maxlength:10},
 	content: {type: String,required: true},
 	create_time: {type: Date, default: Date.now, required: true}, 
 	hit: {type: Number, required: true},
@@ -91,11 +91,11 @@ const Post = new mongoose.Schema({
 // * each comment is related to one post or one comment (?)
 // * each comment contains 0 or more comments
 const Comment = new mongoose.Schema({
-	post: {type: mongoose.Schema.Types.ObjectId, ref:'Post'}
-	comment: {type: mongoose.Schema.Types.ObjectId, ref:'Comment'}
-	auther_id = {type: String,required: true, length: 10},
+	post: {type: mongoose.Schema.Types.ObjectId, ref:'Post'},
+	comment: {type: mongoose.Schema.Types.ObjectId, ref:'Comment'},
+	author_id: {type: String, required: true, maxlength: 10},
 	content: {type: String,required: true},
-	create_time: {type: Date, default: Data.now, required: true}
+	create_time: {type: Date, default: Date.now, required: true},
 	comments: [{type: mongoose.Schema.Types.ObjectId, ref:'Comment'}]
 })
 
@@ -115,13 +115,13 @@ const MedicalProfile = new mongoose.Schema({
 })
 
 
-Patient.plugin(URLSlugs('id'));
-Docter.plugin(URLSlugs('id'));
+Patient.plugin(URLSlugs('id name'));
+Doctor.plugin(URLSlugs('id name'));
 Appointment.plugin(URLSlugs('doctor_id patient_id time'));
 Message.plugin(URLSlugs('doctor_id patient_id time'));
 Chat.plugin(URLSlugs('doctor_id patient_id'));
 Post.plugin(URLSlugs('auther_id create_time'));
-Comment.plugin(URLSlugs('auther_id create_time'));
+Comment.plugin(URLSlugs('author_id create_time'));
 MedicalProfile.plugin(URLSlugs('patient_id'));
 
 mongoose.model('Visitor', Visitor);
@@ -135,4 +135,4 @@ mongoose.model('Comment', Comment);
 mongoose.model('MedicalProfile', MedicalProfile);
 
 
-mongoose.connect('mongodb://localhost/'); // unfinished, connect to mongodb 
+mongoose.connect('mongodb://localhost/icure'); // unfinished, connect to mongodb 
