@@ -42,9 +42,11 @@
                         <a class="nav-link" href="#">Emergency</a>
                     </li>
                 </ul>
+                {{#if NotLogin}}
                 <form action="/login">
                     <input class="btn btn-outline-success" type="submit" value="Log In" style="color: #02368d; border-color:#02368d ">
                 </form>
+                {{/if}}
             </div>
         </nav>
     </div>
