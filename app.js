@@ -1,7 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
-const sanitize = require('mongo-sanitize');
+//const sanitize = require('mongo-sanitize');
 //const moment = require('moment');
 
 require('./db');
@@ -31,14 +31,12 @@ const sessionOptions = {
 };
 app.use(session(sessionOptions));
 
-<<<<<<< HEAD
+app.get("/login", function(req, res) {
 
-app.get("/", function(req, res){
-	res.redirect("/index");
+    res.render('home', {layout: false});
 });
 
-
-app.get("/login", function(req,res){
+app.get("/loginCheck", function(req,res){
 		User.findOne({username:req.query.username}, function(error, data){
 			if (error||!data||!passwordHash.verify(req.query.password,data.password)){
 				const errormessage="Sorry! Incorrect username or password. Please try again.";
@@ -47,7 +45,7 @@ app.get("/login", function(req,res){
 			else {
 				req.session.user = data.username;
 				req.session.slug = data.slug;
-				res.redirect("/index/"+data.slug);
+				res.redirect("/HomePage/"+data.slug);
 			}
 		});
 });
@@ -68,8 +66,11 @@ app.post('/register', function(req, res){
 			const errormessage = "Invalid register information!";
 			res.render('register', {"error": errormessage});
 		} else {
-			res.redirect('/index');
-=======
+			res.redirect('/HomePage');
+		}
+	});
+});
+
 app.get('/', (req, res) => {
 	res.render('HomePage');
 });
@@ -97,18 +98,18 @@ app.get('/doctors/:slug', (req, res) => {
 			res.render('DoctorDetail', {error: true});
 		} else {
 			res.render('DoctorDetail', {doctor: doctor});
->>>>>>> upstream/master
+
 		}
 	});
 });
 
-<<<<<<< HEAD
-app.get("/logout", function(req,res){
+
+app.get('/logout', (req,res) => {
 	req.session.user=null;
 	req.session.slug = null;
-	res.redirect("/home");
+	res.redirect('/HomePage');
 });
-=======
 
->>>>>>> upstream/master
 app.listen(3000);
+
+
