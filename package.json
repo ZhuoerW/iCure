@@ -26,7 +26,8 @@
     "express": "^4.17.1",
     "express-session": "^1.16.2",
     "hbs": "^4.0.5",
-    "mongoose": "^5.7.1",
+    "mongo-sanitize": "^1.0.1",
+    "mongoose": "^5.7.3",
     "mongoose-url-slugs": "^1.0.2"
   }
 }
