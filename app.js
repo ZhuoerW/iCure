@@ -1,7 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
-//const sanitize = require('mongo-sanitize');
+const sanitize = require('mongo-sanitize');
 //const moment = require('moment');
 
 require('./db');
@@ -15,6 +15,7 @@ const Chat = mongoose.model('Chat');
 const Post = mongoose.model('Post');
 const Comment = mongoose.model('Comment');
 const MedicalProfile = mongoose.model('MedicalProfile');
+const passwordHash = require('password-hash');
 
 const app = express();
 
@@ -32,44 +33,94 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 
 app.get("/login", function(req, res) {
-
-    res.render('home', {layout: false});
+    res.render('login', {layout: false});
 });
 
 app.get("/loginCheck", function(req,res){
-		User.findOne({username:req.query.username}, function(error, data){
-			if (error||!data||!passwordHash.verify(req.query.password,data.password)){
-				const errormessage="Sorry! Incorrect username or password. Please try again.";
-				res.render("hindex", {"error": errormessage});
+	if (req.query.usertype=="Doctor") {
+		Doctor.findOne({email:req.query.Email, password: req.query.Password}, function(error, data){
+			if (data) {
+				req.session.user = data.email;
+				req.session.slug = data.slug;
+				res.redirect("/");
 			}
 			else {
-				req.session.user = data.username;
-				req.session.slug = data.slug;
-				res.redirect("/HomePage/"+data.slug);
+				const errormessage="Sorry! Incorrect username or password. Please try again.";
+				res.render("login", {"error": errormessage, layout: false});
 			}
 		});
+}  else {
+		Patient.findOne({email:req.query.Email, password: req.query.Password}, function(error, data){
+			if (data) {
+				req.session.user = data.email;
+				req.session.slug = data.slug;
+				res.redirect("/");
+			}
+			else {
+				const errormessage="Sorry! Incorrect username or password. Please try again.";
+				res.render("login", {"error": errormessage, layout: false});
+			}
+		});
+	}
 });
 
 
-app.get('/register', function(req, res){
-	res.render("register");
+app.get('/registerDoctor', function(req, res){
+	res.render("registerDoctor",{layout: false});
 });
 
-app.post('/register', function(req, res){
-		new User({
-		username: sanitize(req.body.username),
-		password: passwordHash.generate(sanitize(req.body.password)),
-		age : sanitize(req.body.age),
-		sex: sanitize(req.body.sex)
+
+app.get('/registerPatient', function(req, res){
+	res.render("registerPatient",{layout: false});
+});
+
+
+app.post('/registerPatient', function(req, res){
+		new Patient({
+		name: sanitize(req.body.Name),
+		password: sanitize(req.body.Password),
+		gender: sanitize(req.body.Gender),
+		id: "0000000001",
+		date_of_birth: sanitize(req.body.DateOfBirth),
+		phone: sanitize(req.body.Phone),
+		address: sanitize(req.body.Address),
+		email: sanitize(req.body.Email),
 	}).save(function(error){
 		if (error) {
+			console.log(error);
 			const errormessage = "Invalid register information!";
-			res.render('register', {"error": errormessage});
+			res.render('registerPatient', {"error": errormessage, layout: false});
 		} else {
-			res.redirect('/HomePage');
+			res.redirect('/');
 		}
 	});
 });
+
+app.post('/registerDoctor', function(req, res){
+		new Doctor({
+		name: sanitize(req.body.Name),
+		password: sanitize(req.body.Password),
+		gender: sanitize(req.body.Gender),
+		id: "0000000002",
+		date_of_birth: sanitize(req.body.DateOfBirth),
+		phone: sanitize(req.body.Phone),
+		address: sanitize(req.body.Address),
+		email: sanitize(req.body.Email),
+		resume: sanitize(req.body.Resume),
+		department: sanitize(req.body.Department),
+		hospital: sanitize(req.body.Hospital),
+		position: sanitize(req.body.Position),
+		rating: 0
+	}).save(function(error){
+		if (error) {
+			console.log(error);
+			const errormessage = "Invalid register information!";
+			res.render('registerDoctor', {"error": errormessage, layout: false});
+		} else {
+			res.redirect('/');
+		}
+	});
+	});
 
 app.get('/', (req, res) => {
 	res.render('HomePage');
