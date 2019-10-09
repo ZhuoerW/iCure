@@ -80,7 +80,7 @@ app.post('/registerPatient', function(req, res){
 		name: sanitize(req.body.Name),
 		password: sanitize(req.body.Password),
 		gender: sanitize(req.body.Gender),
-		id: "0000000001",
+		id: '0000000001',
 		date_of_birth: sanitize(req.body.DateOfBirth),
 		phone: sanitize(req.body.Phone),
 		address: sanitize(req.body.Address),
@@ -123,7 +123,13 @@ app.post('/registerDoctor', function(req, res){
 	});
 
 app.get('/', (req, res) => {
-	res.render('HomePage');
+	console.log(req.session.user);
+	if (req.session.user===undefined) {
+		res.render('HomePage',{NotLogin: true});
+	}
+	else {
+		res.render('HomePage');
+	}
 });
 
 app.get('/search-result', (req, res) => {
@@ -157,8 +163,8 @@ app.get('/doctors/:slug', (req, res) => {
 
 
 app.get('/logout', (req,res) => {
-	req.session.user=null;
-	req.session.slug = null;
+	req.session.user=undefined;
+	req.session.slug = undefined;
 	res.redirect('/HomePage');
 });
 
