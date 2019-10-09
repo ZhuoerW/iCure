@@ -1,28 +1,92 @@
-<body>
-<div class="box">
-<h1>Sign In</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+    <link rel="stylesheet" type="text/css" href="../public/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+	<nav class="navbar navbar-expand-lg navbar-light" id="navbar">
+		<a class="navbar-brand" href="#"><img src="../public/img/logo.jpeg" height="65px"/></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+            </div>
+			</nav>
+    </div>
+<body style="background-color: #F0F0F0">
+	{{#if error}}
+	<p class="error">{{error}}</p>
+	{{else}}
+	<center>
+		<div class="card" style="width: 50%; margin-top: 5%">
+  			<h5 class="card-header" style="background-color:#02368d; color: #FEFCE3">Log In</h5>
+			<form id="loginForm" method="GET" action="/loginCheck">
+  			<div class="card-body">
+   				 <ul class="list-group list-group-flush">
+					<li class="list-group-item" style="padding-bottom: 3%">
+						<div class="input-group mb-3" style="width: 50%; margin-left: -40%; margin-top: 2%">
+							&nbsp
+							&nbsp
+							&nbsp
+							&nbsp
+  							<div class="input-group-prepend">
+  						  		<span class="input-group-text" id="basic-addon1" style="background-color: transparent; border: none">Type:</span>
+  							</div>
+  							<select name="usertype" style="background-color: transparent; width: 120px">
+								<option value="Select">Select</option>
+								<option value="Doctor">Doctor</option>
+								<option value="Patient">Patient</option>
+							</select>
+						</div> 
+					</li>
+					<li class="list-group-item">
+						<div class="input-group mb-3" style="width: 50%; margin-left: -40%; margin-top: 2%">
+							&nbsp
+							&nbsp
+							&nbsp
+							&nbsp
+  							<div class="input-group-prepend">
+  						  		<span for="Email" class="input-group-text" id="basic-addon1" style="background-color: transparent; border: none">Email:</span>
+  							</div>
+  							<input type="text" name="Email" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+						</div>
+					</li>
+					<li class="list-group-item">
+						<div class="input-group mb-3" style="width: 50%; margin-left: -40%; margin-top: 2%">
+  							<div class="input-group-prepend">
+  						  		<span class="input-group-text" id="basic-addon1" style="background-color: transparent; border: none">Password:</span>
+  							</div>
+  							<input type="text" name="Password" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+						</div>
+					</li>
+					<li class="list-group-item">
+						<button type="submit" class="btn btn-primary" style="background-color: #02368d; margin-top: 2%">Confirm</button>
+					</li>
+				</ul>
+ 			 </div>
+		     </form>
+		</div>
+	<button type="button" class="btn btn-primary btn-lg btn-block" style="width: 50%; margin-top: 4%; background-color: #02368d"><a style="color: #FEFCE3" href=/registerDoctor>Create Doctor Account</a></button>
+	<button type="button" class="btn btn-secondary btn-lg btn-block" style="width: 50%; margin-top: 2%; background-color: #02368d"><a style="color: #FEFCE3" href=/registerPatient>Create Patient Account</a></button>
+	</center>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	{{/if}}
 
-<form id="loginForm" method="GET" action="/loginCheck">
-<div class="form-group">
-Login As : <select name="usertype">
-	<option value="Doctor">Doctor</option>
-	<option value="Patient">Patient</option>
-</select>
-<br>
-<label for="Email">Email:</label> 
-<input type="text" name=Email>
-</div>
-<div class="form-group">
-<label for="Password">Password </label>
-<input type="text" name=Password>
-</div>
-<button type="submit" class="btn btn-primary">Submit</button>
-<br>
-</form>
-<p class="error">{{error}}</p>
-<h3><a href=/registerDoctor>Create Doctor Account</a></h3>
-<h3><a href=/registerPatient>Create Patient Account</a></h3>
-<br>
-</div>
-<a href="/">Back</a>
+<footer class="page-footer font-small blue">
+    <div class="footer-copyright text-center py-3">© 2019 Copyright:
+        <a href="https://mdbootstrap.com/education/bootstrap/"> NYU Shanghai</a>
+    </div>
+</footer>
 </body>
+</html>

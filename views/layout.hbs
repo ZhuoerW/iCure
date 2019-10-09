@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HomePage</title>
+    <title>LogIn</title>
     <link rel="stylesheet" type="text/css" href="../public/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -38,15 +38,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Forum</a>
                     </li>
-                    <li class="nav-item" id="emergency">
-                        <a class="nav-link" href="#">Emergency</a>
+                    <li class="nav-item">
+                        <a class="nav-link" id="emergency" href="#">Emergency</a>
                     </li>
                 </ul>
-                {{#if NotLogin}}
                 <form action="/login">
-                    <input class="btn btn-outline-success" type="submit" value="Log In" style="color: #02368d; border-color:#02368d ">
+                    <input class="btn btn-outline-success" type="submit" value="Register / Log In" style="color: #02368d; border-color:#02368d ">
                 </form>
-                {{/if}}
             </div>
         </nav>
     </div>
