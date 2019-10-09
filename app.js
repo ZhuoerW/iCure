@@ -94,7 +94,7 @@ app.get('/search-result', (req, res) => {
 app.get('/doctors/:slug', (req, res) => {
 	const slug = sanitize(req.params.slug);
 	Doctor.findOne({slug: slug}, function(err, doctor) {
-		if (err || topic === null) {
+		if (err || doctor === null) {
 			res.render('DoctorDetail', {error: true});
 		} else {
 			res.render('DoctorDetail', {doctor: doctor});
