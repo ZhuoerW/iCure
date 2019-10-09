@@ -134,9 +134,10 @@ app.get('/search-result', (req, res) => {
 		} else {
 			const option = sanitize(req.query.option);
 			const filter = sanitize(req.query.filter);
-			const filteredDoctors = doctors.filter(function(doctorObj) {
+			let filteredDoctors = doctors.filter(function(doctorObj) {
 				return doctorObj[filter] === option;
 			});
+			filteredDoctors.sort((a, b) => (a.rating < b.rating) ? 1:-1);
 			res.render('SearchResults', {doctors: filteredDoctors});
 		}
 	});
@@ -145,7 +146,7 @@ app.get('/search-result', (req, res) => {
 app.get('/doctors/:slug', (req, res) => {
 	const slug = sanitize(req.params.slug);
 	Doctor.findOne({slug: slug}, function(err, doctor) {
-		if (err || topic === null) {
+		if (err || doctor === null) {
 			res.render('DoctorDetail', {error: true});
 		} else {
 			res.render('DoctorDetail', {doctor: doctor});
