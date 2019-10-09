@@ -1,6 +1,38 @@
 <div>
-	<div>Name   |   Rating</div>
+    
+    <nav aria-label="breadcrumb">
+  		<ol class="breadcrumb">
+    		<li class="breadcrumb-item"><a href="/">Homepage</a></li>
+    		<li class="breadcrumb-item">Search</li>
+  		</ol>
+	</nav>
+
+	<div class=" " style="height: 20px">
+	</div>
+	
+	
 	{{#each doctors}}
-		<div><a href=/doctors/{{slug}}>{{name}}</a><span> {{rating}}</span></div>
+		
+	    <div class="card mt-4" style="max-width: 1024px; left: 15%">
+
+		<div class="row no-gutters">
+
+		<div class="col-md-8">
+		  <div class="card-body">
+		    <h5 class="card-title"><a href=/doctors/{{slug}}>{{name}}</a></h5>
+		    <p class="card-text">{{resume}}</p>
+		  </div>
+		</div>
+		
+		<div class="col-md-3 text-center ">
+		  <div class = "card-body">
+		  <p class= "card-text py-3" style="font-size: 20px">{{rating}}</p>
+		  </div>
+		</div>
+		
+		</div>
+	    </div>
+	    
 	{{/each}}
+
 </div>
