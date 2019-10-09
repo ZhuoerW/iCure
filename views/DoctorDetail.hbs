@@ -1,16 +1,71 @@
 {{#if error}}
 	<h1>Error!</h1>
 {{else}}	
-	<ul>
-		<li>Name: {{doctor.name}}</li>
-		<li>Birthdate: {{doctor.date_of_birth}}</li>
-		<li>Gender: {{doctor.gender}}</li>
-		<li>Phone: {{doctor.phone}}</li>
-		<li>Email: {{doctor.email}}</li>
-		<li>Address: {{doctor.address}}</li>
-		<li>Hospital: {{doctor.hospital}}</li>
-		<li>Department: {{doctor.department}}</li>
-		<li>Position: {{doctor.position}}</li>
-		<li>Rating: {{doctor.rating}}</li>
-	</ul>
+
+<div>
+
+    <nav aria-label="breadcrumb">
+  		<ol class="breadcrumb">
+    		<li class="breadcrumb-item"><a href="/">Homepage</a></li>
+    		<li class="breadcrumb-item">Search</li>
+    		<li class="breadcrumb-item">{{doctor.name}}</li>
+  		</ol>
+	</nav>
+
+	<div class=" " style="height: 20px">
+	</div>
+
+	<div class="card mt-4" style="max-width: 840px; max-height: 80px; left: 23%">
+		<div class="card-body text-left">
+		<h5 class="card-title" style="font-size: 30px">Profile</h5>
+		</div>
+	</div>
+
+
+	<div class="card mt-4" style="max-width: 840px; left: 23%">
+
+	    <div class="row no-gutters">
+
+		    <div class="col-md-2">
+			
+			  	<div class="card-body text-left">
+			    	<p class="card-text">Name</p>
+			    	<p class="card-text">Birthdate</p>
+			    	<p class="card-text">Gender</p>
+			    	<p class="card-text">Phone</p>
+			    	<p class="card-text">Email</p>
+			    	<p class="card-text">Hospital</p>
+			    	<p class="card-text">Department</p>
+			    	<p class="card-text">Position</p>
+			    	<p class="card-text">Rating</p>
+			    	<p class="card-text">Address</p>
+
+			  	</div>
+			</div>
+
+			<div class="col-md-8">
+				<div class="card-body text-left">
+					<p class="card-text">{{doctor.name}}</p>
+			    	<p class="card-text">{{doctor.date_of_birth}}</p>
+			    	<p class="card-text">{{doctor.gender}}</p>
+			    	<p class="card-text">{{doctor.phone}}</p>
+			    	<p class="card-text">{{doctor.email}}</p>
+			    	<p class="card-text">{{doctor.hospital}}</p>
+			    	<p class="card-text">{{doctor.department}}</p>
+			    	<p class="card-text">{{doctor.position}}</p>
+			    	<p class="card-text">{{doctor.rating}}</p>
+			    	<p class="card-text">{{doctor.address}}</p>
+				</div>
+
+			</div>
+		</div>
+
+
+		
+		
+	</div>
+
+
+
+</div>
 {{/if}}
