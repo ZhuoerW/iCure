@@ -1,0 +1,76 @@
+* {
+    margin:0px;
+    padding:0px
+}
+#navbar {
+    background-color: #FEFCE3;
+    height: 100px;
+}
+#emergency {
+    color: red;
+}
+.carousel-inner{
+    z-index:80
+}
+.input-group{
+    z-index:100;
+    width:60%;
+    position: absolute;
+    top: 55%;
+    left: 20%;
+    height: 40px
+}
+.introduction{
+    z-index:120
+}
+.card-columns {
+@include media-breakpoint-only(lg) {
+    column-count: 4;
+}
+@include media-breakpoint-only(xl) {
+    column-count: 5;
+}
+}
+
+.forum-display {
+    background-color: #fffff7;
+    padding-top: 100px;
+    padding-left: 150px;
+    padding-right: 150px;
+    padding-bottom: 100px;
+}
+
+.introduction {
+    width:60%;
+    position: absolute;
+    top: 40%;
+    left: 20%;
+    color: white;
+    font-size: 48px;
+    font-weight: bold
+}
+
+#search {
+    color: #FEFCE3;
+    border-color: #FEFCE3
+}
+
+#input-text-mainpage {
+    height: 45px;
+    border: solid 1px #FEFCE3
+}
+
+#doctor-name {
+    height: 45px;
+    border: solid 1px #FEFCE3;
+    border-left-color: lightgrey
+}
+
+#search-button {
+    border-color: #02368d;
+    color: #02368d;
+    background-color: #02368d;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
