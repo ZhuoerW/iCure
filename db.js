@@ -5,12 +5,12 @@ const URLSlugs = require('mongoose-url-slugs');
 
 //visitor
 const Visitor = new mongoose.Schema({
-	id: {type: String, required: true, length: 10}
+	id: {type: String, required: true, minlength: 10, maxlength: 10}
 });
 
 //patient
 const Patient = new mongoose.Schema({
-	id: {type: String, required: true, length: 10},
+	id: {type: String, required: true, minlength: 10, maxlength: 10},
 	name: {type: String, required: true},
 	password: {type: String, required: true, minlength: 5, maxlength: 20},
 	date_of_birth: {type: Date, required: true},
@@ -43,8 +43,8 @@ const Doctor = new mongoose.Schema({
 // * each appointment is ralated a patient's profile
 const Appointment = new mongoose.Schema({
 	time: {type: Date, default: Date.now, required: true},
-	doctor_id: {type: String, required: true, length: 10},
-	patient_id: {type: String, required: true, length: 10},
+	doctor_id: {type: String, required: true, minlength: 10, maxlength: 10},
+	patient_id: {type: String, required: true, minlength: 10, maxlength: 10},
 	chief_complaint: {type: String, required: true},
 	diagnosis: String,
 	prescription: String,
@@ -57,8 +57,8 @@ const Appointment = new mongoose.Schema({
 // * each message is related to one doctor and one patient
 // * each message has a unique create time
 const Message = new mongoose.Schema({
-	doctor_id: {type: String,required: true, length: 10},
-	patient_id: {type: String,required: true, length: 10},
+	doctor_id: {type: String,required: true, minlength: 10, maxlength: 10},
+	patient_id: {type: String,required: true, minlength: 10, maxlength: 10},
 	time: {type: Date, default: Date.now, required: true},
 	text: {type: String,required: true}
 });
@@ -67,10 +67,10 @@ const Message = new mongoose.Schema({
 // * each chat is related to one doctor and one patient
 // * each chat contains 0 or more messages
 const Chat = new mongoose.Schema({
-	doctor_id: {type: String,required: true, length: 10},
-	patient_id: {type: String,required: true, length: 10},
+	doctor_id: {type: String,required: true, minlength: 10, maxlength: 10},
+	patient_id: {type: String,required: true, minlength: 10, maxlength: 10},
 	messages: [{type: mongoose.Schema.Types.ObjectId, ref:'Message'}]
-})
+});
 
 //post
 // * each post is related to one user
@@ -83,7 +83,7 @@ const Post = new mongoose.Schema({
 	create_time: {type: Date, default: Date.now, required: true}, 
 	hit: {type: Number, required: true},
 	comments: [{type: mongoose.Schema.Types.ObjectId, ref:'Comment'}]
-})
+});
 
 //comment
 // * each comment is related to one user
@@ -97,12 +97,12 @@ const Comment = new mongoose.Schema({
 	content: {type: String,required: true},
 	create_time: {type: Date, default: Date.now, required: true},
 	comments: [{type: mongoose.Schema.Types.ObjectId, ref:'Comment'}]
-})
+});
 
 //medical profile
 // * each medical profile is related to one patient
 const MedicalProfile = new mongoose.Schema({
-	patient_id: {type: String,required: true, length: 10},
+	patient_id: {type: String,required: true, minlength: 10, maxlength: 10},
 	height: Number,
 	weight: Number, 
 	right_eye_sight: Number,
@@ -112,7 +112,7 @@ const MedicalProfile = new mongoose.Schema({
 	allergy: String,
 	blood_pressure: String,
 	others: String
-})
+});
 
 
 Patient.plugin(URLSlugs('id name'));
