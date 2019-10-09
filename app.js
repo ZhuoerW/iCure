@@ -83,9 +83,10 @@ app.get('/search-result', (req, res) => {
 		} else {
 			const option = sanitize(req.query.option);
 			const filter = sanitize(req.query.filter);
-			const filteredDoctors = doctors.filter(function(doctorObj) {
+			let filteredDoctors = doctors.filter(function(doctorObj) {
 				return doctorObj[filter] === option;
 			});
+			filteredDoctors.sort((a, b) => (a.rating < b.rating) ? 1:-1);
 			res.render('SearchResults', {doctors: filteredDoctors});
 		}
 	});
