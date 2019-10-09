@@ -1,7 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
-//const sanitize = require('mongo-sanitize');
+const sanitize = require('mongo-sanitize');
 //const moment = require('moment');
 
 require('./db');
