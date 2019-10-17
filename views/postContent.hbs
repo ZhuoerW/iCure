@@ -1,0 +1,38 @@
+<nav id="nav">
+  	<a href="/main-forum">View all Topics</a> |
+  	<a href="/posts-new">Add a Topic</a>
+</nav>
+{{#if error}}
+	<h1>The post does not exist!</h1>
+{{else}}
+	<div id="post-title">{{post.title}} by {{post.name}}</div>
+	<div>posted at {{post.create_time}}</div>
+	<div>Content:</div>
+	<div>{{post.content}}</div>
+	<div>Hits: {{post.hit}}</div>
+	<form method="POST" action="/posts/{{post.slug}}/comments">
+		<p><label for="add-comment-box">Leave a Comment:</label></p>
+		<p><textarea name="comment" id="add-comment-box"></textarea></p>
+		<input type="hidden" id="post-id" value="{{post.slug}}">
+		<p><input type="submit" name="" value="POST!" class="submit-button" id="post-comment-button"></p>
+	</form>
+	{{#if commentError}}
+		<div>Comment Error!</div>
+	{{/if}}
+	<div>
+		<form method="GET" action="/posts/{{post.slug}}">
+			<label for="filter-comment">Filter Comments By Author: </label>
+			<input type="text" name="option" value="" id="filter-comment">
+			<input type="submit" value="search" class="submit-button">
+		</form>
+	</div>
+	<div id="comment-box">
+		{{#each comments}}
+			<div class="comment-wrapper">
+				<div class="comment-text">{{content}}</div>
+				<div class="comment-username">posted by {{name}}</div>
+				<div class="comment-time">at {{create_time}}</div>
+			</div>
+		{{/each}}
+	</div>
+{{/if}}

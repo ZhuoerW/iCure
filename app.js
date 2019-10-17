@@ -2,7 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const sanitize = require('mongo-sanitize');
-//const moment = require('moment');
+const moment = require('moment');
 
 require('./db');
 const mongoose = require('mongoose');
@@ -184,6 +184,120 @@ app.get('/doctors/:slug', (req, res) => {
 		} else {
 			res.render('DoctorDetail', {doctor: doctor});
 
+		}
+	});
+});
+
+// Forum
+app.get('/main-forum', (req, res) => {
+	Post.find(function(err, posts) {
+		if (req.query.option === "") {
+			res.render('forumPosts', {posts: posts});
+		} else {
+			const option = sanitize(req.query.option);
+			const filter = sanitize(req.query.filter);
+			const filteredPosts = posts.filter(function(postObj) {
+				return postObj[filter] === option;
+			});
+			res.render('forumPosts', {posts: filteredPosts});
+		}
+	});
+});
+
+app.get('/posts-new', (req, res) => {
+	res.render('addPost');
+});
+
+app.post('/posts-new', (req, res) => {
+	const title = sanitize(req.body.title);
+	const content = sanitize(req.body.content);
+	const myDate = new Date();
+	const time = myDate.getTime();
+	const stringTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
+	const newPost = new Post({
+		title: title,
+		content: content,
+		author_id: req.user._id,
+		create_time: stringTime,
+		comments: [],
+		name: req.user.name,
+		hit: 0
+	});
+	newPost.save(function(err) {
+		if (err) {
+			res.render('addPost', {error: true});
+		} else {
+			res.redirect('/main-forum');
+		}
+	});
+});
+
+app.get('/posts/:slug',(req, res) => {
+	/*
+	if (req.session.user === undefined) {
+		res.redirect('/login');
+	}
+	*/
+	const slug = sanitize(req.params.slug);
+	const name = sanitize(req.query.option);
+	Post.findOne({slug: slug}, function(err, post) {
+		if (err || topic === null) {
+			res.render('postContent', {error: true});
+		} else {
+			Comment.find({_id: post.comments}, function(err, comments) {
+				if (err) {
+					res.render('postContent', {error: true});
+				} else if (req.query.option === "" || req.query.option === undefined) {
+					res.render('postContent', {post: post, comments: comments});
+				} else {
+					const filteredComments = comments.filter(function(commentObj) {
+						return commentObj.name === name;
+					});
+					res.render('postContent', {post: post, comments: filteredComments});
+				}
+			});
+		}
+	});
+});
+
+app.get('/posts/:slug/comments', (req, res) => {
+	const slug = sanitize(req.params.slug);
+	res.redirect('/posts/'+slug);
+});
+
+app.post('/posts/:slug/comments', (req, res) => {
+	/*
+	if (req.session.user === undefined) {
+		res.redirect('/login');
+	}
+	*/
+	const slug = sanitize(req.params.slug);
+	const comment = sanitize(req.body.comment);
+	const name = req.user.name;
+	const author_id = req.user._id;
+	const myDate = new Date();
+	const time = myDate.getTime();
+	const stringTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
+	const newComment = new Comment({
+		content: comment,
+		author_id: author_id,
+		create_time: stringTime,
+		name: name
+	});
+	newComment.save(function(err, savedComment) {
+		if (err) {
+			console.log('error 1', err);
+			res.render('postContent', {commentError: true});
+		} else {
+			Post.findOneAndUpdate({slug: slug}, {$push: {comments: savedComment._id}}, function(err) {
+				if (err) {
+					console.log('error 2',err);
+					res.render('postConent', {commentError: true});
+				} else {
+					//res.json(savedComment);
+					res.redirect('/posts/' + slug);
+				}
+			});
 		}
 	});
 });
