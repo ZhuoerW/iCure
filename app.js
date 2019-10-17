@@ -2,7 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const sanitize = require('mongo-sanitize');
-//const moment = require('moment');
+const moment = require('moment');
 
 require('./db');
 const mongoose = require('mongoose');
@@ -161,6 +161,7 @@ app.get('/doctors/:slug', (req, res) => {
 	});
 });
 
+// Forum
 app.get('/main-forum', (req, res) => {
 	Post.find(function(err, posts) {
 		if (req.query.option === "") {
