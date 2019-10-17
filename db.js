@@ -78,6 +78,7 @@ const Chat = new mongoose.Schema({
 // * each post contains 0 or more comments
 const Post = new mongoose.Schema({
 	title: {type: String, required: true},
+	name: {type: String, required: true},
 	author_id: {type: String, required: true, maxlength:10},
 	content: {type: String,required: true},
 	create_time: {type: Date, default: Date.now, required: true}, 
@@ -92,6 +93,7 @@ const Post = new mongoose.Schema({
 // * each comment contains 0 or more comments
 const Comment = new mongoose.Schema({
 	post: {type: mongoose.Schema.Types.ObjectId, ref:'Post'},
+	name: {type: String, required: true},
 	comment: {type: mongoose.Schema.Types.ObjectId, ref:'Comment'},
 	author_id: {type: String, required: true, maxlength: 10},
 	content: {type: String,required: true},
