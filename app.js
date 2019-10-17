@@ -15,6 +15,7 @@ const Chat = mongoose.model('Chat');
 const Post = mongoose.model('Post');
 const Comment = mongoose.model('Comment');
 const MedicalProfile = mongoose.model('MedicalProfile');
+const Id = mongoose.model('Id');
 const passwordHash = require('password-hash');
 
 const app = express();
@@ -40,7 +41,8 @@ app.get("/loginCheck", function(req,res){
 	if (req.query.usertype=="Doctor") {
 		Doctor.findOne({email:req.query.Email, password: req.query.Password}, function(error, data){
 			if (data) {
-				req.session.user = data.email;
+				req.session.user = data.name;
+				req.session.id = data.id;
 				req.session.slug = data.slug;
 				res.redirect("/");
 			}
@@ -52,7 +54,8 @@ app.get("/loginCheck", function(req,res){
 }  else {
 		Patient.findOne({email:req.query.Email, password: req.query.Password}, function(error, data){
 			if (data) {
-				req.session.user = data.email;
+				req.session.user = data.name;
+				req.session.id = data.id;
 				req.session.slug = data.slug;
 				res.redirect("/");
 			}
@@ -76,11 +79,14 @@ app.get('/registerPatient', function(req, res){
 
 
 app.post('/registerPatient', function(req, res){
+	Id.findOne({type:'init'},function(error, data){
+		if (data) {
+			let id = data.id;
 		new Patient({
 		name: sanitize(req.body.Name),
 		password: sanitize(req.body.Password),
 		gender: sanitize(req.body.Gender),
-		id: '0000000001',
+		id: id.toString(),
 		date_of_birth: sanitize(req.body.DateOfBirth),
 		phone: sanitize(req.body.Phone),
 		address: sanitize(req.body.Address),
@@ -91,17 +97,29 @@ app.post('/registerPatient', function(req, res){
 			const errormessage = "Invalid register information!";
 			res.render('registerPatient', {"error": errormessage, layout: false});
 		} else {
-			res.redirect('/');
+			let NewId = id+1;
+			Id.findOneAndUpdate({type:'init'},{id:NewId},function(error,data){
+				if (error) {
+					console.log(error);
+				} else {
+					res.redirect('/');
+				}
+			});
 		}
+	});
+		} 
 	});
 });
 
 app.post('/registerDoctor', function(req, res){
+	Id.findOne({type:'init'},function(error, data){
+		if (data) {
+			let id = data.id;
 		new Doctor({
 		name: sanitize(req.body.Name),
 		password: sanitize(req.body.Password),
 		gender: sanitize(req.body.Gender),
-		id: "0000000002",
+		id: id.toString(),
 		date_of_birth: sanitize(req.body.DateOfBirth),
 		phone: sanitize(req.body.Phone),
 		address: sanitize(req.body.Address),
@@ -117,8 +135,17 @@ app.post('/registerDoctor', function(req, res){
 			const errormessage = "Invalid register information!";
 			res.render('registerDoctor', {"error": errormessage, layout: false});
 		} else {
-			res.redirect('/');
+			let NewId = id+1;
+			Id.findOneAndUpdate({type:'init'},{id:NewId},function(error,data){
+				if (error) {
+					console.log(error);
+				} else {
+					res.redirect('/');
+				}
+			});
 		}
+	});
+		} 
 	});
 	});
 
@@ -163,9 +190,10 @@ app.get('/doctors/:slug', (req, res) => {
 
 
 app.get('/logout', (req,res) => {
-	req.session.user=undefined;
+	req.session.user = undefined;
+	req.session.id = undefined;
 	req.session.slug = undefined;
-	res.redirect('/HomePage');
+	res.redirect('/');
 });
 
 app.listen(3000);
