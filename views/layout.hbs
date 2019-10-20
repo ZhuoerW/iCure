@@ -49,6 +49,10 @@
                 <form action="/login">
                     <input class="btn btn-outline-success" type="submit" value= "Register / Log In" style="color: #02368d; border-color:#02368d ">
                 </form>
+                {{else}}
+                <form action="/logout">
+                    <input class="btn btn-outline-success" type="submit" value= "Log Out" style="color: #02368d; border-color:#02368d ">
+                </form>
                 {{/if}}
             </div>
         </nav>

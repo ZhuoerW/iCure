@@ -15,6 +15,7 @@ const Chat = mongoose.model('Chat');
 const Post = mongoose.model('Post');
 const Comment = mongoose.model('Comment');
 const MedicalProfile = mongoose.model('MedicalProfile');
+const Id = mongoose.model('Id');
 const passwordHash = require('password-hash');
 
 const app = express();
@@ -25,12 +26,20 @@ const publicPath = path.join(__dirname);
 app.use(express.static(publicPath));
 app.use(express.urlencoded({extended: false}));
 
+
 const sessionOptions = {
 	secret: 'secret for signing session id',
 	saveUninitialized: false,
 	resave: false
 };
 app.use(session(sessionOptions));
+
+app.use(function(req, res, next){
+	res.locals.user = req.session.name;
+	res.locals._id = req.session._id;
+	res.locals.userslug = req.session.slug;
+  next();
+});
 
 app.get("/login", function(req, res) {
     res.render('login', {layout: false});
@@ -40,7 +49,8 @@ app.get("/loginCheck", function(req,res){
 	if (req.query.usertype=="Doctor") {
 		Doctor.findOne({email:req.query.Email, password: req.query.Password}, function(error, data){
 			if (data) {
-				req.session.user = data.email;
+				req.session.name = data.name;
+				req.session._id = data.id;
 				req.session.slug = data.slug;
 				res.redirect("/");
 			}
@@ -52,7 +62,8 @@ app.get("/loginCheck", function(req,res){
 }  else {
 		Patient.findOne({email:req.query.Email, password: req.query.Password}, function(error, data){
 			if (data) {
-				req.session.user = data.email;
+				req.session.name = data.name;
+				req.session._id = data.id;
 				req.session.slug = data.slug;
 				res.redirect("/");
 			}
@@ -76,11 +87,14 @@ app.get('/registerPatient', function(req, res){
 
 
 app.post('/registerPatient', function(req, res){
+	Id.findOne({type:'init'},function(error, data){
+		if (data) {
+			let id = data.id;
 		new Patient({
 		name: sanitize(req.body.Name),
 		password: sanitize(req.body.Password),
 		gender: sanitize(req.body.Gender),
-		id: '0000000001',
+		id: id.toString(),
 		date_of_birth: sanitize(req.body.DateOfBirth),
 		phone: sanitize(req.body.Phone),
 		address: sanitize(req.body.Address),
@@ -91,17 +105,29 @@ app.post('/registerPatient', function(req, res){
 			const errormessage = "Invalid register information!";
 			res.render('registerPatient', {"error": errormessage, layout: false});
 		} else {
-			res.redirect('/');
+			let NewId = id+1;
+			Id.findOneAndUpdate({type:'init'},{id:NewId},function(error,data){
+				if (error) {
+					console.log(error);
+				} else {
+					res.redirect('/');
+				}
+			});
 		}
+	});
+		} 
 	});
 });
 
 app.post('/registerDoctor', function(req, res){
+	Id.findOne({type:'init'},function(error, data){
+		if (data) {
+			let id = data.id;
 		new Doctor({
 		name: sanitize(req.body.Name),
 		password: sanitize(req.body.Password),
 		gender: sanitize(req.body.Gender),
-		id: "0000000002",
+		id: id.toString(),
 		date_of_birth: sanitize(req.body.DateOfBirth),
 		phone: sanitize(req.body.Phone),
 		address: sanitize(req.body.Address),
@@ -117,14 +143,23 @@ app.post('/registerDoctor', function(req, res){
 			const errormessage = "Invalid register information!";
 			res.render('registerDoctor', {"error": errormessage, layout: false});
 		} else {
-			res.redirect('/');
+			let NewId = id+1;
+			Id.findOneAndUpdate({type:'init'},{id:NewId},function(error,data){
+				if (error) {
+					console.log(error);
+				} else {
+					res.redirect('/');
+				}
+			});
 		}
+	});
+		} 
 	});
 	});
 
 app.get('/', (req, res) => {
-	console.log(req.session.user);
-	if (req.session.user===undefined) {
+	console.log(req.session.name);
+	if (req.session.name===undefined) {
 		res.render('HomePage',{NotLogin: true});
 	}
 	else {
@@ -178,7 +213,12 @@ app.get('/main-forum', (req, res) => {
 });
 
 app.get('/posts-new', (req, res) => {
-	res.render('addPost');
+	if (req.session.name !== undefined){
+	res.render('addPost'); 
+	} else {
+
+		res.redirect('/login');
+	}
 });
 
 app.post('/posts-new', (req, res) => {
@@ -187,17 +227,19 @@ app.post('/posts-new', (req, res) => {
 	const myDate = new Date();
 	const time = myDate.getTime();
 	const stringTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
+	
 	const newPost = new Post({
 		title: title,
 		content: content,
-		author_id: req.user._id,
+		author_id: req.session._id,
 		create_time: stringTime,
 		comments: [],
-		name: req.user.name,
+		name: req.session.name,
 		hit: 0
 	});
 	newPost.save(function(err) {
 		if (err) {
+			console.log(err);
 			res.render('addPost', {error: true});
 		} else {
 			res.redirect('/main-forum');
@@ -206,15 +248,11 @@ app.post('/posts-new', (req, res) => {
 });
 
 app.get('/posts/:slug',(req, res) => {
-	/*
-	if (req.session.user === undefined) {
-		res.redirect('/login');
-	}
-	*/
 	const slug = sanitize(req.params.slug);
+
 	const name = sanitize(req.query.option);
 	Post.findOne({slug: slug}, function(err, post) {
-		if (err || topic === null) {
+		if (err) {
 			res.render('postContent', {error: true});
 		} else {
 			Comment.find({_id: post.comments}, function(err, comments) {
@@ -239,15 +277,15 @@ app.get('/posts/:slug/comments', (req, res) => {
 });
 
 app.post('/posts/:slug/comments', (req, res) => {
-	/*
-	if (req.session.user === undefined) {
+	
+	if (req.session.name === undefined) {
 		res.redirect('/login');
 	}
-	*/
+
 	const slug = sanitize(req.params.slug);
 	const comment = sanitize(req.body.comment);
-	const name = req.user.name;
-	const author_id = req.user._id;
+	const name = req.session.name;
+	const author_id = req.session._id;
 	const myDate = new Date();
 	const time = myDate.getTime();
 	const stringTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
@@ -257,6 +295,7 @@ app.post('/posts/:slug/comments', (req, res) => {
 		create_time: stringTime,
 		name: name
 	});
+
 	newComment.save(function(err, savedComment) {
 		if (err) {
 			console.log('error 1', err);
@@ -268,6 +307,7 @@ app.post('/posts/:slug/comments', (req, res) => {
 					res.render('postConent', {commentError: true});
 				} else {
 					//res.json(savedComment);
+					console.log("here 3");
 					res.redirect('/posts/' + slug);
 				}
 			});
@@ -277,9 +317,10 @@ app.post('/posts/:slug/comments', (req, res) => {
 
 
 app.get('/logout', (req,res) => {
-	req.session.user=undefined;
+	req.session.name = undefined;
+	req.session._id = undefined;
 	req.session.slug = undefined;
-	res.redirect('/HomePage');
+	res.redirect('/');
 });
 
 app.listen(3000);

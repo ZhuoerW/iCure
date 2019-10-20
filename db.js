@@ -8,6 +8,12 @@ const Visitor = new mongoose.Schema({
 	id: {type: String, required: true, minlength: 10, maxlength: 10}
 });
 
+//id
+const Id = new mongoose.Schema({
+	type : {type: String, required: true},
+	id :{type: Number, required: true, default: 1000000000}
+});
+
 //patient
 const Patient = new mongoose.Schema({
 	id: {type: String, required: true, minlength: 10, maxlength: 10},
@@ -135,6 +141,6 @@ mongoose.model('Chat', Chat);
 mongoose.model('Post', Post);
 mongoose.model('Comment', Comment);
 mongoose.model('MedicalProfile', MedicalProfile);
-
+mongoose.model('Id', Id);
 
 mongoose.connect('mongodb://localhost/icure'); // unfinished, connect to mongodb 
