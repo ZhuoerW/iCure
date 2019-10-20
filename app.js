@@ -26,12 +26,20 @@ const publicPath = path.join(__dirname);
 app.use(express.static(publicPath));
 app.use(express.urlencoded({extended: false}));
 
+
 const sessionOptions = {
 	secret: 'secret for signing session id',
 	saveUninitialized: false,
 	resave: false
 };
 app.use(session(sessionOptions));
+
+app.use(function(req, res, next){
+	res.locals.user = req.session.user;
+	res.locals.id = req.session.id;
+	res.locals.userslug = req.session.slug;
+  next();
+});
 
 app.get("/login", function(req, res) {
     res.render('login', {layout: false});
@@ -42,7 +50,7 @@ app.get("/loginCheck", function(req,res){
 		Doctor.findOne({email:req.query.Email, password: req.query.Password}, function(error, data){
 			if (data) {
 				req.session.user = data.name;
-				req.session.id = data.id;
+				req.session._id = data.id;
 				req.session.slug = data.slug;
 				res.redirect("/");
 			}
@@ -55,7 +63,7 @@ app.get("/loginCheck", function(req,res){
 		Patient.findOne({email:req.query.Email, password: req.query.Password}, function(error, data){
 			if (data) {
 				req.session.user = data.name;
-				req.session.id = data.id;
+				req.session._id = data.id;
 				req.session.slug = data.slug;
 				res.redirect("/");
 			}
@@ -205,7 +213,11 @@ app.get('/main-forum', (req, res) => {
 });
 
 app.get('/posts-new', (req, res) => {
-	res.render('addPost');
+	if (req.session.user !== undefined){
+	res.render('addPost'); 
+	} else {
+		res.redirect('/login');
+	}
 });
 
 app.post('/posts-new', (req, res) => {
@@ -214,17 +226,19 @@ app.post('/posts-new', (req, res) => {
 	const myDate = new Date();
 	const time = myDate.getTime();
 	const stringTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
+	console.log(req.session._id);
 	const newPost = new Post({
 		title: title,
 		content: content,
-		author_id: req.user._id,
+		author_id: req.session._id,
 		create_time: stringTime,
 		comments: [],
-		name: req.user.name,
+		name: req.session.user,
 		hit: 0
 	});
 	newPost.save(function(err) {
 		if (err) {
+			console.log(err);
 			res.render('addPost', {error: true});
 		} else {
 			res.redirect('/main-forum');
@@ -274,7 +288,7 @@ app.post('/posts/:slug/comments', (req, res) => {
 	const slug = sanitize(req.params.slug);
 	const comment = sanitize(req.body.comment);
 	const name = req.user.name;
-	const author_id = req.user._id;
+	const author_id = req.session._id;
 	const myDate = new Date();
 	const time = myDate.getTime();
 	const stringTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
@@ -305,7 +319,7 @@ app.post('/posts/:slug/comments', (req, res) => {
 
 app.get('/logout', (req,res) => {
 	req.session.user = undefined;
-	req.session.id = undefined;
+	req.session._id = undefined;
 	req.session.slug = undefined;
 	res.redirect('/');
 });
