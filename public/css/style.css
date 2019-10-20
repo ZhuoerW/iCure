@@ -74,3 +74,8 @@
     border-bottom-left-radius: 0;
 }
 
+a.custom-card,
+a.custom-card:hover {
+    color: inherit;
+}
+
