@@ -36,7 +36,7 @@
                         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link" href="/main-forum">Forum</a>
+                        <a class="nav-link" href="#">Forum</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="emergency" href="#">Emergency</a>
@@ -45,20 +45,45 @@
                         <a class="nav-link" href="../views/Information.html">Information</a>
                     </li>
                 </ul>
-                {{#if NotLogin}}
+
                 <form action="/login">
                     <input class="btn btn-outline-success" type="submit" value= "Register / Log In" style="color: #02368d; border-color:#02368d ">
                 </form>
-                {{else}}
-                <form action="/logout">
-                    <input class="btn btn-outline-success" type="submit" value= "Log Out" style="color: #02368d; border-color:#02368d ">
-                </form>
-                {{/if}}
+
             </div>
         </nav>
     </div>
 
-        {{{body}}}
+    <div class=" " style="height: 40px">
+	</div>
+
+    <div class="container">
+        <div class="list">
+          <div class="col-sm">
+            <div class="card border-light bg-light mb-3" style="width: 25rem; height: 15rem;">
+                
+                <div class="card-body">
+                  <h5 class="card-title">with Dr Smith</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+                <a href="../views/AppointmentDetail.html" class="custom-card">
+                <div class="card-footer bg-warning border-warning">Details</div>
+                </a>
+              </div>
+          </div>
+          <div class="col-sm">
+            one
+          </div>
+          <div class="col-sm">
+            two
+          </div>
+        </div>
+      </div>
+
+    
+      
+
+       
 <footer class="page-footer font-small blue">
     <div class="footer-copyright text-center py-3">© 2019 Copyright:
         <a href="https://mdbootstrap.com/education/bootstrap/"> NYU Shanghai</a>
