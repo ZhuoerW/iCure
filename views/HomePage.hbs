@@ -4,8 +4,8 @@
         bar.setAttribute("style", "background-color: white; color: grey");
         var login = document.getElementById("clicklog");
         login.setAttribute("style", "background-color: transparent; border: none; color: grey");
-        var login = document.getElementById("clicksignup");
-        login.setAttribute("style", "background-color: transparent; border: none; color: grey");
+        var signup = document.getElementById("clicksignup");
+        signup.setAttribute("style", "background-color: transparent; border: none; color: grey");
         
     }
     function reverse() {
@@ -13,12 +13,13 @@
         bar.setAttribute("style", "background-color: transparent; color: white");
         var login = document.getElementById("clicklog");
         login.setAttribute("style", "background-color: transparent; border: none; color: white");
-        var login = document.getElementById("clicksignup");
-        login.setAttribute("style", "background-color: transparent; border: none; color: white");
+        var signup = document.getElementById("clicksignup");
+        signup.setAttribute("style", "background-color: transparent; border: none; color: white");
       
     }
 
 </script>
+<div style="height: 50px"></div>
 <div id="navbar" style="width: 100%;" onmouseover="navbar()" onmouseout="reverse()">
     <table id="table">
         <tr>
@@ -45,18 +46,20 @@
             </td>
             <td align="right" style="width: 700px">
                 {{#if NotLogin}}
-                <form action="/login">
-                <table id="login"> 
+                <table> 
                     <tr>
                         <td style="width: 60px">
+                            <form action="/login">
                             <input id="clicklog" type="submit" value="Log In" style="background-color: transparent; border: none; color: white">
+                            </form>
                         </td>
                         <td>
+                            <form action="/signup">
                             <input id="clicksignup" type="submit" value="Sign Up" style="background-color: transparent; border: none; color: white">
+                            </form>
                         </td>
                     </tr>
                 </table>
-                </form>
                 {{/if}}
             </td>
         </tr>
@@ -81,7 +84,7 @@
     <div class="input-group" style="width:60%; position: absolute; top: 20%; left: 20%; height: 40px">
         <div class="input-group-prepend">
             <select name="filter" id="search-type" style="background-color: #00243b; color: white; border: none; font-size: 16px ">
-                <option value="name">Category</option>
+                <option value="name">Name</option>
                 <option value="hospital">Hospital</option>
                 <option value="department">Department</option>
                 <option value="position">Position</option>

@@ -128,7 +128,7 @@ Doctor.plugin(URLSlugs('id name'));
 Appointment.plugin(URLSlugs('doctor_id patient_id time'));
 Message.plugin(URLSlugs('doctor_id patient_id time'));
 Chat.plugin(URLSlugs('doctor_id patient_id'));
-Post.plugin(URLSlugs('auther_id create_time'));
+Post.plugin(URLSlugs('author_id create_time'));
 Comment.plugin(URLSlugs('author_id create_time'));
 MedicalProfile.plugin(URLSlugs('patient_id'));
 

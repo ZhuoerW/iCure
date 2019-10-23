@@ -1,4 +1,77 @@
-<nav id="nav">
+<div style="height: 50px"></div>
+<div id="loginnavbar" style="width: 100%;box-shadow: lightgrey 0px 1px; position:fixed; height: 60px">
+    <table id="table">
+        <tr>
+            <td>
+                <table style="width: 700px"> 
+                    <tr>
+                        <td style="width: 80px">
+                            <a href="../" class="nav">Home</a>
+                        </td>
+                        <td style="width: 130px">
+                            <a href="../views/Appointment.html" class="nav">Appointment</a>
+                        </td>
+                        <td style="width: 90px">
+                            <a href="#" class="nav">Forum</a>
+                        </td>
+                        <td>
+                            <a href="#" class="nav">Emergency</a>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </td>
+            <td align="right" style="width: 700px">
+                {{#if NotLogin}}
+                <form action="/login">
+                <table id="login"> 
+                    <tr>
+                        <td style="width: 60px">
+                            <input id="clicklog" type="submit" value="Log In" style="background-color: transparent; border: none; color: white">
+                        </td>
+                        <td>
+                            <input id="clicksignup" type="submit" value="Sign Up" style="background-color: transparent; border: none; color: white">
+                        </td>
+                    </tr>
+                </table>
+                </form>
+                {{/if}}
+            </td>
+        </tr>
+    </table>          
+</div>
+<div style="height:60px"></div>
+	<div style="float:left; width: 70%; padding-left:60px; padding-top: 30px; padding-bottom: 30px; margin-bottom: 30px; margin-right:30px">
+		{{#each posts}}
+			<div style="background-color: white; box-shadow: lightgrey 0px 0px 3px; height: 180px; padding: 15px;padding-left: 20px; margin-bottom:30px">
+				<h2 class='forumtitle'><a style='font-size: 25px; color: #42413d' href=/posts/{{slug}}>{{title}}</a></h2>
+				<p style="color:#00243b; font-size: 16px"><span style="font-weight: bold">{{name}}:</span>"{{content}}"</p>
+				<img src="../public/img/hit.png" width="23px"/><span style="font-size:16px; font-weight:bold;color:rgb(83, 107, 243)"> {{hit}}</span>
+				&nbsp;
+				&nbsp;
+				&nbsp;
+				<button type="button" onclick="window.location.href=/posts/{{slug}}" style="height:30px; width:100px; border: solid 1.5px rgb(83, 107, 243); border-radius: 25px; color:rgb(83, 107, 243)">Comment</button>
+			</div>
+		{{/each}}
+	</div>
+<div style="float: left;width: 25%; top:30px; padding-top:30px">
+	<div style="background-color: white; box-shadow: lightgrey 0px 0px 3px; height: 180px; padding:20px">
+		<button type="button" onclick="window.location.href='/posts-new'" style="height:40px; width:130px; border: solid 1.5px rgb(83, 107, 243); background-color:rgb(83, 107, 243);  border-radius: 25px; color:white">Make My Post</button>
+		<br/>
+		<br/>
+		<p style="color: #42413d; font-weight: bold">Search for:</p>
+		<select id="filter" name="filter" style="background-color:transparent;  border: solid 1px #00243b; height:30px">
+	    	<option value="title">Title</option>
+	    	<option value="name">Author</option>
+		</select>
+	    <input type="text" name="option" value="" id="filter-option" style="background-color:transparent; border: solid 1.2px #00243b; height:30px">
+		<input type="submit" style="background-color:rgb(83, 107, 243); height:30px; color:white; border: solid 1.5px rgb(83, 107, 243);border-radius: 3px; " value="Submit">
+	</div>
+</div>
+<br clear="all">
+
+
+<!-- <nav id="nav" style="margin-top: 100px">
   	<a href="/main-forum">View all Topics</a> |
   	<a href="/posts-new">Add a Topic</a>
 </nav>
@@ -19,4 +92,5 @@
 		<div><a href=/posts/{{slug}}>{{title}}</a><span> posted by {{name}}</span></div>
 	{{/each}}
 </div>
-</div>
+</div>-->
+
