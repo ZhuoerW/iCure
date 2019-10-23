@@ -2,32 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RegisterPatient</title>
+    <title>Register</title>
     <link rel="stylesheet" type="text/css" href="../public/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 </head>
-<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-	<nav class="navbar navbar-expand-lg navbar-light" id="navbar">
-		<a class="navbar-brand" href="#"><img src="../public/img/logo.jpeg" height="65px"/></a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
-                    </li>
-                </ul>
-            </div>
-			</nav>
-    </div>
-<body style="background-color: #F0F0F0">
+<body style="background-color: white">
+    <header id="header">
+        <a class="navbar-brand" href="#"><img src="../public/img/logo.png" height="30px"/></a>
+		<a href="../" class="loginhome">Home</a>
+    </header>
 	{{#if error}}
 	<p class="error">{{error}}</p>
 	{{else}}
 	<center>
-		<div class="card" style="width: 50%; margin-top: 5%">
-  			<h5 class="card-header" style="background-color:#02368d; color: #FEFCE3">Patient Register</h5>
+		<div class="card" style="width: 50%; margin-top: 5%;  border: none ">
+  			<h5 class="card-header" style="background-color:white; color: #00243b">Patient Register</h5>
 			<form id= "register" method = "POST" action="/registerPatient">
   			<div class="card-body">
    				 <ul class="list-group list-group-flush">
@@ -98,7 +88,7 @@
 					</li>
 
 					<li class="list-group-item">
-						<button type="submit" class="btn btn-primary" style="background-color: #02368d; margin-top: 2%">Create Account</button>
+						<button type="submit" class="btn btn-primary" style="background-color: #00243b; margin-top: 2%">Create Account</button>
 					</li>
 				</ul>
  			 </div>

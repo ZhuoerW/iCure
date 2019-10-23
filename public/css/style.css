@@ -2,24 +2,6 @@
     margin:0px;
     padding:0px
 }
-#navbar {
-    background-color: #FEFCE3;
-    height: 100px;
-}
-#emergency {
-    color: red;
-}
-.carousel-inner{
-    z-index:80
-}
-.input-group{
-    z-index:100;
-    width:60%;
-    position: absolute;
-    top: 55%;
-    left: 20%;
-    height: 40px
-}
 .introduction{
     z-index:120
 }
@@ -40,6 +22,105 @@
     padding-bottom: 100px;
 }
 
+
+#search {
+    color: #FEFCE3;
+    border-color: #FEFCE3
+}
+
+#input-text-mainpage {
+    height: 45px;
+    background-color: white;
+    border: none;
+    opacity: 0.9 
+}
+
+#doctor-name {
+    height: 45px;
+    border: solid 1px #FEFCE3;
+    border-left-color: lightgrey
+}
+
+#search-button {
+    border-color: #00243b;
+    color: #00243b;
+    background-color: #00243b;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+a.custom-card,
+a.custom-card:hover {
+    color: inherit;
+}
+
+a.nav,
+a.nav:hover{
+    color: inherit;
+}
+
+#header {
+    background-color: #00243b;
+    height: 50px;
+    color: white;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#navbar {
+    z-index:100;
+    background-color: transparent;
+    color: white;
+    position:absolute;
+    padding: 20px;
+    padding-left: 25px;
+    font-family: sans-serif;
+    font-size: 15px;
+    transition: all .2s ease-in-out;
+}
+
+.navbar-nav {
+    color: white;
+}
+
+#emergency {
+    color: white;
+}
+.carousel-inner{
+    z-index:80
+}
+
+.input-group{
+    z-index:100;
+    width:60%;
+    position: absolute;
+    top: 55%;
+    left: 20%;
+    height: 40px
+}
+.introduction{
+    position: relative;
+    font-family: sans-serif;
+    z-index:120;
+}
+.card-columns {
+@include media-breakpoint-only(lg) {
+    column-count: 4;
+}
+@include media-breakpoint-only(xl) {
+    column-count: 5;
+}
+}
+
+.forum-display {
+    background:linear-gradient(to bottom, #fffff7, white);
+    padding-top: 100px;
+    padding-left: 150px;
+    padding-right: 150px;
+    padding-bottom: 100px;
+}
+
 .introduction {
     width:60%;
     position: absolute;
@@ -50,32 +131,18 @@
     font-weight: bold
 }
 
-#search {
-    color: #FEFCE3;
-    border-color: #FEFCE3
+#loginnavbar {
+    background-color: white;
+    color: grey;
+    position:absolute;
+    padding: 20px;
+    padding-left: 25px;
+    font-family: sans-serif;
+    font-size: 15px;
 }
 
-#input-text-mainpage {
-    height: 45px;
-    border: solid 1px #FEFCE3
-}
-
-#doctor-name {
-    height: 45px;
-    border: solid 1px #FEFCE3;
-    border-left-color: lightgrey
-}
-
-#search-button {
-    border-color: #02368d;
-    color: #02368d;
-    background-color: #02368d;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
-
-a.custom-card,
-a.custom-card:hover {
+a.loginhome,
+a.loginhome:hover{
     color: inherit;
 }
 
