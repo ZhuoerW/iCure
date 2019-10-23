@@ -25,6 +25,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-session": "^1.16.2",
+    "googleapis": "^39.2.0",
     "hbs": "^4.0.5",
     "moment": "^2.24.0",
     "mongo-sanitize": "^1.0.1",
