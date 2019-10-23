@@ -2,36 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HomePage</title>
+    <title>LogIn</title>
     <link rel="stylesheet" type="text/css" href="../public/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 </head>
-<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-	<nav class="navbar navbar-expand-lg navbar-light" id="navbar">
-		<a class="navbar-brand" href="#"><img src="../public/img/logo.jpeg" height="65px"/></a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
-                    </li>
-                </ul>
-            </div>
-			</nav>
-    </div>
-<body style="background-color: #F0F0F0">
-	{{#if error}}
+<body style="background-color: white">
+    <header id="header">
+        <a class="navbar-brand" href="#"><img src="../public/img/logo.png" height="30px"/></a>
+		<a href="../" class="loginhome">Home</a>
+    </header>
+    {{#if error}}
 	<p class="error">{{error}}</p>
 	{{else}}
 	<center>
-		<div class="card" style="width: 50%; margin-top: 5%">
-  			<h5 class="card-header" style="background-color:#02368d; color: #FEFCE3">Log In</h5>
+		<div class="card" style="width: 50%; margin-top: 5%; border: none ">
+  			<h5 class="card-header" style="background-color:white; color: #00243b">Log In</h5>
 			<form id="loginForm" method="GET" action="/loginCheck">
   			<div class="card-body">
    				 <ul class="list-group list-group-flush">
-					<li class="list-group-item" style="padding-bottom: 3%">
+					<li class="list-group-item" style="padding-bottom: 3% ">
 						<div class="input-group mb-3" style="width: 50%; margin-left: -40%; margin-top: 2%">
 							&nbsp
 							&nbsp
@@ -59,23 +49,23 @@
   							<input type="text" name="Email" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
 						</div>
 					</li>
-					<li class="list-group-item">
+					<li class="list-group-item" >
 						<div class="input-group mb-3" style="width: 50%; margin-left: -40%; margin-top: 2%">
   							<div class="input-group-prepend">
   						  		<span class="input-group-text" id="basic-addon1" style="background-color: transparent; border: none">Password:</span>
   							</div>
-  							<input type="text" name="Password" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+  							<input type="password" name="Password" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
 						</div>
 					</li>
 					<li class="list-group-item">
-						<button type="submit" class="btn btn-primary" style="background-color: #02368d; margin-top: 2%">Confirm</button>
+						<button type="submit" class="btn btn-primary" style="background-color: #00243b; margin-top: 2%">Confirm</button>
 					</li>
 				</ul>
  			 </div>
 		     </form>
 		</div>
-	<button type="button" class="btn btn-primary btn-lg btn-block" style="width: 50%; margin-top: 4%; background-color: #02368d"><a style="color: #FEFCE3" href=/registerDoctor>Create Doctor Account</a></button>
-	<button type="button" class="btn btn-secondary btn-lg btn-block" style="width: 50%; margin-top: 2%; background-color: #02368d"><a style="color: #FEFCE3" href=/registerPatient>Create Patient Account</a></button>
+	<button type="button" class="btn btn-primary btn-lg btn-block" style="width: 50%; margin-top: 4%; background-color: #00243b"><a style="color: #FEFCE3" href=/registerDoctor>Create Doctor Account</a></button>
+	<button type="button" class="btn btn-secondary btn-lg btn-block" style="width: 50%; margin-top: 2%; background-color: #00243b"><a style="color: #FEFCE3" href=/registerPatient>Create Patient Account</a></button>
 	</center>
 	<br/>
 	<br/>
@@ -83,10 +73,13 @@
 	<br/>
 	{{/if}}
 
-<footer class="page-footer font-small blue">
+	<footer class="page-footer font-small blue">
     <div class="footer-copyright text-center py-3">© 2019 Copyright:
-        <a href="https://mdbootstrap.com/education/bootstrap/"> NYU Shanghai</a>
+        <a href="https://shanghai.nyu.edu/"> NYU Shanghai</a>
     </div>
 </footer>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

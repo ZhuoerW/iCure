@@ -1,34 +1,104 @@
-<div class="carousel-inner">
-    <div class="carousel-item active">
-        <img src="/public/img/homepage2.jpg" class="d-block w-100" alt="...">
-    </div>
-    <div class="carousel-item">
-        <img src="/public/img/homepage3.jpg" class="d-block w-100" alt="...">
-    </div>
-    <div class="carousel-item">
-        <img src="/public/img/homepage1.jpg" class="d-block w-100" alt="...">
-    </div>
+<script>
+    function navbar() {
+        var bar = document.getElementById("navbar");
+        bar.setAttribute("style", "background-color: white; color: grey");
+        var login = document.getElementById("clicklog");
+        login.setAttribute("style", "background-color: transparent; border: none; color: grey");
+        var login = document.getElementById("clicksignup");
+        login.setAttribute("style", "background-color: transparent; border: none; color: grey");
+        
+    }
+    function reverse() {
+        var bar = document.getElementById("navbar");
+        bar.setAttribute("style", "background-color: transparent; color: white");
+        var login = document.getElementById("clicklog");
+        login.setAttribute("style", "background-color: transparent; border: none; color: white");
+        var login = document.getElementById("clicksignup");
+        login.setAttribute("style", "background-color: transparent; border: none; color: white");
+      
+    }
+
+</script>
+<div id="navbar" style="width: 100%;" onmouseover="navbar()" onmouseout="reverse()">
+    <table id="table">
+        <tr>
+            <td>
+                <table style="width: 700px"> 
+                    <tr>
+                        <td style="width: 80px">
+                            <a href="#" class="nav">Home</a>
+                        </td>
+                        <td style="width: 130px">
+                            <a href="../views/Appointment.html" class="nav">Appointment</a>
+                        </td>
+                        <td style="width: 90px">
+                            <a href="#" class="nav">Forum</a>
+                        </td>
+                        <td style="width: 120px">
+                            <a href="../views/Information.html" class="nav">Infomation</a>
+                        </td>
+                        <td>
+                            <a href="#" class="nav">Emergency</a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td align="right" style="width: 700px">
+                {{#if NotLogin}}
+                <form action="/login">
+                <table id="login"> 
+                    <tr>
+                        <td style="width: 60px">
+                            <input id="clicklog" type="submit" value="Log In" style="background-color: transparent; border: none; color: white">
+                        </td>
+                        <td>
+                            <input id="clicksignup" type="submit" value="Sign Up" style="background-color: transparent; border: none; color: white">
+                        </td>
+                    </tr>
+                </table>
+                </form>
+                {{/if}}
+            </td>
+        </tr>
+    </table>          
 </div>
-<div class="introduction">
-    Find cure, the professional way
-</div>
-<form action="/search-result" method="get" id="search-form-mainpage">
-<div class="input-group" style="width:60%; position: absolute; top: 55%; left: 20%; height: 40px">
-    <div class="input-group-prepend">
-        <select name="filter" id="search-type">
-            <option value="name">Name</option>
-            <option value="hospital">Hospital</option>
-            <option value="department">Department</option>
-            <option value="position">Position</option>
-            <!-- <div role="separator" class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a> -->
-        </select>
+<div>
+    <div class="carousel-inner" >
+        <div class="carousel-item active">
+            <img src="/public/img/homepage2.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="/public/img/homepage3.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="/public/img/homepage1.jpg" class="d-block w-100" alt="...">
+        </div>
     </div>
-        <input name="option" id="input-text-mainpage" type="text" aria-label="" class="form-control" placeholder="">
-        <!-- input name="doctor-name" id="doctor-name" type="text" aria-label="Last name" class="form-control" placeholder="Doctor (Optional)" -->
-        <button class="btn btn-outline-secondary" id="search-button" type="button" aria-haspopup="true" aria-expanded="false" onclick="$('#search-form-mainpage').submit()"><img src="/public/img/baseline_search_white_18dp.png" height="30px"></button>
+    <div class="introduction" style="top: 15%">
+        Find cure, the professional way
+    </div>
+    <form action="/search-result" method="get" id="search-form-mainpage">
+    <div class="input-group" style="width:60%; position: absolute; top: 20%; left: 20%; height: 40px">
+        <div class="input-group-prepend">
+            <select name="filter" id="search-type" style="background-color: #00243b; color: white; border: none; font-size: 16px ">
+                <option value="name">Category</option>
+                <option value="hospital">Hospital</option>
+                <option value="department">Department</option>
+                <option value="position">Position</option>
+                <!-- <div role="separator" class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a> -->
+            </select>
+        </div>
+        &nbsp;
+        &nbsp;
+        &nbsp;
+            <input name="option" id="input-text-mainpage" type="text" aria-label="" class="form-control" placeholder="Start with a simple search">
+            <!-- input name="doctor-name" id="doctor-name" type="text" aria-label="Last name" class="form-control" placeholder="Doctor (Optional)" -->
+            <button class="btn btn-outline-secondary" id="search-button" type="button" aria-haspopup="true" aria-expanded="false" onclick="$('#search-form-mainpage').submit()"><img src="/public/img/baseline_search_white_18dp.png" height="30px"></button>
+    </div>
+    </form>
 </div>
-</form>
+
 <div class="forum-display">
 
 <div class="card-columns">
