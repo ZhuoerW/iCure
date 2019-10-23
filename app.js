@@ -171,6 +171,7 @@ app.get('/search-result', (req, res) => {
 	Doctor.find(function(err, doctors) {
 		console.log(doctors);
 		if (req.query.option === "") {
+			doctors.sort((a, b) => (a.rating < b.rating) ? 1:-1);
 			res.render('SearchResults', {doctors: doctors});
 		} else {
 			const option = sanitize(req.query.option);
