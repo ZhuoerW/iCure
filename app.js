@@ -45,6 +45,10 @@ app.get("/login", function(req, res) {
     res.render('login', {layout: false});
 });
 
+app.get("/signup", function(req, res) {
+    res.render('signup', {layout: false});
+});
+
 app.get("/loginCheck", function(req,res){
 	if (req.query.usertype=="Doctor") {
 		Doctor.findOne({email:req.query.Email, password: req.query.Password}, function(error, data){
@@ -171,7 +175,6 @@ app.get('/search-result', (req, res) => {
 	Doctor.find(function(err, doctors) {
 		console.log(doctors);
 		if (req.query.option === "") {
-			doctors.sort((a, b) => (a.rating < b.rating) ? 1:-1);
 			res.render('SearchResults', {doctors: doctors});
 		} else {
 			const option = sanitize(req.query.option);
