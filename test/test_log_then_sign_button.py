@@ -6,24 +6,23 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
 
-class SearchTests(unittest.TestCase):
+class LogThenSignButtonTests(unittest.TestCase):
 	
 	def setUp(self):
 		dire = os.path.dirname(os.path.abspath(__file__))
 		chrome_driver_path = dire + "/chromedriver"
 		self.driver = webdriver.Chrome(chrome_driver_path)
 
-
 	def test_search(self):
-		#assert "Login" in driver.title
+		
 		driver = self.driver
 		driver.get("http://localhost:3000")
-		input_search_box = driver.find_element_by_id("input-text-mainpage")
-		input_search_box.clear()
-		input_search_box.send_keys("Tonja Burlew")
-		search_button = driver.find_element_by_id("search-button")
-		search_button.click()
-		assert "Tonja Burlew" in driver.page_source
+		login_button = driver.find_element_by_id("clicklog")
+		login_button.click()
+		url = "\signup"
+		log_then_sign_button = driver.find_element_by_xpath('//a[@href="'+url+'"]')
+		log_then_sign_button.click()
+		assert "SignUp" in driver.title
 
 	def tearDown(self):
 		self.driver.close()
