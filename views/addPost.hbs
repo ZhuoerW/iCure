@@ -1,3 +1,53 @@
+<div style="height: 50px"></div>
+<div id="loginnavbar" style="width: 100%;box-shadow: lightgrey 0px 1px; position:fixed; height: 60px">
+    <table id="table">
+        <tr>
+            <td>
+                <table style="width: 700px"> 
+                    <tr>
+                        <td style="width: 80px">
+                            <a href="/" class="nav">Home</a>
+                        </td>
+                        <td style="width: 130px">
+                            <a href="../views/Appointment.html" class="nav">Appointment</a>
+                        </td>
+                        <td style="width: 90px">
+                            <a href="/main-forum" class="nav">Forum</a>
+                        </td>
+                        <td style="width: 120px">
+                            <a href="../views/Information.html" class="nav">Infomation</a>
+                        </td>
+                        <td>
+                            <a href="#" class="nav">Emergency</a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td align="right" style="width: 700px">
+                {{#if NotLogin}}
+                <table> 
+                    <tr>
+                        <td style="width: 60px">
+                            <form action="/login">
+                            <input id="clicklog" type="submit" value="Log In" style="background-color: transparent; border: none; color: white">
+                            </form>
+                        </td>
+                        <td>
+                            <form action="/signup">
+                            <input id="clicksignup" type="submit" value="Sign Up" style="background-color: transparent; border: none; color: white">
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+                {{/if}}
+            </td>
+        </tr>
+    </table>          
+</div>
+
+<div class=" " style="height: 80px">
+</div>
+
 <nav id="nav">
   	<a href="/main-forum">View all Topics</a> |
   	<a href="/posts-new">Add a Topic</a>
@@ -5,6 +55,10 @@
 {{#if error}}
 	<p>Couldn't add your post!</p>
 {{/if}}
+
+
+ <div class=" " style="height: 30px">
+</div>
 <div id="add-post-form">
 <form method="POST" action="/posts-new">
 	<p><label for="add-post-title">Title:</label>
