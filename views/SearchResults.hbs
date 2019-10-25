@@ -2,37 +2,74 @@
 	<h1>Error!</h1>
 {{else}}	
 
-    
-<div>
 
-    
-    <nav aria-label="breadcrumb">
-  		<ol class="breadcrumb">
-    		<li class="breadcrumb-item"><a href="/">Homepage</a></li>
-    		<li class="breadcrumb-item">Search</li>
-  		</ol>
-	</nav>
+<div style="height: 50px"></div>  
+<div id="loginnavbar" style="width: 100%;box-shadow: lightgrey 0px 1px; position:fixed; height: 60px">
+    <table id="table">
+        <tr>
+            <td>
+                <table style="width: 300px"> 
+                    <tr>
+                        <td style="width: 50px">
+                            <a href="../" style="color: rgb(83, 107, 243)">Home</a>
+                        </td>
+                        <td style="width: 16px">
+                            <p class = "nav">/</p>
+                        </td>
+                        <td>
+                            <p class = "nav">Search</p>
+                        </td>
+                        
+                    </tr>
+                </table>
+            </td>
+            <td align="right" style="width: 700px">
+                {{#if NotLogin}}
+                <form action="/login">
+                <table id="login"> 
+                    <tr>
+                        <td style="width: 60px; font-color:rgb(83, 107, 243)">
+                            <input id="clicklog" type="submit" value="Log In" style="background-color: transparent; border: none; color: white">
+                        </td>
+                        <td>
+                            <input id="clicksignup" type="submit" value="Sign Up" style="background-color: transparent; border: none; color: white">
+                        </td>
+                    </tr>
+                </table>
+                </form>
+                {{/if}}
+            </td>
+        </tr>
+    </table>          
+</div>
 
-	<div class=" " style="height: 20px">
-	</div>
-	
-	
+
+<div style="height: 90px"></div>  
+
 	{{#each doctors}}
 		
-	    <div class="card mt-4" style="max-width: 1024px; left: 15%">
+	    <div class="card mt-4" style="max-width: 800px; left: 20%">
 
 		<div class="row no-gutters">
 
-		<div class="col-md-8">
+		<div class="col-mt text-center" style="background:rgb(83, 107, 243)">
+		  <div class = "card-body">
+		  <p class="card-title" style="color:white; font-size: 15px">Score</p>
+		  <p class= "card-text" style="color:white; font-size: 25px">{{rating}}</p>
+		  </div>
+		</div>
+
+		<div class="col-md-6">
 		  <div class="card-body">
-		    <h5 class="card-title"><a href=/doctors/{{slug}}>{{name}}</a></h5>
+		    <h5 class="card-title"><a href=/doctors/{{slug}} style="color:rgb(83, 107, 243)">{{name}}</a></h5>
 		    <p class="card-text">{{resume}}</p>
 		  </div>
 		</div>
-		
-		<div class="col-md-3 text-center ">
-		  <div class = "card-body">
-		  <p class= "card-text py-3" style="font-size: 20px">{{rating}}</p>
+	
+
+		<div class="col-md text-center">
+		  <div class = "card-body mt-4">
+		  <a href="#" style="color: rgb(83, 107, 243); position: center">Make An Appointment</a>
 		  </div>
 		</div>
 		
