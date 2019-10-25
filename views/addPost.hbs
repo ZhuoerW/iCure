@@ -1,5 +1,20 @@
+<!--<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+    var toolbarOptions = [
+    ['bold', 'italic','underline','strike'],
+    ['blockquote', 'code-block']
+    ];
+
+    var quill = new Quill('#editor', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme:'snow'
+    })
+</script>-->
 <div style="height: 50px"></div>
-<div id="loginnavbar" style="width: 100%;box-shadow: lightgrey 0px 1px; position:fixed; height: 60px">
+<div id="loginnavbar" style="width: 100%;box-shadow: lightgrey 0px 1px; position:fixed; height: 60px; z-index:999">
     <table id="table">
         <tr>
             <td>
@@ -44,8 +59,36 @@
         </tr>
     </table>          
 </div>
+<div style="margin-left:20%; margin-right:20%">
+<div class=" " style="height: 130px"></div>
+<form method="POST" action="/posts-new">
+    <label for="add-post-title" style="font-size: 45px; font-weight:bold">Title:</label>
+    &nbsp;
+    &nbsp;
+    <input style="font-size: 30px; height: 70px; width: 80%;border:none; background-color:transparent" type="text" name="title" value="" id="add-post-title">
+    <hr>
+    <!-- Include stylesheet -->
+    <link href="https://cdn.quilljs.com/1.1.6/quill.snow.css" rel="stylesheet">
 
-<div class=" " style="height: 80px">
+
+        <!-- Create the editor container -->
+        <div name="content" id="editor" style="height:600px; background-color: white; overflow:auto"></div>
+    </div>
+
+    <!-- Include the Quill library -->
+    <script src="https://cdn.quilljs.com/1.1.6/quill.js"></script>
+
+    <!-- Initialize Quill editor -->
+    <script>
+    var quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+    </script>
+
+    <input type="submit" value="Submit" class="submit-button" style="margin-left:72%; margin-top: 30px; background-color:rgb(83, 107, 243); color: white; height: 40px; width: 100px; border:none; border-radius:5px">
+</form>
+
+<!--<div class=" " style="height: 80px">
 </div>
 
 <nav id="nav">
@@ -56,7 +99,6 @@
 	<p>Couldn't add your post!</p>
 {{/if}}
 
-
  <div class=" " style="height: 30px">
 </div>
 <div id="add-post-form">
@@ -64,6 +106,7 @@
 	<p><label for="add-post-title">Title:</label>
 	<input type="text" name="title" value="" id="add-post-title"></p>
 	<p><label for="add-post-content">Content:</label></p>
-	<p><textarea name="content" value="" id="add-post-content"></textarea></p>
+    <div id="toolbar"></div>
+	<textarea name="content" value="" ></textarea>
 	<p><input type="submit" value="POST!" class="submit-button"></p>
-</form>
+</form>-->
