@@ -19,7 +19,6 @@
 	        signup.setAttribute("style", "background-color: transparent; border: none; color: white");
         }
     }
-
 </script>
 <div style="height: 50px"></div>
 <div id="navbar" style="width: 100%;" onmouseover="navbar()" onmouseout="reverse()">
@@ -61,6 +60,14 @@
                             </form>
                         </td>
                     </tr>
+                </table>
+                {{else}}
+                <table>
+                <tr>
+                <td>
+                <input id="clicklog" type="submit" value="Hello {{user}}" style="background-color: transparent; border: none; color: white">
+                </td>
+                </tr>
                 </table>
                 {{/if}}
             </td>

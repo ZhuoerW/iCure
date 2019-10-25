@@ -320,6 +320,21 @@ app.post('/posts/:slug/comments', (req, res) => {
 	});
 });
 
+app.get('/make-appointment/:slug', function(req, res){
+	if (req.session.name === undefined) {
+		res.redirect('/login');
+	}
+	const doctorSlug = req.params.slug;
+	Doctor.findOne({slug:doctorSlug}, function(error,doctor){
+		if (error){
+			console.log(error);
+		}
+		else {
+			res.render('makeAppointment',{doctor:doctor})
+		}
+	});
+});
+
 
 app.get('/logout', (req,res) => {
 	req.session.name = undefined;
