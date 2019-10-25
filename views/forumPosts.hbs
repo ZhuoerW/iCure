@@ -3,21 +3,18 @@
     <table id="table">
         <tr>
             <td>
-                <table style="width: 700px"> 
+                <table style="width: 300px"> 
                     <tr>
-                        <td style="width: 80px">
-                            <a href="../" class="nav">Home</a>
+                        <td style="width: 50px">
+                            <a href="../" style="color: rgb(83, 107, 243)">Home</a>
                         </td>
-                        <td style="width: 130px">
-                            <a href="../views/Appointment.html" class="nav">Appointment</a>
-                        </td>
-                        <td style="width: 90px">
-                            <a href="/main-forum" class="nav">Forum</a>
+                        <td style="width: 16px">
+                            <p class = "nav">/</p>
                         </td>
                         <td>
-                            <a href="#" class="nav">Emergency</a>
+                            <p class = "nav">Forum</p>
                         </td>
-                        <td></td>
+                        
                     </tr>
                 </table>
             </td>
@@ -26,7 +23,7 @@
                 <form action="/login">
                 <table id="login"> 
                     <tr>
-                        <td style="width: 60px">
+                        <td style="width: 60px; font-color:rgb(83, 107, 243)">
                             <input id="clicklog" type="submit" value="Log In" style="background-color: transparent; border: none; color: white">
                         </td>
                         <td>
@@ -73,27 +70,4 @@
 </div>
 <br clear="all">
 
-
-<!-- <nav id="nav" style="margin-top: 100px">
-  	<a href="/main-forum">View all Topics</a> |
-  	<a href="/posts-new">Add a Topic</a>
-</nav>
-<div>
-	<form method="GET" action="/main-forum">
-		<label for="filter">Filter Topics By: </label>
-		<select id="filter" name="filter">
-	    	<option value="title">title</option>
-	    	<option value="name">author</option>
-		</select>
-		<input type="text" name="option" value="" id="filter-option">
-		<input type="submit" value="search" class="submit-button">
-	</form>
-</div>
-<div>
-	<div>Title   |   Author</div>
-	{{#each posts}}
-		<div><a href=/posts/{{slug}}>{{title}}</a><span> posted by {{name}}</span></div>
-	{{/each}}
-</div>
-</div>-->
 
