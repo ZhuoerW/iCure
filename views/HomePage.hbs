@@ -2,25 +2,27 @@
     function navbar() {
         var bar = document.getElementById("navbar");
         bar.setAttribute("style", "background-color: white; color: grey");
-        var login = document.getElementById("clicklog");
-        login.setAttribute("style", "background-color: transparent; border: none; color: grey");
-        var signup = document.getElementById("clicksignup");
-        signup.setAttribute("style", "background-color: transparent; border: none; color: grey");
-        
+        if (document.getElementById("clicklog") != null && document.getElementById("clicksignup") != null){
+        	var login = document.getElementById("clicklog");
+	        login.setAttribute("style", "background-color: transparent; border: none; color: grey");
+	        var signup = document.getElementById("clicksignup");
+	        signup.setAttribute("style", "background-color: transparent; border: none; color: grey");
+        }
     }
     function reverse() {
         var bar = document.getElementById("navbar");
         bar.setAttribute("style", "background-color: transparent; color: white");
-        var login = document.getElementById("clicklog");
-        login.setAttribute("style", "background-color: transparent; border: none; color: white");
-        var signup = document.getElementById("clicksignup");
-        signup.setAttribute("style", "background-color: transparent; border: none; color: white");
-      
+        if (document.getElementById("clicklog") != null && document.getElementById("clicksignup") != null) {
+        	var login = document.getElementById("clicklog");
+	        login.setAttribute("style", "background-color: transparent; border: none; color: white");
+	        var signup = document.getElementById("clicksignup");
+	        signup.setAttribute("style", "background-color: transparent; border: none; color: white");
+        }
     }
 
 </script>
 <div style="height: 50px"></div>
-<div id="navbar" style="width: 100%;" onmouseover="navbar()" onmouseout="reverse(), position:fixed">
+<div id="navbar" style="width: 100%;" onmouseover="navbar()" onmouseout="reverse()">
     <table id="table">
         <tr>
             <td>
