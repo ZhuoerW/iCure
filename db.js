@@ -48,15 +48,16 @@ const Doctor = new mongoose.Schema({
 // * each appointment has a unique create time
 // * each appointment is ralated a patient's profile
 const Appointment = new mongoose.Schema({
-	time: {type: Date, default: Date.now, required: true},
+	startTime: {type: Date, default: Date.now, required: true},
+	endTime: {type: Date, default: Date.now, required: true},
 	doctor_id: {type: String, required: true, minlength: 10, maxlength: 10},
 	patient_id: {type: String, required: true, minlength: 10, maxlength: 10},
 	chief_complaint: {type: String, required: true},
 	diagnosis: String,
 	prescription: String,
-	status: {type: String,required: true},
-	rating: {type: Number, required: true},
-	related_profile: {type: mongoose.Schema.Types.ObjectId, ref:'MedicalProfile', required: true}
+	status: {type: String,default: "Upcoming",required: true},
+	rating: {type: Number},
+	related_profile: {type: mongoose.Schema.Types.ObjectId, ref:'MedicalProfile'}
 });
 
 //message

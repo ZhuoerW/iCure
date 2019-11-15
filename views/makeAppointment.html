@@ -9,47 +9,14 @@
     <script src='../node_modules/@fullcalendar/interaction/main.js'></script>
     <script src='../node_modules/@fullcalendar/timegrid/main.js'></script>
     <script src='../node_modules/jquery/dist/jquery.js'></script>
+    <script src='../node_modules/moment/moment.js'></script>
+    <script src='myAppointment.js'></script>
+
 
     <script>
-
-      document.addEventListener('DOMContentLoaded', function() {
-      	let eventArray=[{}];
-        let calendarEl = document.getElementById('calendar');
-        let calendar = new FullCalendar.Calendar(calendarEl, {
-        	plugins: [ 'timeGrid','interaction' ],
-        	header:{
-        		left:'prev,next,today',
-        		center:'title',
-        		right:'month, agandaWeek, agandaDay'
-        	},
-        	minTime:'08:00:00',
-        	maxTime: '18:00:00',
-        	editable: true,
-        	selectable: true,
-        	selectHelper: true,
-        	eventLimit: true,
-        	dateClick: function(info) {
-    		alert('Date: ' + info.dateStr);
-  			},
-  			select: function(start, end, jsEvent, view){
-  				let obj ={};
-  				obj.title = prompt("Title");
-  				obj.start = moment(start).format("YYYY-MM-DD");
-  				obj.end =moment(end).format("YYYY-MM-DD");
-  				allDay = false;
-  				eventArray.push(obj);
-  			},
-  			events: eventArray,
-        	overlap: false,
-        	weekends:false,
-        	});
-
-        calendar.render();
-      });
-
     </script>
   <body>
 
     <div id='calendar'></div>
-
+    <button id = 'submitAppointment' display='none' type="button">Confirm Appointment</button>
   </body>
