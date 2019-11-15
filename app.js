@@ -257,7 +257,7 @@ app.get('/posts/:slug',(req, res) => {
 	const slug = sanitize(req.params.slug);
 
 	const name = sanitize(req.query.option);
-	Post.findOne({slug: slug}, function(err, post) {
+	Post.findOneAndUpdate({slug: slug}, {$inc: {hit: 1}}, function(err, post) {
 		if (err) {
 			res.render('postContent', {error: true});
 		} else {
