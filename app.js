@@ -227,12 +227,13 @@ app.get('/posts-new', (req, res) => {
 });
 
 app.post('/posts-new', (req, res) => {
+	const rawContent = JSON.parse(sanitize(req.body.content));
+	console.log("rawcontent",rawContent);
 	const title = sanitize(req.body.title);
-	const content = sanitize(req.body.content);
+	const content = rawContent["ops"][0]["insert"].trim();
 	const myDate = new Date();
 	const time = myDate.getTime();
 	const stringTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
-	
 	const newPost = new Post({
 		title: title,
 		content: content,

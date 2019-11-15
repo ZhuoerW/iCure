@@ -131,6 +131,8 @@ Chat.plugin(URLSlugs('doctor_id patient_id'));
 Post.plugin(URLSlugs('author_id create_time'));
 Comment.plugin(URLSlugs('author_id create_time'));
 MedicalProfile.plugin(URLSlugs('patient_id'));
+Visitor.plugin(URLSlugs('id'));
+Id.plugin(URLSlugs('id'));
 
 mongoose.model('Visitor', Visitor);
 mongoose.model('Patient', Patient);
