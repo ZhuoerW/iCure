@@ -205,6 +205,7 @@ app.get('/doctors/:slug', (req, res) => {
 app.get('/main-forum', (req, res) => {
 	Post.find(function(err, posts) {
 		if (req.query.option === "") {
+			posts.sort((a, b) => (a.hit < b.hit) ? 1:-1);
 			res.render('forumPosts', {posts: posts});
 		} else {
 			const option = sanitize(req.query.option);
@@ -212,6 +213,7 @@ app.get('/main-forum', (req, res) => {
 			const filteredPosts = posts.filter(function(postObj) {
 				return postObj[filter] === option;
 			});
+			filteredPosts.sort((a, b) => (a.hit < b.hit) ? 1:-1);
 			res.render('forumPosts', {posts: filteredPosts});
 		}
 	});
