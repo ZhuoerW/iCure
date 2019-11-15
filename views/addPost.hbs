@@ -1,4 +1,4 @@
-<!--<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<!-- <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script>
     var toolbarOptions = [
@@ -12,7 +12,7 @@
         },
         theme:'snow'
     })
-</script>-->
+</script> -->
 <div style="height: 50px"></div>
 <div id="loginnavbar" style="width: 100%;box-shadow: lightgrey 0px 1px; position:fixed; height: 60px; z-index:999">
     <table id="table">
@@ -72,7 +72,8 @@
 
 
         <!-- Create the editor container -->
-        <div name="content" id="editor" style="height:600px; background-color: white; overflow:auto"></div>
+        <input type="hidden" name="content">
+        <div id="editor" style="height:600px; background-color: white; overflow:auto"></div>
     </div>
 
     <!-- Include the Quill library -->
@@ -83,12 +84,19 @@
     var quill = new Quill('#editor', {
         theme: 'snow'
     });
+    var form = document.querySelector('form');
+    form.onsubmit = function() {
+        // Populate hidden form on submit
+        var content = document.querySelector('input[name=content]');
+        content.value = JSON.stringify(quill.getContents());
+        console.log("contentyeah", $(form).serialize())
+    };
     </script>
 
     <input type="submit" value="Submit" class="submit-button" style="margin-left:72%; margin-top: 30px; background-color:rgb(83, 107, 243); color: white; height: 40px; width: 100px; border:none; border-radius:5px">
 </form>
 
-<!--<div class=" " style="height: 80px">
+<!-- <div class=" " style="height: 80px">
 </div>
 
 <nav id="nav">
@@ -109,4 +117,4 @@
     <div id="toolbar"></div>
 	<textarea name="content" value="" ></textarea>
 	<p><input type="submit" value="POST!" class="submit-button"></p>
-</form>-->
+</form> -->

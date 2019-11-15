@@ -89,7 +89,7 @@ const Post = new mongoose.Schema({
 	author_id: {type: String, required: true, maxlength:10},
 	content: {type: String,required: true},
 	create_time: {type: Date, default: Date.now, required: true}, 
-	hit: {type: Number, required: true},
+	hit: {type: Number, required: true, default: 0},
 	comments: [{type: mongoose.Schema.Types.ObjectId, ref:'Comment'}]
 });
 
@@ -132,6 +132,8 @@ Chat.plugin(URLSlugs('doctor_id patient_id'));
 Post.plugin(URLSlugs('author_id create_time'));
 Comment.plugin(URLSlugs('author_id create_time'));
 MedicalProfile.plugin(URLSlugs('patient_id'));
+Visitor.plugin(URLSlugs('id'));
+Id.plugin(URLSlugs('id'));
 
 mongoose.model('Visitor', Visitor);
 mongoose.model('Patient', Patient);

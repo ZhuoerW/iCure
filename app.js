@@ -205,6 +205,7 @@ app.get('/doctors/:slug', (req, res) => {
 app.get('/main-forum', (req, res) => {
 	Post.find(function(err, posts) {
 		if (req.query.option === "") {
+			posts.sort((a, b) => (a.hit < b.hit) ? 1:-1);
 			res.render('forumPosts', {posts: posts});
 		} else {
 			const option = sanitize(req.query.option);
@@ -212,6 +213,7 @@ app.get('/main-forum', (req, res) => {
 			const filteredPosts = posts.filter(function(postObj) {
 				return postObj[filter] === option;
 			});
+			filteredPosts.sort((a, b) => (a.hit < b.hit) ? 1:-1);
 			res.render('forumPosts', {posts: filteredPosts});
 		}
 	});
@@ -227,12 +229,13 @@ app.get('/posts-new', (req, res) => {
 });
 
 app.post('/posts-new', (req, res) => {
+	const rawContent = JSON.parse(sanitize(req.body.content));
+	console.log("rawcontent",rawContent);
 	const title = sanitize(req.body.title);
-	const content = sanitize(req.body.content);
+	const content = rawContent["ops"][0]["insert"].trim();
 	const myDate = new Date();
 	const time = myDate.getTime();
 	const stringTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
-	
 	const newPost = new Post({
 		title: title,
 		content: content,
@@ -256,7 +259,7 @@ app.get('/posts/:slug',(req, res) => {
 	const slug = sanitize(req.params.slug);
 
 	const name = sanitize(req.query.option);
-	Post.findOne({slug: slug}, function(err, post) {
+	Post.findOneAndUpdate({slug: slug}, {$inc: {hit: 1}}, function(err, post) {
 		if (err) {
 			res.render('postContent', {error: true});
 		} else {
