@@ -167,6 +167,7 @@ app.get('/', (req, res) => {
 		res.render('HomePage',{NotLogin: true});
 	}
 	else {
+		console.log("herer");
 		res.render('HomePage');
 	}
 });
@@ -333,11 +334,38 @@ app.get('/make-appointment/:slug', function(req, res){
 			console.log(error);
 		}
 		else {
-			res.render('makeAppointment',{doctor:doctor})
+			Appointment.find({doctor_id:doctor.id},function(error,appointment){
+				if (error){
+					console.log(error);
+				} else {
+					res.render('makeAppointment',{doctor:doctor,appointment:JSON.stringify(appointment)});
+				}
+			});
 		}
 	});
 });
+app.post('/update-appointment',function(req,res){
 
+	let eventArray = JSON.parse(req.body.eventArray);
+	let doctor_id = req.body.doctor_id.toString();
+	let event = eventArray[eventArray.length-1];
+	const newEvent = new Appointment({
+		start: event.start,
+		end:event.end,
+		doctor_id: doctor_id,
+		patient_id:req.session._id,
+		chief_complaint:event.chief_complaint,
+	});
+	newEvent.save(function(err, appointment){
+		if (err){
+			console.log(err);
+		} else {
+			console.log("success");
+			res.redirect('/');
+		}
+	});
+
+});
 
 app.get('/logout', (req,res) => {
 	req.session.name = undefined;

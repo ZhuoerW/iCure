@@ -48,8 +48,8 @@ const Doctor = new mongoose.Schema({
 // * each appointment has a unique create time
 // * each appointment is ralated a patient's profile
 const Appointment = new mongoose.Schema({
-	startTime: {type: Date, default: Date.now, required: true},
-	endTime: {type: Date, default: Date.now, required: true},
+	start: {type: Date, default: Date.now, required: true},
+	end: {type: Date, default: Date.now, required: true},
 	doctor_id: {type: String, required: true, minlength: 10, maxlength: 10},
 	patient_id: {type: String, required: true, minlength: 10, maxlength: 10},
 	chief_complaint: {type: String, required: true},

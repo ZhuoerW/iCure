@@ -1,7 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
   let calendarEl = document.getElementById('calendar');
-  let doctor = document.getElementById('doctor').value;
-  let eventArray = [
+  let doctor_id = document.getElementById('doctor').value;
+  console.log(doctor_id);
+  let event = JSON.parse(document.getElementById('event').value);
+  console.log(event);
+  let eventArray = event;
+  let eArray = [
       {
         title: 'All Day Event',
         start: '2019-11-01'
@@ -68,7 +72,7 @@ select: function(info){
           let chief_complaint = prompt('Chief_complaint');
           let dateStart = new Date(info.startStr);
           let dateEnd = new Date(info.endStr)
-          if (!isNaN(dateStart.valueOf())) { // valid?
+          if (!isNaN(title.valueOf()) && !isNaN(chief_complaint.valueOf())) { // valid?
             document.getElementById('submitAppointment').setAttribute("display", "block");
             let newEvent = {
               doctor:doctor,
@@ -88,7 +92,7 @@ select: function(info){
       let req = new XMLHttpRequest();
       req.open('POST','/update-appointment',true);
       req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-      req.send('eventArray=' + eventArray+'doctor_id='+doctor_id);
+      req.send('eventArray='+JSON.stringify(eventArray)+'&doctor_id='+doctor_id);
     });
     },
     events: eventArray,
