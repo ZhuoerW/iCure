@@ -63,7 +63,7 @@ app.get("/loginCheck", function(req,res){
 				res.render("login", {"error": errormessage, layout: false});
 			}
 		});
-}  else {
+}  else if (req.query.usertype=="Patient"){
 		Patient.findOne({email:req.query.Email, password: req.query.Password}, function(error, data){
 			if (data) {
 				req.session.name = data.name;
@@ -338,18 +338,17 @@ app.get('/make-appointment/:slug', function(req, res){
 				if (error){
 					console.log(error);
 				} else {
-					res.render('makeAppointment',{doctor:doctor,appointment:JSON.stringify(appointment)});
+					res.render('makeAppointment',{doctor:doctor,appointment:JSON.stringify(appointment),slug:req.session.slug});
 				}
 			});
 		}
 	});
 });
 app.post('/update-appointment',function(req,res){
-
-	let eventArray = JSON.parse(req.body.eventArray);
+	const event = JSON.parse(req.body.newEvent);
 	let doctor_id = req.body.doctor_id.toString();
-	let event = eventArray[eventArray.length-1];
-	const newEvent = new Appointment({
+	console.log(event);
+	newEvent = new Appointment({
 		start: event.start,
 		end:event.end,
 		doctor_id: doctor_id,
@@ -361,9 +360,28 @@ app.post('/update-appointment',function(req,res){
 			console.log(err);
 		} else {
 			console.log("success");
-			res.redirect('/');
 		}
 	});
+
+});
+app.get('/appointment-history/:slug',function(req,res){
+	console.log("redirect HomePage");
+	let upcoming = [];
+	let history = [];
+	Appointment.find({patient_id: req.session._id}, function(err, appointments) {
+	if (err) {
+		res.render('appointmentHistory', {error: true});
+	} else {
+		for (i=0; i<appointments.length; i++ ){
+			if (appointments[i].status === "Upcoming"){
+				upcoming.push(appointments[i]);
+			} else {
+				history(appointments[i]);
+			}
+		}
+		res.render('appointmentHistory', {upcoming:upcoming,history:history});
+	} 
+});
 
 });
 

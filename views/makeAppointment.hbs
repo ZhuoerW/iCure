@@ -1,3 +1,5 @@
+
+<body>
     <meta charset='utf-8' />
 
     <link href='../node_modules/@fullcalendar/core/main.css' rel='stylesheet' />
@@ -11,13 +13,23 @@
     <script src='../node_modules/jquery/dist/jquery.js'></script>
     <script src='../node_modules/moment/moment.js'></script>
     <script src='../public/javascripts/myAppointment.js'></script>
-
-
-    <script>
-    </script>
-  <body>
+    <div id="content">
+    <main>
+        <input type="button" id="btn-show-modal-text" value="Ask a Question"> 
+      </main>
+      <div id="modal-text" class="modal">
+        <div class="modal-content">
+          <input type="text" id="question-title" name="title" value="">
+          <input type="text" id="question-chief_complaint" name="chief_complaint" value="">
+          <input type="button" class="submit" id="create-app" value="Make Appointment">
+          <input type="button" class="close" value="Cancel">
+        </div>
+      </div>
    <input id="doctor" value={{doctor.id}} type="hidden">
    <input id="event" value={{appointment}} type="hidden">
+   <a href="/login">asdfghjkl;'</a>
     <div id='calendar'></div>
-    <button id = 'submitAppointment' display='none' type="button">Confirm Appointment</button>
+    <a href="/appointment-history/{{slug}}">View My Appointment</a>
+    <a href="/search-result">Back to Search</a>
+    </div>
   </body>
