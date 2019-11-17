@@ -400,6 +400,7 @@ app.get('/logout', (req,res) => {
 	res.redirect('/');
 });
 
+<<<<<<< HEAD
 function getRandom(arr, n) {
     let result = new Array(n),
         len = arr.length,
@@ -413,6 +414,22 @@ function getRandom(arr, n) {
     }
     return result;
 }
+=======
+app.get('/info-form', (req, res) => {
+	Post.find(function(err, posts) {
+		if (req.query.option === "") {
+			res.render('patientInfoForm', {posts: posts});
+		} else {
+			const option = sanitize(req.query.option);
+			const filter = sanitize(req.query.filter);
+			const filteredPosts = posts.filter(function(postObj) {
+				return postObj[filter] === option;
+			});
+			res.render('patientInfoForm', {posts: filteredPosts});
+		}
+	});
+});
+>>>>>>> upstream/master
 
 app.listen(3000);
 
