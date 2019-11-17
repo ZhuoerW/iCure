@@ -1,0 +1,62 @@
+<div style="height: 50px"></div>
+<div id="loginnavbar" style="width: 100%;box-shadow: lightgrey 0px 1px; position:fixed; height: 60px">
+    <table id="table">
+        <tr>
+            <td>
+                <table style="width: 300px"> 
+                    <tr>
+                        <td style="width: 50px">
+                            <a href="../" style="color: rgb(83, 107, 243)">Home</a>
+                        </td>
+                        <td style="width: 16px">
+                            <p class = "nav">/</p>
+                        </td>
+                        <td>
+                            <p class = "nav">Appointment Details</p>
+                        </td>
+                        
+                    </tr>
+                </table>
+            </td>
+            <td align="right" style="width: 100%">
+                
+                <table> 
+                    <tr>
+                        <td align="right" style="width: 400px; padding-right: 15px">
+                        <span id="greeting" style="background-color: transparent; border: none; color: grey">Hello {{user}}</span>
+                        </td>
+                        <td text-align="center" style="width: 20px">
+                        <a href='/info-form'><img id="user_image" src="../public/img/user_grey.png" height="20px"/></a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>          
+</div>
+
+<div class=" " style="height: 90px">
+</div>
+
+<div class="container-fluid" style="background: black; padding-top: 50px; padding-bottom: 50px; padding-left: 250px">
+        <h1 style="color:white; font-size: 25px" class="mb-3">Time to Start</h1> 
+        <p style="color:white; font-size: 18px" class="mb-3">Start at: {{appointment.start}}</p>
+        <p style="color:white; font-size: 18px" class="mb-3">End at: {{appointment.end}}</p>
+        <a href="/info-form"><button class="btn btn-primary">Diagnosis</button></a>
+    </div>
+
+    <div class=" " style="height: 40px">
+    </div>
+
+    <div class="container-fluid" style="background: lightgrey; padding-top: 30px; padding-bottom: 50px; padding-left: 250px">
+        <h1 style="color:black; font-size: 25px">Doctor Smith</h1> 
+        
+    </div>
+
+    <div class=" " style="height: 40px">
+    </div>
+
+    <div class="container-fluid" style="background: lightgrey; padding-top: 30px; padding-bottom: 50px; padding-left: 250px">
+        <h1 style="color:black; font-size: 25px">Cheif Complaint</h1> 
+        
+    </div>

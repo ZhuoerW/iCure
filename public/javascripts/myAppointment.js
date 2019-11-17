@@ -20,23 +20,20 @@ document.addEventListener('DOMContentLoaded', function() {
     minTime:'08:00:00',
     maxTime: '18:00:00',
 select: function(info){
-    document.getElementById("modal-text").style.display="block";
+    //document.getElementById("modal-text").style.display="block";
     dateStart = new Date(info.startStr);
-    dateEnd = new Date(info.endStr)
+    dateEnd = new Date(info.endStr);
+    var time_slot = document.getElementById("validationTooltip01");
+    time_slot.setAttribute("value", dateStart);
     },
     events: eventArray,
   });
 
-  const cancle = document.getElementsByClassName("close")[0];
-  cancle.addEventListener("click",function(){
-    const block = document.getElementById("modal-text");
-    block.style.display = "none";
-  });
   const make_app = document.getElementById("create-app");
   make_app.addEventListener("click",function(){
-    let title =  document.getElementById("question-title").value.trim()
-    let chief_complaint =  document.getElementById("question-chief_complaint").value.trim()
-  if (title.valueOf() && chief_complaint.valueOf()) { // valid?
+    let title =  document.getElementById("appointment-title").value.trim()
+    let chief_complaint =  document.getElementById("appointment-content").value.trim()
+  if (title.valueOf() && chief_complaint.valueOf() && dateStart) { // valid?
     newEvent = {
       doctor:doctor,
       title: title,

@@ -419,6 +419,18 @@ app.get('/info-form', (req, res) => {
 	});
 });
 
+app.get('/appointments/:slug', (req, res) => {
+	const slug = sanitize(req.params.slug);
+	Appointment.findOne({slug: slug}, function(err, appointment) {
+		if (err) {
+			res.render('appointmentDetail', {error: true});
+		} else {
+			res.render('appointmentDetail', {appointment: appointment});
+
+		}
+	});
+});
+
 function getRandom(arr, n) {
     let result = new Array(n),
         len = arr.length,
