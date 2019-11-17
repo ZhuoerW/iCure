@@ -373,6 +373,10 @@ app.post('/update-appointment',function(req,res){
 	});
 
 });
+app.get('/appointment-history/',function(req,res){
+	res.redirect('/login');
+
+});
 app.get('/appointment-history/:slug',function(req,res){
 	let upcoming = [];
 	let history = [];
@@ -400,21 +404,6 @@ app.get('/logout', (req,res) => {
 	res.redirect('/');
 });
 
-<<<<<<< HEAD
-function getRandom(arr, n) {
-    let result = new Array(n),
-        len = arr.length,
-        taken = new Array(len);
-    if (n > len)
-        throw new RangeError("getRandom: more elements taken than available");
-    while (n--) {
-        let x = Math.floor(Math.random() * len);
-        result[n] = arr[x in taken ? taken[x] : x];
-        taken[x] = --len in taken ? taken[len] : len;
-    }
-    return result;
-}
-=======
 app.get('/info-form', (req, res) => {
 	Post.find(function(err, posts) {
 		if (req.query.option === "") {
@@ -429,7 +418,21 @@ app.get('/info-form', (req, res) => {
 		}
 	});
 });
->>>>>>> upstream/master
+
+function getRandom(arr, n) {
+    let result = new Array(n),
+        len = arr.length,
+        taken = new Array(len);
+    if (n > len)
+        throw new RangeError("getRandom: more elements taken than available");
+    while (n--) {
+        let x = Math.floor(Math.random() * len);
+        result[n] = arr[x in taken ? taken[x] : x];
+        taken[x] = --len in taken ? taken[len] : len;
+    }
+    return result;
+}
+
 
 app.listen(3000);
 

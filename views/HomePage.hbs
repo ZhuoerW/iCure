@@ -1,12 +1,13 @@
+
 <script>
     function navbar() {
         var bar = document.getElementById("navbar");
         bar.setAttribute("style", "background-color: white; color: grey");
         if (document.getElementById("clicklog") != null && document.getElementById("clicksignup") != null){
-        	var login = document.getElementById("clicklog");
-	        login.setAttribute("style", "background-color: transparent; border: none; color: grey");
-	        var signup = document.getElementById("clicksignup");
-	        signup.setAttribute("style", "background-color: transparent; border: none; color: grey");
+            var login = document.getElementById("clicklog");
+            login.setAttribute("style", "background-color: transparent; border: none; color: grey");
+            var signup = document.getElementById("clicksignup");
+            signup.setAttribute("style", "background-color: transparent; border: none; color: grey");
         }
         else{
             var greet = document.getElementById("greeting");
@@ -19,10 +20,10 @@
         var bar = document.getElementById("navbar");
         bar.setAttribute("style", "background-color: transparent; color: white");
         if (document.getElementById("clicklog") != null && document.getElementById("clicksignup") != null){
-        	var login = document.getElementById("clicklog");
-	        login.setAttribute("style", "background-color: transparent; border: none; color: white");
-	        var signup = document.getElementById("clicksignup");
-	        signup.setAttribute("style", "background-color: transparent; border: none; color: white");
+            var login = document.getElementById("clicklog");
+            login.setAttribute("style", "background-color: transparent; border: none; color: white");
+            var signup = document.getElementById("clicksignup");
+            signup.setAttribute("style", "background-color: transparent; border: none; color: white");
         }
         else{
             var greet = document.getElementById("greeting");
@@ -44,7 +45,7 @@
                             <a href="#" class="nav">Home</a>
                         </td>
                         <td style="width: 125px">
-                            <a href="../views/Appointment.html" class="nav">Appointment</a>
+                            <a href="/appointment-history/{{userslug}}" class="nav">Appointment</a>
                         </td>
                         <td style="width: 80px">
                             <a href="/main-forum" class="nav">Forum</a>
@@ -55,21 +56,20 @@
                     </tr>
                 </table>
             </td>
-<<<<<<< HEAD
-            <td align="right" style="width: 700px">
-                {{#if user}}
-                <table>
-                <tr>
-                <td>
-                <input id="clicklog" type="submit" value="Hello {{user}}" style="background-color: transparent; border: none; color: white">
-                </td>
-                </tr>
-                </table>
-                {{else}}
-=======
             <td align="right" style="width: 100%">
-                {{#if NotLogin}}
->>>>>>> upstream/master
+                {{#if user}}
+                                <table> 
+                    <tr>
+                        <td align="right" style="width: 400px; padding-right: 15px">
+                        <span id="greeting" style="background-color: transparent; border: none; color: white">Hello {{user}}</span>
+                        </td>
+                        <td text-align="center" style="width: 20px">
+                        <a href='/info-form'><img id="user_image" src="../public/img/user_white.png" height="20px"/></a>
+                        </td>
+                    </tr>
+                </table>
+
+                {{else}}
                 <table> 
                     <tr>
                         <td style="width: 60px">
@@ -84,21 +84,6 @@
                         </td>
                     </tr>
                 </table>
-<<<<<<< HEAD
-
-=======
-                {{else}}
-                <table> 
-                    <tr>
-                        <td align="right" style="width: 400px; padding-right: 15px">
-                        <span id="greeting" style="background-color: transparent; border: none; color: white">Hello {{user}}</span>
-                        </td>
-                        <td text-align="center" style="width: 20px">
-                        <a href='/info-form'><img id="user_image" src="../public/img/user_white.png" height="20px"/></a>
-                        </td>
-                    </tr>
-                </table>
->>>>>>> upstream/master
                 {{/if}}
             </td>
         </tr>
