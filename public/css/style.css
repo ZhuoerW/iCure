@@ -146,3 +146,10 @@ a.loginhome:hover{
     color: inherit;
 }
 
+.button1 {
+    height:30px; 
+    width:100px;
+    border: solid 1.5px rgb(83, 107, 243); 
+    border-radius: 25px; 
+    color:rgb(83, 107, 243)
+}
