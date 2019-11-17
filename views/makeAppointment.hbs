@@ -1,3 +1,5 @@
+
+<body>
     <meta charset='utf-8' />
 
     <link href='../node_modules/@fullcalendar/core/main.css' rel='stylesheet' />
@@ -6,46 +8,28 @@
 
     <script src='../node_modules/@fullcalendar/core/main.js'></script>
     <script src='../node_modules/@fullcalendar/daygrid/main.js'></script>
+    <script src='../node_modules/@fullcalendar/interaction/main.js'></script>
     <script src='../node_modules/@fullcalendar/timegrid/main.js'></script>
     <script src='../node_modules/jquery/dist/jquery.js'></script>
-
-    <script>
-
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          plugins: [ 'dayGrid','timegrid' ]
-        	header:{
-        		left:'prev,next,today',
-        		center:'title',
-        		right:'month, week, day'
-        	},
-        	minTime:'08:00:00',
-        	maxTime: '18:00:00',
-        	editable: true,
-        	selectable: true,
-        	selectHelper: true,
-        	eventLimit: true,
-        	dateClick: function(info) {
-    		alert('Date: ' + info.dateStr);
-  			},
-        	overlap: false,
-        	weekends:false,
-
-
-          
-        });
-          dateClick: function() {
-    alert('a day has been clicked!');
-  }
-
-        calendar.render();
-      });
-
-    </script>
-  <body>
-
+    <script src='../node_modules/moment/moment.js'></script>
+    <script src='../public/javascripts/myAppointment.js'></script>
+    <div id="content">
+    <main>
+        <input type="button" id="btn-show-modal-text" value="Ask a Question"> 
+      </main>
+      <div id="modal-text" class="modal">
+        <div class="modal-content">
+          <input type="text" id="question-title" name="title" value="">
+          <input type="text" id="question-chief_complaint" name="chief_complaint" value="">
+          <input type="button" class="submit" id="create-app" value="Make Appointment">
+          <input type="button" class="close" value="Cancel">
+        </div>
+      </div>
+   <input id="doctor" value={{doctor.id}} type="hidden">
+   <input id="event" value={{appointment}} type="hidden">
+   <a href="/login">asdfghjkl;'</a>
     <div id='calendar'></div>
-
+    <a href="/appointment-history/{{slug}}">View My Appointment</a>
+    <a href="/search-result">Back to Search</a>
+    </div>
   </body>

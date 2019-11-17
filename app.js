@@ -63,7 +63,7 @@ app.get("/loginCheck", function(req,res){
 				res.render("login", {"error": errormessage, layout: false});
 			}
 		});
-}  else {
+}  else if (req.query.usertype=="Patient"){
 		Patient.findOne({email:req.query.Email, password: req.query.Password}, function(error, data){
 			if (data) {
 				req.session.name = data.name;
@@ -167,6 +167,7 @@ app.get('/', (req, res) => {
 		res.render('HomePage',{NotLogin: true});
 	}
 	else {
+		console.log("herer");
 		res.render('HomePage');
 	}
 });
@@ -340,11 +341,56 @@ app.get('/make-appointment/:slug', function(req, res){
 			console.log(error);
 		}
 		else {
-			res.render('makeAppointment',{doctor:doctor})
+			Appointment.find({doctor_id:doctor.id},function(error,appointment){
+				if (error){
+					console.log(error);
+				} else {
+					res.render('makeAppointment',{doctor:doctor,appointment:JSON.stringify(appointment),slug:req.session.slug});
+				}
+			});
 		}
 	});
 });
+app.post('/update-appointment',function(req,res){
+	const event = JSON.parse(req.body.newEvent);
+	let doctor_id = req.body.doctor_id.toString();
+	console.log(event);
+	newEvent = new Appointment({
+		start: event.start,
+		end:event.end,
+		doctor_id: doctor_id,
+		patient_id:req.session._id,
+		chief_complaint:event.chief_complaint,
+	});
+	newEvent.save(function(err, appointment){
+		if (err){
+			console.log(err);
+		} else {
+			console.log("success");
+		}
+	});
 
+});
+app.get('/appointment-history/:slug',function(req,res){
+	console.log("redirect HomePage");
+	let upcoming = [];
+	let history = [];
+	Appointment.find({patient_id: req.session._id}, function(err, appointments) {
+	if (err) {
+		res.render('appointmentHistory', {error: true});
+	} else {
+		for (i=0; i<appointments.length; i++ ){
+			if (appointments[i].status === "Upcoming"){
+				upcoming.push(appointments[i]);
+			} else {
+				history(appointments[i]);
+			}
+		}
+		res.render('appointmentHistory', {upcoming:upcoming,history:history});
+	} 
+});
+
+});
 
 app.get('/logout', (req,res) => {
 	req.session.name = undefined;
