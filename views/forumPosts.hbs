@@ -23,7 +23,7 @@
                 <form action="/login">
                 <table id="login"> 
                     <tr>
-                        <td style="width: 60px; font-color:rgb(83, 107, 243)">
+                        <td style="width: 60px; color:rgb(83, 107, 243)">
                             <input id="clicklog" type="submit" value="Log In" style="background-color: transparent; border: none; color: white">
                         </td>
                         <td>
@@ -40,14 +40,14 @@
 <div style="height:60px"></div>
 	<div style="float:left; width: 70%; padding-left:60px; padding-top: 30px; padding-bottom: 30px; margin-bottom: 30px; margin-right:30px">
 		{{#each posts}}
-			<div style="background-color: white; box-shadow: lightgrey 0px 0px 3px; height: 180px; padding: 15px;padding-left: 20px; margin-bottom:30px">
+			<div style="background-color: white; box-shadow: lightgrey 0px 0px 3px; height: 200px; padding: 15px;padding-left: 20px; margin-bottom:30px">
 				<h2 class='forumtitle'><a style='font-size: 25px; color: #42413d' href=/posts/{{slug}}>{{title}}</a></h2>
-				<p style="color:#00243b; font-size: 16px"><span style="font-weight: bold">{{name}}:</span>"{{content}}"</p>
+				<p style="color:#00243b; font-size: 16px"><span style="font-weight: bold">{{name}}:</span>"{{content}}" <a href=/posts/{{slug}} style="font-style:italic; font-size: 14px; color: rgb(83, 107, 243)">Read More</a><p>
 				<img src="../public/img/hit.png" width="23px"/><span style="font-size:16px; font-weight:bold;color:rgb(83, 107, 243)"> {{hit}}</span>
 				&nbsp;
 				&nbsp;
 				&nbsp;
-				<button type="button" onclick="window.location.href=/posts/{{slug}}" style="height:30px; width:100px; border: solid 1.5px rgb(83, 107, 243); border-radius: 25px; color:rgb(83, 107, 243)">Comment</button>
+				<button type="button" class="button1" onclick="window.location.href=/posts/{{slug}}" >Comment</button>
 			</div>
 		{{/each}}
 	</div>
