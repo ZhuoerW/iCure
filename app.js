@@ -343,6 +343,21 @@ app.get('/logout', (req,res) => {
 	res.redirect('/');
 });
 
+app.get('/info-form', (req, res) => {
+	Post.find(function(err, posts) {
+		if (req.query.option === "") {
+			res.render('patientInfoForm', {posts: posts});
+		} else {
+			const option = sanitize(req.query.option);
+			const filter = sanitize(req.query.filter);
+			const filteredPosts = posts.filter(function(postObj) {
+				return postObj[filter] === option;
+			});
+			res.render('patientInfoForm', {posts: filteredPosts});
+		}
+	});
+});
+
 app.listen(3000);
 
 

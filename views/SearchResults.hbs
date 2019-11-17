@@ -23,20 +23,34 @@
                     </tr>
                 </table>
             </td>
-            <td align="right" style="width: 700px">
+            <td align="right" style="width: 100%">
                 {{#if NotLogin}}
-                <form action="/login">
-                <table id="login"> 
+                <table> 
                     <tr>
                         <td style="width: 60px; font-color:rgb(83, 107, 243)">
+                            <form action="/login">
                             <input id="clicklog" type="submit" value="Log In" style="background-color: transparent; border: none; color: white">
+                            </form>
                         </td>
                         <td>
+                            <form action="/signup">
                             <input id="clicksignup" type="submit" value="Sign Up" style="background-color: transparent; border: none; color: white">
+                            </form>
                         </td>
                     </tr>
                 </table>
                 </form>
+                {{else}}
+                <table> 
+                    <tr>
+                        <td align="right" style="width: 400px; padding-right: 15px">
+                        <span id="greeting" style="background-color: transparent; border: none; color: grey">Hello {{user}}</span>
+                        </td>
+                        <td text-align="center" style="width: 20px">
+                        <a href='/info-form'><img id="user_image" src="../public/img/user_grey.png" height="20px"/></a>
+                        </td>
+                    </tr>
+                </table>
                 {{/if}}
             </td>
         </tr>
