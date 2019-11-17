@@ -1,25 +1,29 @@
+{{#if error}}
+	<h1>The post does not exist!</h1>
+{{else}}
 <div style="height: 50px"></div>
 <div id="loginnavbar" style="width: 100%;box-shadow: lightgrey 0px 1px; position:fixed; height: 60px">
     <table id="table">
         <tr>
             <td>
-                <table style="width: 700px"> 
+                <table style="width: 300px"> 
                     <tr>
-                        <td style="width: 80px">
-                            <a href="/" class="nav">Home</a>
+                        <td style="width: 50px">
+                            <a href="../" style="color: rgb(83, 107, 243)">Home</a>
                         </td>
-                        <td style="width: 130px">
-                            <a href="../views/Appointment.html" class="nav">Appointment</a>
+                        <td style="width: 16px">
+                            <p class = "nav">/</p>
                         </td>
-                        <td style="width: 90px">
-                            <a href="/main-forum" class="nav">Forum</a>
+                        <td style="width: 50px">
+                            <a href="../main-forum" class = "nav">Forum</a>
                         </td>
-                        <td style="width: 120px">
-                            <a href="../views/Information.html" class="nav">Infomation</a>
+                        <td style="width: 16px">
+                            <p class = "nav">/</p>
                         </td>
                         <td>
-                            <a href="#" class="nav">Emergency</a>
+                            <p class = "nav">Post</p>
                         </td>
+                        
                     </tr>
                 </table>
             </td>
@@ -44,44 +48,68 @@
         </tr>
     </table>          
 </div>
+<div style="height:60px"></div>
+   <div style="float:left; width: 70%; background-color: white; box-shadow: lightgrey 0px 0px 3px; margin-left: 100px; margin-top: 30px; padding-left:30px; padding-right:30px; padding-top: 30px; padding-bottom: 30px; margin-bottom: 30px">
+       <table style="width: 100%">
+           <tr  style="width: 100%">
+               <td style="width: 94%">
+                   <h2 id="post-title" style="color:#00243b">{{post.title}} </h2>
+               </td>
+               <td>
+                   <img src="../public/img/hit.png" width="30px"/><span style="font-size:16px; font-weight:bold;color:rgb(83, 107, 243)">{{post.hit}}</span>
+               </td>
+           </tr>
+       </table>
+       <p style="color: grey">Author: {{post.name}} | Post Time: {{post.create_time}}</p>
+       <div style="border-top:solid 1px grey; padding-top: 30px; padding-bottom: 50px">
+           {{post.content}}
+       </div>
+       <div style="padding-top: 30px">
+            <form method="POST" action="/posts/{{post.slug}}/comments">
+            <div style="width:100%; box-shadow: lightgrey 0px 0px 3px; padding-left:20px; padding-top:20px; padding-right:20px; padding-bottom: 15px">
+                <div style="border-bottom:solid 1px lightgrey; width: 100%; align: centre; margin-bottom: 15px">
+                <h5 for="add-comment-box" style="color:#00243b">Leave Your Comment</h5>
+                </div>
+                <input type="hidden" id="post-id" value="{{post.slug}}">
+                <input type="text" style="float: left; margin-top: 5px; width: 89%" class="form-control" name="comment" id="add-comment-box" placeholder="Say something..." aria-label="Username" aria-describedby="basic-addon1">
+                <input type="submit" name="" value="POST" class="button1" style="border-radius: 5px; height: 35px; width: 75px; margin-left: 20px; margin-top: 5px" id="post-comment-button">
+            </form>
+            {{#if commentError}}
+                <div>Comment Error!</div>
+            {{/if}}
+            <div style="margin-top: 50px">
+                <div style="border-bottom:solid 1px lightgrey; width: 100%; align: centre; margin-bottom: 20px">
+                    <h5 for="add-comment-box" style="color:#00243b">History Comments</h5>
+                </div>
+                <form method="GET" action="/posts/{{post.slug}}">
+                    <label for="filter-comment">Filter By Author: </label>
+                    <input type="text" name="option" value="" id="filter-comment" style="width: 160px">
+                </form>
+            </div>
+            <div id="comment-box" style="margin-top: 20px">
+                {{#each comments}}
+                    <div class="comment-wrapper" style="background-color: #e5e7f3; padding-bottom: 1px;padding-top: 8px;padding-left: 13px; padding-right:13px">
+                        <span style="font-weight: bold">{{name}}:</span><p>"{{content}}"</p>
+                        <p style="color: grey; font-style:italic; float:right; font-size: 12px; vertical-align:text-bottom"class="comment-time">{{create_time}}<p>
+                    </div>
+                    <br/>
+                {{/each}}
+            </div>
+            </div>
+            
+        </div>
+   </div>
+   
+</div>
 
 <div class=" " style="height: 80px">
 </div>
-<nav id="nav">
-  	<a href="/main-forum">View all Topics</a> |
-  	<a href="/posts-new">Add a Topic</a>
-</nav>
-{{#if error}}
-	<h1>The post does not exist!</h1>
-{{else}}
-	<div id="post-title">{{post.title}} by {{post.name}}</div>
-	<div>posted at {{post.create_time}}</div>
-	<div>Content:</div>
-	<div>{{post.content}}</div>
-	<div>Hits: {{post.hit}}</div>
-	<form method="POST" action="/posts/{{post.slug}}/comments">
-		<p><label for="add-comment-box">Leave a Comment:</label></p>
-		<p><textarea name="comment" id="add-comment-box"></textarea></p>
-		<input type="hidden" id="post-id" value="{{post.slug}}">
-		<p><input type="submit" name="" value="POST!" class="submit-button" id="post-comment-button"></p>
-	</form>
-	{{#if commentError}}
-		<div>Comment Error!</div>
-	{{/if}}
-	<div>
-		<form method="GET" action="/posts/{{post.slug}}">
-			<label for="filter-comment">Filter Comments By Author: </label>
-			<input type="text" name="option" value="" id="filter-comment">
-			<input type="submit" value="search" class="submit-button">
-		</form>
-	</div>
-	<div id="comment-box">
-		{{#each comments}}
-			<div class="comment-wrapper">
-				<div class="comment-text">{{content}}</div>
-				<div class="comment-username">posted by {{name}}</div>
-				<div class="comment-time">at {{create_time}}</div>
-			</div>
-		{{/each}}
-	</div>
+<div style='margin-left:80%; float:left; background-color: white; padding:15px;  box-shadow: lightgrey 0px 0px 3px; position: fixed'>
+<button type="button" onclick="window.location.href='/posts-new'" style=" height:40px; width:130px; border: solid 1.5px rgb(83, 107, 243); background-color:rgb(83, 107, 243);  border-radius: 25px; color:white">Make My Post</button>
+<br/>
+<br/>
+<button type="button" onclick="window.location.href='/main-forum'" style="height:40px; width:130px; border: solid 1.5px rgb(83, 107, 243); background-color:rgb(83, 107, 243);  border-radius: 25px; color:white">View All Posts</button>
+</div>
+
+<div style="clear:both;"></div>
 {{/if}}

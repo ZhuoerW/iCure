@@ -207,12 +207,19 @@ app.get('/main-forum', (req, res) => {
 	Post.find(function(err, posts) {
 		if (req.query.option === "") {
 			posts.sort((a, b) => (a.hit < b.hit) ? 1:-1);
+			posts.map(function(postObj) {
+				postObj.content = postObj.content.slice(0, 320);
+				return postObj;
+			});
 			res.render('forumPosts', {posts: posts});
 		} else {
 			const option = sanitize(req.query.option);
 			const filter = sanitize(req.query.filter);
 			const filteredPosts = posts.filter(function(postObj) {
 				return postObj[filter] === option;
+			}).map(function(postObj) {
+				postObj.content = postObj.content.slice(0, 320);
+				return postObj;
 			});
 			filteredPosts.sort((a, b) => (a.hit < b.hit) ? 1:-1);
 			res.render('forumPosts', {posts: filteredPosts});
