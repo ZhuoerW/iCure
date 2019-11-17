@@ -2,6 +2,65 @@
 	<h1>Error!</h1>
 {{else}}	
 
+<div style="height: 50px"></div>
+<div id="loginnavbar" style="width: 100%;box-shadow: lightgrey 0px 1px; position:fixed; height: 60px">
+    <table id="table">
+        <tr>
+            <td>
+                <table style="width: 300px"> 
+                    <tr>
+                        <td style="width: 50px">
+                            <a href="../" style="color: rgb(83, 107, 243)">Home</a>
+                        </td>
+                        <td style="width: 16px">
+                            <p class = "nav">/</p>
+                        </td>
+                        <td>
+                            <a href="/search-result" style="color: rgb(83, 107, 243)">Search Result</a>
+                        </td>
+                        <td style="width: 16px">
+                            <p class = "nav">/</p>
+                        </td>
+                        <td>
+                            <p class = "nav">Detail Information</p>
+                        </td>
+                        
+                    </tr>
+                </table>
+            </td>
+            <td align="right" style="width: 100%">
+                {{#if NotLogin}}
+                <table> 
+                    <tr>
+                        <td style="width: 60px; font-color: rgb(83, 107, 243)">
+                            <form action="/login">
+                            <input class = "nav" id="clicklog" type="submit" value="Log In" style="background-color: transparent; border: none; color: rgb(83, 107, 243)">
+                            </form>
+                        </td>
+                        <td>
+                            <form action="/signup">
+                            <input class = "nav" id="clicksignup" type="submit" value="Sign Up" style="background-color: transparent; border: none; color: white">
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+                {{else}}
+                <table> 
+                    <tr>
+                        <td align="right" style="width: 400px; padding-right: 15px">
+                        <span id="greeting" style="background-color: transparent; border: none; color: grey">Hello {{user}}</span>
+                        </td>
+                        <td text-align="center" style="width: 20px">
+                        <a href='/info-form'><img id="user_image" src="../public/img/user_grey.png" height="20px"/></a>
+                        </td>
+                    </tr>
+                </table>
+                {{/if}}
+            </td>
+        </tr>
+    </table>          
+</div>
+
 <div>
 
     <nav aria-label="breadcrumb">
