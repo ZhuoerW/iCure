@@ -218,7 +218,7 @@ app.get('/main-forum', (req, res) => {
 			const filteredPosts = posts.filter(function(postObj) {
 				return postObj[filter] === option;
 			}).map(function(postObj) {
-				postObj.content = postObj.content.slice(0, 320);
+				postObj.content = postObj.content.slice(0, 300);
 				return postObj;
 			});
 			filteredPosts.sort((a, b) => (a.hit < b.hit) ? 1:-1);
