@@ -162,19 +162,24 @@ app.post('/registerDoctor', function(req, res){
 	});
 
 app.get('/', (req, res) => {
-	console.log(req.session.name);
-	if (req.session.name===undefined) {
-		res.render('HomePage',{NotLogin: true});
+	let twentyPosts;
+	let selectedPosts;
+	Post.find(function(err,posts){
+			posts.sort((a, b) => (a.hit < b.hit) ? 1:-1);
+			twentyPosts = posts.slice(0,20);
+			selectedPosts = getRandom(twentyPosts, Math.min(10,twentyPosts.length));
+			if (req.session.name===undefined) {
+		res.render('HomePage',{NotLogin: true,posts:selectedPosts});
 	}
 	else {
-		console.log("herer");
-		res.render('HomePage');
+		res.render('HomePage',{posts:selectedPosts});
 	}
+		});
 });
+
 
 app.get('/search-result', (req, res) => {
 	Doctor.find(function(err, doctors) {
-		console.log(doctors);
 		if (req.query.option === "") {
 			doctors.sort((a, b) => (a.rating < b.rating) ? 1:-1);
 			res.render('SearchResults', {doctors: doctors});
@@ -238,7 +243,6 @@ app.get('/posts-new', (req, res) => {
 
 app.post('/posts-new', (req, res) => {
 	const rawContent = JSON.parse(sanitize(req.body.content));
-	console.log("rawcontent",rawContent);
 	const title = sanitize(req.body.title);
 	const content = rawContent["ops"][0]["insert"].trim();
 	const myDate = new Date();
@@ -255,7 +259,6 @@ app.post('/posts-new', (req, res) => {
 	});
 	newPost.save(function(err) {
 		if (err) {
-			console.log(err);
 			res.render('addPost', {error: true});
 		} else {
 			res.redirect('/main-forum');
@@ -354,7 +357,6 @@ app.get('/make-appointment/:slug', function(req, res){
 app.post('/update-appointment',function(req,res){
 	const event = JSON.parse(req.body.newEvent);
 	let doctor_id = req.body.doctor_id.toString();
-	console.log(event);
 	newEvent = new Appointment({
 		start: event.start,
 		end:event.end,
@@ -372,7 +374,6 @@ app.post('/update-appointment',function(req,res){
 
 });
 app.get('/appointment-history/:slug',function(req,res){
-	console.log("redirect HomePage");
 	let upcoming = [];
 	let history = [];
 	Appointment.find({patient_id: req.session._id}, function(err, appointments) {
@@ -398,6 +399,20 @@ app.get('/logout', (req,res) => {
 	req.session.slug = undefined;
 	res.redirect('/');
 });
+
+function getRandom(arr, n) {
+    let result = new Array(n),
+        len = arr.length,
+        taken = new Array(len);
+    if (n > len)
+        throw new RangeError("getRandom: more elements taken than available");
+    while (n--) {
+        let x = Math.floor(Math.random() * len);
+        result[n] = arr[x in taken ? taken[x] : x];
+        taken[x] = --len in taken ? taken[len] : len;
+    }
+    return result;
+}
 
 app.listen(3000);
 

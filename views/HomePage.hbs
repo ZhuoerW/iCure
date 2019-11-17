@@ -46,7 +46,15 @@
                 </table>
             </td>
             <td align="right" style="width: 700px">
-                {{#if NotLogin}}
+                {{#if user}}
+                <table>
+                <tr>
+                <td>
+                <input id="clicklog" type="submit" value="Hello {{user}}" style="background-color: transparent; border: none; color: white">
+                </td>
+                </tr>
+                </table>
+                {{else}}
                 <table> 
                     <tr>
                         <td style="width: 60px">
@@ -61,14 +69,7 @@
                         </td>
                     </tr>
                 </table>
-                {{else}}
-                <table>
-                <tr>
-                <td>
-                <input id="clicklog" type="submit" value="Hello {{user}}" style="background-color: transparent; border: none; color: white">
-                </td>
-                </tr>
-                </table>
+
                 {{/if}}
             </td>
         </tr>
