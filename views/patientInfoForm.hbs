@@ -38,46 +38,39 @@
 <div class=" " style="height: 90px">
 </div>
 
-
-
-<section id="cover">
-    <div id="cover-caption">
-        <div id="container" class="container">
-            <div class="row">
-                <div class="col-sm-6 offset-sm-3">
-                    <div class="info-form">
-                        <form action="" class="justify-content-center">
-                            <div class="form-row">
-                                <div class="form-group col-md-5 mb-4">
-                                    <label class="column-content">Name</label>
-                                    <input type="text" class="form-control" id="validationTooltip01" placeholder="{{my.name}}" required>
-                                </div>
-                                <div class="form-group col-md-4 mb-4">
-                                    <label class="column-content">Date of Birth</label>
-                                    <input type="date" class="form-control" id="exampleInputDOB1" placeholder="Date of Birth">
-                                </div>
-                                <div class="form-group col-md-3 mb-4">
-                                    <label for="exampleFormControlSelect1">Gender</label>
-                                    <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>male</option>
-                                    <option>female</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-12 mb-4">
-                                    <label class="column-content">Address</label>
-                                    <input type="text" class="form-control" id="validationTooltip01" placeholder="{{my.address}}" required>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary" type="submit">Submit form</button>
-                        </form>
-                    </div>
+<div class="container" style="padding-left: 10%; padding-right: 10%">
+    <div class="info-form" style="background-color: white; box-shadow: lightgrey 0px 1px; padding: 30px ">
+        <div style="border-bottom:solid 1px lightgrey; width: 100%; align: centre; margin-bottom: 15px">
+            <h5 for="add-comment-box" style="color:#00243b">Personal Information</h5>
+        </div>
+        <form action="GET" class="justify-content-center">
+            <div class="form-row">
+                <div class="form-group col-md-5 mb-4">
+                    <label class="column-content">Name</label>
+                    <input type="text" class="form-control" id="validationTooltip01" placeholder="{{user}}" required>
+                </div>
+                <div class="form-group col-md-4 mb-4">
+                    <label class="column-content">Date of Birth</label>
+                    <input type="date" class="form-control" id="exampleInputDOB1" placeholder="Date of Birth">
+                </div>
+                <div class="form-group col-md-3 mb-4">
+                    <label for="exampleFormControlSelect1">Gender</label>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                    <option>Male</option>
+                    <option>Female</option>
+                    </select>
                 </div>
             </div>
-        </div>
+            <div class="form-row">
+                <div class="form-group col-md-12 mb-4">
+                    <label class="column-content">Address</label>
+                    <input type="text" class="form-control" id="validationTooltip01" placeholder="{{my.address}}" required>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Submit form</button>
+        </form>
     </div>
-</section>
+</div>              
 
 <div class="well"> 
 </div>
