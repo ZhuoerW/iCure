@@ -113,15 +113,15 @@ const Comment = new mongoose.Schema({
 // * each medical profile is related to one patient
 const MedicalProfile = new mongoose.Schema({
 	patient_id: {type: String,required: true, minlength: 10, maxlength: 10},
-	height: String,
-	weight: String, 
-	right_eye_sight: String,
-	left_eye_sight: String,
-	blood_type: String,
-	medical_history: String,
-	allergy: String,
-	blood_pressure_low: String,
-	blood_pressure_high: String
+	height: {type:String, default:""},
+	weight: {type:String, default:""}, 
+	right_eye_sight: {type:String, default:""},
+	left_eye_sight: {type:String, default:""},
+	blood_type: {type:String, default:""},
+	medical_history: {type:String, default:""},
+	allergy: {type:String, default:""},
+	blood_pressure_low: {type:String, default:""},
+	blood_pressure_high: {type:String, default:""}
 });
 
 
