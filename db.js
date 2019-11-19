@@ -48,6 +48,7 @@ const Doctor = new mongoose.Schema({
 // * each appointment has a unique create time
 // * each appointment is ralated a patient's profile
 const Appointment = new mongoose.Schema({
+	title: {type:String},
 	start: {type: Date, default: Date.now, required: true},
 	end: {type: Date, default: Date.now, required: true},
 	doctor_id: {type: String, required: true, minlength: 10, maxlength: 10},
@@ -112,15 +113,15 @@ const Comment = new mongoose.Schema({
 // * each medical profile is related to one patient
 const MedicalProfile = new mongoose.Schema({
 	patient_id: {type: String,required: true, minlength: 10, maxlength: 10},
-	height: Number,
-	weight: Number, 
-	right_eye_sight: Number,
-	left_eye_sight: Number,
+	height: String,
+	weight: String, 
+	right_eye_sight: String,
+	left_eye_sight: String,
 	blood_type: String,
 	medical_history: String,
 	allergy: String,
-	blood_pressure: String,
-	others: String
+	blood_pressure_low: String,
+	blood_pressure_high: String
 });
 
 
