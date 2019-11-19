@@ -181,3 +181,18 @@ display: block;
 }
 
 .dropdown-content a:hover {background-color: rgb(83, 107, 243); color:white; text-decoration: none;}
+
+
+.form-group{
+    top:40px;
+    width:auto;
+}
+.unity-input .form-control{
+    border-right:0!important;
+}
+.unity-input .input-group-addon{
+    background:white!important;
+    border-left:none!important;
+    font-weight:bold;
+    color:#333;
+}

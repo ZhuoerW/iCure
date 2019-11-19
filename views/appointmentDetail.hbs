@@ -3,10 +3,16 @@
     <table id="table">
         <tr>
             <td>
-                <table style="width: 300px"> 
+                <table style="width: 500px"> 
                     <tr>
                         <td style="width: 50px">
                             <a href="../" style="color: rgb(83, 107, 243)">Home</a>
+                        </td>
+                        <td style="width: 16px">
+                            <p class = "nav">/</p>
+                        </td>
+                        <td style="width: 100px">
+                            <a href="/appointment-history/{{appointment.slug}}" style="color: rgb(83, 107, 243)">Appointment</a>
                         </td>
                         <td style="width: 16px">
                             <p class = "nav">/</p>
@@ -25,8 +31,15 @@
                         <td align="right" style="width: 400px; padding-right: 15px">
                         <span id="greeting" style="background-color: transparent; border: none; color: grey">Hello {{user}}</span>
                         </td>
-                        <td text-align="center" style="width: 20px">
-                        <a href='/info-form'><img id="user_image" src="../public/img/user_grey.png" height="20px"/></a>
+                        <td text-align="center" style="width: 20px; padding-right: 10px">
+                            <div class="dropdown">
+                                <button class="dropdown"><img id="user_image" src="../public/img/user_grey.png" height="20px" href='/info-form'/></button>
+                                <div class="dropdown-content">
+                                    <a href='/info-form'>Profile</a>
+                                    <a href='/appointment-history/{{userslug}}'>Appointment</a>
+                                    <a href='/info-form'>Chat Room</a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -38,11 +51,11 @@
 <div class=" " style="height: 90px">
 </div>
 
-<div class="container-fluid" style="background: black; padding-top: 50px; padding-bottom: 50px; padding-left: 250px">
+<div class="container-fluid" style="padding-top: 50px; padding-bottom: 50px; padding-left: 250px; background-color: #00243b">
         <h1 style="color:white; font-size: 25px" class="mb-3">Time to Start</h1> 
         <p style="color:white; font-size: 18px" class="mb-3">Start at: {{appointment.start}}</p>
         <p style="color:white; font-size: 18px" class="mb-3">End at: {{appointment.end}}</p>
-        <a href="/info-form"><button class="btn btn-primary">Diagnosis</button></a>
+        <a href="/diagnosis/{{appointment.slug}}"><button class="btn btn-primary">Diagnosis</button></a>
     </div>
 
     <div class=" " style="height: 40px">
