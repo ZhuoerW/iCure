@@ -24,8 +24,15 @@
                         <td align="right" style="width: 400px; padding-right: 15px">
                         <span id="greeting" style="background-color: transparent; border: none; color: grey">Hello {{user}}</span>
                         </td>
-                        <td text-align="center" style="width: 20px">
-                        <a href='/info-form'><img id="user_image" src="../public/img/user_grey.png" height="20px"/></a>
+                        <td text-align="center" style="width: 20px; padding-right: 10px">
+                            <div class="dropdown">
+                                <button class="dropdown"><img id="user_image" src="../public/img/user_grey.png" height="20px" href='/info-form'/></button>
+                                <div class="dropdown-content">
+                                    <a href='/info-form'>Profile</a>
+                                    <a href='/appointment-history/{{userslug}}'>Appointment</a>
+                                    <a href='/info-form'>Chat Room</a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -35,72 +42,52 @@
 </div>
 <div style="height:90px"></div>
 
-<script>
-$().ready(function(){
-  $('.slick-carousel').slick({
-    arrows: true,
-    centerPadding: "0px",
-    dots: true,
-    infinite: true,
-    slidesToShow: 3,
-    centerMode: true
-  });
-});
-</script>
-
-
-<link href="http://kenwheeler.github.io/slick/slick/slick.css" rel="stylesheet" />
-<link href="http://kenwheeler.github.io/slick/slick/slick-theme.css" rel="stylesheet"/>
-<div class = "ml-4 mb-4">
-<h1 class="display-5">Upcoming Assignments</h1>
-</div>
-<div class="slick-carousel mb-4">
-  {{# each upcoming}}
-  <div class="container">
-        <div class="list">
-          <div class="col-sm">
-            <div class="card border-light bg-light mb-3" style="width: 25rem; height: 15rem;"> 
-                <div class="card-body">
-                  <h5 class="card-title">with {{doctor_id}}</h5>
-                  <p class="card-text">{{chief_complaint}}</p>
-                </div>
-                <a href=/appointments/{{slug}} class="custom-card">
-                <div class="card-footer bg-warning border-warning">Details</div>
-                </a>
-              </div>
-          </div>
-        </div>
-      </div>
-
-  {{/each}}
-</div>
 
 <div class = "ml-4 mb-4">
-<h1 class="display-5">History Assignments</h1>
+<h1 class="display-5">Upcoming Appointments</h1>
 </div>
 
-<div style="height:100px"></div>
-<div class="slick-carousel">
-	{{# each history}}
-  <div class="container">
-        <div class="list">
-          <div class="col-sm">
-            <div class="card border-light bg-light mb-3" style="width: 25rem; height: 15rem;"> 
-                <div class="card-body">
+
+<div class="container-fluid">
+    <div class="row flex-row flex-nowrap overflow-auto">
+        {{# each upcoming}}
+        <div class="col-4">
+      <div class="card border-light bg-light ml-3" style="width: 25rem; height: 15rem;"> 
+            <div class="card-body">
                   <h5 class="card-title">with {{doctor_id}}</h5>
                   <p class="card-text">{{chief_complaint}}</p>
-                </div>
-                <a href="../views/AppointmentDetail.html" class="custom-card">
-                <div class="card-footer bg-warning border-warning">Details</div>
-                </a>
-              </div>
-          </div>
-        </div>
+            </div>
+            <a href=/appointments/{{slug}} class="custom-card">
+            <div class="card-footer bg-primary border-warning" style="color: white">Details</div>
+            </a>
       </div>
-
+      </div>
   {{/each}}
+    </div>
 </div>
-			
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.slick/1.4.1/slick.min.js"></script>
 
+
+<div style="height:50px"></div>
+
+<div class = "ml-4 mb-4">
+<h1 class="display-5">History Appointments</h1>
+</div>
+
+
+<div class="container-fluid ml-4">
+    <div class="row flex-row flex-nowrap overflow-auto">
+        {{# each history}}
+        <div class="col-4">
+      <div class="card border-light bg-light ml-3" style="width: 25rem; height: 15rem;"> 
+            <div class="card-body">
+                  <h5 class="card-title">with {{doctor_id}}</h5>
+                  <p class="card-text">{{chief_complaint}}</p>
+            </div>
+            <a href=/appointments/{{slug}} class="custom-card">
+            <div class="card-footer bg-primary border-warning" style="color: white">Details</div>
+            </a>
+      </div>
+      </div>
+  {{/each}}
+    </div>
+</div>

@@ -19,34 +19,23 @@
                 </table>
             </td>
             <td align="right" style="width: 100%">
-                {{#if NotLogin}}
-                <table> 
-                    <tr>
-                        <td style="width: 60px; font-color:rgb(83, 107, 243)">
-                            <form action="/login">
-                            <input id="clicklog" type="submit" value="Log In" style="background-color: transparent; border: none; color: white">
-                            </form>
-                        </td>
-                        <td>
-                            <form action="/signup">
-                            <input id="clicksignup" type="submit" value="Sign Up" style="background-color: transparent; border: none; color: white">
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-                </form>
-                {{else}}
                 <table> 
                     <tr>
                         <td align="right" style="width: 400px; padding-right: 15px">
                         <span id="greeting" style="background-color: transparent; border: none; color: grey">Hello {{user}}</span>
                         </td>
-                        <td text-align="center" style="width: 20px">
-                        <a href='/info-form'><img id="user_image" src="../public/img/user_grey.png" height="20px"/></a>
+                        <td text-align="center" style="width: 20px; padding-right: 10px">
+                            <div class="dropdown">
+                                <button class="dropdown"><img id="user_image" src="../public/img/user_grey.png" height="20px" href='/info-form'/></button>
+                                <div class="dropdown-content">
+                                    <a href='/info-form'>Profile</a>
+                                    <a href='/appointment-history/{{userslug}}'>Appointment</a>
+                                    <a href='/info-form'>Chat Room</a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </table>
-                {{/if}}
             </td>
         </tr>
     </table>          
@@ -88,9 +77,9 @@
             <input type="text" class="form-control" id="appointment-title" placeholder="Enter the Title" required>
         </div>
         <div class="form-group mb-3">
-            <label class="column-content">Description</label>
-            <input type="text" class="form-control" id="appointment-content" placeholder="Enter Your Description" required>
-        </div>
+            <label class="column-content">Chief Complaint</label>
+            <textarea class="form-control"  id="appointment-content"></textarea>
+        </div>   
         <div>
         <button class="btn btn-primary mb-3" type="submit" id="create-app">Make Appointment</button>
         </div>
