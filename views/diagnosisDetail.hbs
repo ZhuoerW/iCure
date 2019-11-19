@@ -3,7 +3,7 @@
     <table id="table">
         <tr>
             <td>
-                <table style="width: 300px"> 
+                <table style="width: 1000px"> 
                     <tr>
                         <td style="width: 50px">
                             <a href="../" style="color: rgb(83, 107, 243)">Home</a>
@@ -11,8 +11,20 @@
                         <td style="width: 16px">
                             <p class = "nav">/</p>
                         </td>
+                        <td style="width: 100px">
+                            <a href="/appointment-history/{{appointment.slug}}" style="color: rgb(83, 107, 243)">Appointment</a>
+                        </td>
+                        <td style="width: 16px">
+                            <p class = "nav">/</p>
+                        </td>
+                        <td style="width: 150px">
+                           <a href="/appointments/{{appointment.slug}}" style="color: rgb(83, 107, 243)">Appointment Details</a>
+                        </td>
+                        <td style="width: 16px">
+                            <p class = "nav">/</p>
+                        </td>
                         <td>
-                            <p class = "nav">Personal Information</p>
+                            <p class = "nav">Diagnosis</p>
                         </td>
                         
                     </tr>
@@ -25,8 +37,15 @@
                         <td align="right" style="width: 400px; padding-right: 15px">
                         <span id="greeting" style="background-color: transparent; border: none; color: grey">Hello {{user}}</span>
                         </td>
-                        <td text-align="center" style="width: 20px">
-                        <a href='/info-form'><img id="user_image" src="../public/img/user_grey.png" height="20px"/></a>
+                        <td text-align="center" style="width: 20px; padding-right: 10px">
+                            <div class="dropdown">
+                                <button class="dropdown"><img id="user_image" src="../public/img/user_grey.png" height="20px" href='/info-form'/></button>
+                                <div class="dropdown-content">
+                                    <a href='/info-form'>Profile</a>
+                                    <a href='/appointment-history/{{userslug}}'>Appointment</a>
+                                    <a href='/info-form'>Chat Room</a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -39,12 +58,31 @@
 </div>
 
 <div class="container" style="padding-left: 10%; padding-right: 10%">
-    <div class="info-form" style="background-color: white; box-shadow: lightgrey 0px 1px; padding: 30px ">
+    <div class="info-form" style="box-shadow: lightgrey 0px 1px; padding: 30px ">
         <div style="border-bottom:solid 1px lightgrey; width: 100%; align: centre; margin-bottom: 15px">
-            <h5 for="add-comment-box" style="color:#00243b">Personal Information</h5>
+            <h5 for="add-comment-box" style="color:#00243b">Health Data</h5>
         </div>
-        <form action="GET" class="justify-content-center">
+        <form class="justify-content-center">
             <div class="form-row">
+                <div class="form-group col-md-4">
+                        <label class="column-content">Height</label>
+                        <input type="text" class="form-control" id="validationTooltip01" placeholder="{{user}}" required>
+                        
+                </div>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                            <label>Surname:</label>
+                            <input class="form-control" type="text" name="surname"><span class="input-group-addon">!</span>
+                    </div>
+                </form>
+
+                <div class="control-group input-append col-md-4">
+                        <label class="control-label" for="inputPassword">Name</label>
+                        <div class="controls">
+                        <input type="password" id="inputPassword" placeholder="">
+                        <span class="add-on">PWD</span>
+                        </div>
+                </div>
                 <div class="form-group col-md-5 mb-4">
                     <label class="column-content">Name</label>
                     <input type="text" class="form-control" id="validationTooltip01" placeholder="{{user}}" required>
@@ -70,7 +108,7 @@
             <button class="btn btn-primary" type="submit">Submit form</button>
         </form>
     </div>
-</div>              
+</div>                 
 
 <div class="well"> 
 </div>

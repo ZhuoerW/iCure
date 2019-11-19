@@ -14,8 +14,8 @@
                         <td style="width: 16px">
                             <p class = "nav">/</p>
                         </td>
-                        <td style="width: 50px">
-                            <a href="../main-forum" class = "nav">Forum</a>
+                        <td style="width: 55px">
+                            <a href="../main-forum" style="color: rgb(83, 107, 243)" class = "nav">Forum</a>
                         </td>
                         <td style="width: 16px">
                             <p class = "nav">/</p>
@@ -27,23 +27,24 @@
                     </tr>
                 </table>
             </td>
-            <td align="right" style="width: 700px">
-                {{#if NotLogin}}
+            <td align="right" style="width: 100%">
                 <table> 
                     <tr>
-                        <td style="width: 60px">
-                            <form action="/login">
-                            <input id="clicklog" type="submit" value="Log In" style="background-color: transparent; border: none; color: white">
-                            </form>
+                        <td align="right" style="width: 400px; padding-right: 15px">
+                        <span id="greeting" style="background-color: transparent; border: none; color: grey">Hello {{user}}</span>
                         </td>
-                        <td>
-                            <form action="/signup">
-                            <input id="clicksignup" type="submit" value="Sign Up" style="background-color: transparent; border: none; color: white">
-                            </form>
+                        <td text-align="center" style="width: 20px; padding-right: 10px">
+                            <div class="dropdown">
+                                <button class="dropdown"><img id="user_image" src="../public/img/user_grey.png" height="20px" href='/info-form'/></button>
+                                <div class="dropdown-content">
+                                    <a href='/info-form'>Profile</a>
+                                    <a href='/appointment-history/{{userslug}}'>Appointment</a>
+                                    <a href='/info-form'>Chat Room</a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </table>
-                {{/if}}
             </td>
         </tr>
     </table>          
@@ -66,7 +67,7 @@
        </div>
        <div style="padding-top: 30px">
             <form method="POST" action="/posts/{{post.slug}}/comments">
-            <div style="width:100%; box-shadow: lightgrey 0px 0px 3px; padding-left:20px; padding-top:20px; padding-right:20px; padding-bottom: 15px">
+            <div style="width:100%; box-shadow: lightgrey 0px 0px 3px; padding-left:20px; padding-top:20px; padding-right:20px; padding-bottom: 30px">
                 <div style="border-bottom:solid 1px lightgrey; width: 100%; align: centre; margin-bottom: 15px">
                 <h5 for="add-comment-box" style="color:#00243b">Leave Your Comment</h5>
                 </div>
@@ -77,24 +78,26 @@
             {{#if commentError}}
                 <div>Comment Error!</div>
             {{/if}}
-            <div style="margin-top: 50px">
-                <div style="border-bottom:solid 1px lightgrey; width: 100%; align: centre; margin-bottom: 20px">
-                    <h5 for="add-comment-box" style="color:#00243b">History Comments</h5>
-                </div>
-                <form method="GET" action="/posts/{{post.slug}}">
-                    <label for="filter-comment">Filter By Author: </label>
-                    <input type="text" name="option" value="" id="filter-comment" style="width: 160px">
-                </form>
-            </div>
-            <div id="comment-box" style="margin-top: 20px">
-                {{#each comments}}
-                    <div class="comment-wrapper" style="background-color: #e5e7f3; padding-bottom: 1px;padding-top: 8px;padding-left: 13px; padding-right:13px">
-                        <span style="font-weight: bold">{{name}}:</span><p>"{{content}}"</p>
-                        <p style="color: grey; font-style:italic; float:right; font-size: 12px; vertical-align:text-bottom"class="comment-time">{{create_time}}<p>
+            {{#if comments}}
+                <div style="margin-top: 50px">
+                    <div style="border-bottom:solid 1px lightgrey; width: 100%; align: centre; margin-bottom: 20px">
+                        <h5 for="add-comment-box" style="color:#00243b">History Comments</h5>
                     </div>
-                    <br/>
-                {{/each}}
-            </div>
+                    <form method="GET" action="/posts/{{post.slug}}">
+                        <label for="filter-comment">Filter By Author: </label>
+                        <input type="text" name="option" value="" id="filter-comment" style="width: 160px">
+                    </form>
+                </div>
+                <div id="comment-box" style="margin-top: 20px">
+                    {{#each comments}}
+                        <div class="comment-wrapper" style="background-color: #e5e7f3; padding-bottom: 1px;padding-top: 8px;padding-left: 13px; padding-right:13px">
+                            <span style="font-weight: bold">{{name}}:</span><p>"{{content}}"</p>
+                            <p style="color: grey; font-style:italic; float:right; font-size: 12px; vertical-align:text-bottom"class="comment-time">{{create_time}}<p>
+                        </div>
+                        <br/>
+                    {{/each}}
+                </div>
+            {{/if}}
             </div>
             
         </div>

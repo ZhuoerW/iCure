@@ -170,7 +170,11 @@ app.get('/', (req, res) => {
 	Post.find(function(err,posts){
 			posts.sort((a, b) => (a.hit < b.hit) ? 1:-1);
 			twentyPosts = posts.slice(0,20);
-			selectedPosts = getRandom(twentyPosts, Math.min(10,twentyPosts.length));
+			selectedPosts = getRandom(twentyPosts, Math.min(10,twentyPosts.length))
+			.map(function(postObj) {
+				postObj.content = postObj.content.slice(0, 300);
+				return postObj;
+			});
 			if (req.session.name===undefined) {
 		res.render('HomePage',{NotLogin: true,posts:selectedPosts});
 	}
@@ -226,7 +230,7 @@ app.get('/main-forum', (req, res) => {
 			const filteredPosts = posts.filter(function(postObj) {
 				return postObj[filter] === option;
 			}).map(function(postObj) {
-				postObj.content = postObj.content.slice(0, 320);
+				postObj.content = postObj.content.slice(0, 300);
 				return postObj;
 			});
 			filteredPosts.sort((a, b) => (a.hit < b.hit) ? 1:-1);
@@ -503,6 +507,30 @@ app.post('/update-profile/:slug',function(req,res){
 			}
 		});
 	}
+});
+
+app.get('/appointments/:slug', (req, res) => {
+	const slug = sanitize(req.params.slug);
+	Appointment.findOne({slug: slug}, function(err, appointment) {
+		if (err) {
+			res.render('appointmentDetail', {error: true});
+		} else {
+			res.render('appointmentDetail', {appointment: appointment});
+
+		}
+	});
+});
+
+app.get('/diagnosis/:slug', (req, res) => {
+	const slug = sanitize(req.params.slug);
+	Appointment.findOne({slug: slug}, function(err, appointment) {
+		if (err) {
+			res.render('diagnosisDetaill', {error: true});
+		} else {
+			res.render('diagnosisDetail', {appointment: appointment});
+
+		}
+	});
 });
 
 function getRandom(arr, n) {
