@@ -440,7 +440,8 @@ app.get('/diagnosis/:slug',function(req,res){
 
 app.post('/diagnosis/:slug',function(req,res){
 	let slug = req.params.slug;
-	let diagnosis = sanitize(req.body.diagnosis);
+	let rawDiagnosis = JSON.parse(sanitize(req.body.diagnosis));
+	let diagnosis = rawDiagnosis["ops"][0]["insert"].trim();
 	let newMedical = {
 		height: sanitize(req.body.height),
 		weight: sanitize(req.body.weight), 
@@ -459,6 +460,18 @@ app.post('/diagnosis/:slug',function(req,res){
 			});
 		}
 	});
+});
+
+app.post('/rate/:slug',function(req,res){
+	let slug = req.params.slug;
+	let rate = sanitize(req.body.rate);
+	let rawComment = JSON.parse(sanitize(req.body.comment));
+	let comment = rawComment["ops"][0]["insert"].trim();
+	Appointment.findOneAndUpdate({slug:slug},{rate:rate,comment:comment},function(err,appointment){
+		if (appointment){
+				res.redirect('/rate/'+slug);
+			}
+		});
 });
 
 app.get('/logout', (req,res) => {

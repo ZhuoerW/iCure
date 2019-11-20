@@ -58,6 +58,7 @@ const Appointment = new mongoose.Schema({
 	prescription: {type: String},
 	status: {type: String,default: 'Upcoming',required: true},
 	rating: {type: Number,default:0},
+	comments: {type: String},
 });
 
 //message
