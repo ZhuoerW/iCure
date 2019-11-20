@@ -130,19 +130,21 @@
 <div class="forum-display">
 <form action="/" method="GET">
 <div class="card-columns">
+    <a href=/posts/{{posts.1.slug}}>
     <div class="card">
         <img src="/public/img/forum1.jpeg" class="card-img-top" alt="...">
         <div class="card-body">
-            <h5 class="card-title">{{posts.1.title}}</h5>
+            <a class="card-title" href=/posts/{{posts.1.slug}}>{{posts.1.title}}</a>
             <p class="card-text">{{posts.1.content}}</p>
         </div>
     </div>
+    </a>
     <div class="card p-3">
         <blockquote class="blockquote mb-0 card-body">
             <p>{{posts.2.content}}</p>
             <footer class="blockquote-footer">
                 <small class="text-muted">
-                    <cite title="Source Title">{{posts.2.name}}</cite>
+                    <cite title="Source Title" href=/posts/{{posts.2.slug}}>{{posts.2.name}}</cite>
                 </small>
             </footer>
         </blockquote>
@@ -150,7 +152,7 @@
     <div class="card">
         <img src="/public/img/forum2.jpeg" class="card-img-top" alt="...">
         <div class="card-body">
-            <h5 class="card-title">{{posts.3.title}}</h5>
+            <a class="card-title" href=/posts/{{posts.3.slug}}>{{posts.3.title}}</a>
             <p class="card-text">{{posts.3.content}}</p>
             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>
@@ -160,14 +162,14 @@
             <p>{{posts.4.content}}</p>
             <footer class="blockquote-footer text-white">
                 <small>
-                    <cite title="Source Title">{{posts.4.title}}</cite>
+                    <cite title="Source Title" href=/posts/{{posts.4.slug}}>{{posts.4.title}}</cite>
                 </small>
             </footer>
         </blockquote>
     </div>
     <div class="card text-center">
         <div class="card-body">
-            <h5 class="card-title">{{posts.5.title}}</h5>
+            <a class="card-title" href=/posts/{{posts.5.slug}}>{{posts.5.title}}</a>
             <p class="card-text">{{posts.5.content}}</p>
             <p class="card-text"><small class="text-muted">Last updated 5 mins ago</small></p>
         </div>
@@ -180,14 +182,14 @@
             <p>{{posts.6.content}}</p>
             <footer class="blockquote-footer">
                 <small class="text-muted">
-                    <cite title="Source Title">{{posts.6.name}}</cite>
+                    <cite title="Source Title" href=/posts/{{posts.6.slug}}>{{posts.6.name}}</cite>
                 </small>
             </footer>
         </blockquote>
     </div>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">{{posts.7.title}}</h5>
+            <a class="card-title" href=/posts/{{posts.7.slug}}>{{posts.7.title}}</>
             <p class="card-text">{{posts.7.content}}</p>
             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>
