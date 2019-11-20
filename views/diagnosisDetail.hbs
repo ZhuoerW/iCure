@@ -59,6 +59,7 @@
 
 <div class="container" style="padding-left: 10%; padding-right: 10%">
     <div class="diagnosis-form" style="box-shadow: lightgrey 0px 1px; padding: 30px ">
+    <form id= "diagnosis" method = "POST" action="/diagnosis/{{slug}}">
         <div style="border-bottom:solid 1px lightgrey; width: 100%; align: centre; margin-bottom: 15px">
             <h5 for="add-comment-box" style="color:#00243b">Health Data</h5>
         </div>
@@ -66,7 +67,7 @@
             <div class="form-group col-md-4 mb-4">
                 <label class="column-content">Height</label>
                 <div class="form-inline">
-                    <input type="text" class="form-control" style="text-align: right" placeholder="Height" required>
+                    <input type="text" name="height" class="form-control" style="text-align: right" placeholder="Height" value="{{medicalProfile.height}}" required>
                     <medium id="passwordHelpInline" class="text-muted ml-2">
                         cm
                     </medium>
@@ -75,7 +76,7 @@
             <div class="form-group col-md-4 mb-4">
                 <label class="column-content">Weight</label>
                 <div class="form-inline">
-                    <input type="text" class="form-control" style="text-align: right" placeholder="Weight" required>
+                    <input type="text" name="weight" class="form-control" style="text-align: right" placeholder="Weight" value="{{medicalProfile.weight}}" required>
                     <medium id="passwordHelpInline" class="text-muted ml-2">
                         cm
                     </medium>
@@ -83,7 +84,8 @@
             </div>
             <div class="form-group col-md-2 mb-4">
                 <label for="exampleFormControlSelect1">Blood Type</label>
-                <select class="form-control" required>
+                <select class="form-control" name="blood_type" required>
+                <option selected>{{medicalProfile.blood_type}}</option>
                 <option>A</option>
                 <option>B</option>
                 <option>AB</option>
@@ -95,29 +97,40 @@
             <div class="form-group col-md-4 mb-4">
                 <label class="column-content">Right Eye Sight</label>
                 <div class="form-inline">
-                    <input type="text" class="form-control" placeholder="Left" required>
+                    <input type="text" name="left_eye_sight" class="form-control" placeholder="Left" value="{{medicalProfile.left_eye_sight}}" required>
                 </div>
             </div>
             <div class="form-group col-md-4 mb-4">
                 <label class="column-content">Left Eye Sight</label>
                 <div class="form-inline">
-                    <input type="text" class="form-control" placeholder="Right" required>
+                    <input type="text" name="right_eye_sight" class="form-control" placeholder="Right" value="{{medicalProfile.right_eye_sight}}" required>
                 </div>
             </div>
             <div class="form-group col-md-4 mb-4">
                 <label class="column-content">Blood Pressure</label>
                 <div class="form-inline">
-                    <input type="text" class="form-control col-md-3" placeholder="High" required>
+                    <input type="text" name="blood_pressure_high" class="form-control col-md-3" placeholder="High" value="{{medicalProfile.blood_pressure_high}}" required>
                     <medium id="passwordHelpInline" class="text-muted ml-2 mr-2">
                         /
                     </medium>
-                    <input type="text" class="form-control col-md-3" placeholder="Low" required>
+                    <input type="text" name="blood_pressure_low" class="form-control col-md-3" placeholder="Low" value="{{medicalProfile.blood_pressure_low}}" required>
                     <medium id="passwordHelpInline" class="text-muted ml-2">
                         mmHg
                     </medium>
                 </div>
             </div>
         </div>
+       
+        <div class="form-group mb-4">
+            <label class="column-content">Medical History</label>  
+            <textarea class="form-control"  style="height:150px" name="medical_history">{{medicalProfile.medical_history}}</textarea>
+        </div>
+
+        <div class="form-group mb-4">
+            <label class="column-content">Allergy</label>  
+            <textarea class="form-control"  style="height:100px" name="allergy">{{medicalProfile.allergy}}</textarea>
+        </div>
+
         <div style="border-bottom:solid 1px lightgrey; width: 100%; align: centre; margin-bottom: 15px">
             <h5 for="add-comment-box" style="color:#00243b">Diagnosis</h5>
         </div>
@@ -126,7 +139,7 @@
         <!-- Include stylesheet -->
         <link href="https://cdn.quilljs.com/1.1.6/quill.snow.css" rel="stylesheet">
         <!-- Create the editor container -->
-        <input type="hidden" name="content">
+        <input type="hidden" name="diagnosis">
         <div id="editor" style="height:400px; background-color: white; overflow:auto"></div>
         <!-- Include the Quill library -->
         <script src="https://cdn.quilljs.com/1.1.6/quill.js"></script>
@@ -145,69 +158,15 @@
         };
         </script>
 
-        <div class=" " style="height: 25px">
-        </div>
-        <div style="border-bottom:solid 1px lightgrey; width: 100%; align: centre; margin-bottom: 15px">
-            <h5 for="add-comment-box" style="color:#00243b">Prescription</h5>
-        </div>
+        <div class="" style="height: 25px"></div>
 
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-
-<div class="panel panel-default">
-  <div class="panel-heading">Dynamic Form Fields - Add & Remove Multiple fields</div>
-  <div class="panel-heading">Education Experience</div>
-  <div class="panel-body">
-  
-  <div id="education_fields">
-          
-        </div>
-       <div class="col-sm-3 nopadding">
-  <div class="form-group">
-    <input type="text" class="form-control" id="Schoolname" name="Schoolname[]" value="" placeholder="School name">
-  </div>
-</div>
-<div class="col-sm-3 nopadding">
-  <div class="form-group">
-    <input type="text" class="form-control" id="Major" name="Major[]" value="" placeholder="Major">
-  </div>
-</div>
-<div class="col-sm-3 nopadding">
-  <div class="form-group">
-    <input type="text" class="form-control" id="Degree" name="Degree[]" value="" placeholder="Degree">
-  </div>
-</div>
-
-<div class="col-sm-3 nopadding">
-  <div class="form-group">
-    <div class="input-group">
-      <select class="form-control" id="educationDate" name="educationDate[]">
-      
-        <option value="">Date</option>
-        <option value="2015">2015</option>
-        <option value="2016">2016</option>
-        <option value="2017">2017</option>
-        <option value="2018">2018</option>
-      </select>
-      <div class="input-group-btn">
-        <button class="btn btn-success" type="button"  onclick="education_fields();"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="clear"></div>
-  
-  </div>
-  <div class="panel-footer"><small>Press <span class="glyphicon glyphicon-plus gs"></span> to add another form field :)</small>, <small>Press <span class="glyphicon glyphicon-minus gs"></span> to remove form field :)</small></div>
-  <div class="panel-footer"><small><em><a href="http://shafi.info/">More Info - Developer Shafi (Bangladesh)</a></em></em></small></div>
-</div>
         <button class="btn btn-primary" type="submit">Submit form</button>
+        </form>
+
     </div>
 </div>                           
 
 <div class="well"> 
 </div>
-</div>
-</form>
+
+
