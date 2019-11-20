@@ -168,16 +168,17 @@ app.get('/', (req, res) => {
 	let twentyPosts;
 	let selectedPosts;
 	Post.find(function(err,posts){
-			posts.sort((a, b) => (a.hit < b.hit) ? 1:-1);
-			twentyPosts = posts.slice(0,20);
-			selectedPosts = getRandom(twentyPosts, Math.min(10,twentyPosts.length))
-			.map(function(postObj) {
-				postObj.content = postObj.content.slice(0, 300);
-				return postObj;
-			});
-			if (req.session.name===undefined) {
-		res.render('HomePage',{NotLogin: true,posts:selectedPosts});
-	}
+		posts.sort((a, b) => (a.hit < b.hit) ? 1:-1);
+		twentyPosts = posts.slice(0,20);
+		selectedPosts = getRandom(twentyPosts, Math.min(10,twentyPosts.length))
+		.map(function(postObj) {
+			postObj.content = postObj.content.slice(0, 300);
+			return postObj;
+		});
+		console.log(posts);
+		if (req.session.name===undefined) {
+			res.render('HomePage',{NotLogin: true,posts:selectedPosts});
+		}
 	else {
 		res.render('HomePage',{posts:selectedPosts});
 	}
