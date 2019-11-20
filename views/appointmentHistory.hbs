@@ -53,9 +53,9 @@
         <div class="col-4">
       <div class="card border-light bg-light ml-3" style="width: 25rem; height: 15rem;"> 
             <div class="card-body">
-                {{doctor.id}}
-                  <h5 class="card-title">with {{doctor_name}}</h5>
-                  <p class="card-text">{{chief_complaint}}</p>
+                  <h5 class="card-title">with {{doctor_id}}</h5>
+                  <p class="card-text" style="">{{title}}</p>
+                  <p class="card-text">{{start}}</p>
             </div>
             <a href=/appointments/{{slug}} class="custom-card">
             <div class="card-footer bg-primary border-warning" style="color: white">Details</div>
@@ -74,20 +74,21 @@
 </div>
 
 
-<div class="container-fluid ml-4">
+<div class="container-fluid">
     <div class="row flex-row flex-nowrap overflow-auto">
         {{# each history}}
         <div class="col-4">
       <div class="card border-light bg-light ml-3" style="width: 25rem; height: 15rem;"> 
             <div class="card-body">
-                  <h5 class="card-title">with {{doctor_email}}</h5>
-                  <p class="card-text">{{chief_complaint}}</p>
+                  <h5 class="card-title">with {{doctor_id}}</h5>
+                  <p class="card-text">{{title}}</p>
             </div>
-            <a href=/appointments/{{slug}} class="custom-card">
-            <div class="card-footer bg-primary border-warning" style="color: white">Details</div>
+            <a href=/appointment-rate/{{slug}} class="custom-card">
+            <div class="card-footer bg-primary border-warning" style="color: white">Rate</div>
             </a>
       </div>
       </div>
   {{/each}}
     </div>
 </div>
+<div style="height:30px"></div>

@@ -18,7 +18,7 @@
                             <p class = "nav">/</p>
                         </td>
                         <td>
-                            <p class = "nav">Appointment Details</p>
+                            <p class = "nav">Rate My Appointment</p>
                         </td>
                         
                     </tr>
@@ -53,10 +53,10 @@
 
 <div class="container-fluid" style="padding-top: 50px; padding-bottom: 30px; padding-left: 250px; background-color: #00243b">
         <h1 style="color:white; font-size: 25px" class="mb-3">Appointment Information</h1> 
-        <p style="color:white; font-size: 18px" class="mb-3">Start at: {{appointment.start}}</p>
+        <p style="color:white; font-size: 18px" class="mb-3">{{appointment.diagnosis}}</p>
         <p style="color:white; font-size: 18px" class="mb-3">End at: {{appointment.end}}</p>
         <p style="color:white; font-size: 18px" class="mb-5">Locate at: {{doctor.hospital}}</p>
-        <a href="/diagnosis/{{appointment.slug}}"><button class="btn btn-primary">Diagnosis</button></a>
+        
     </div>
 
     <div class=" " style="height: 40px">
