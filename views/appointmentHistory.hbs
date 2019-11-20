@@ -42,7 +42,6 @@
 </div>
 <div style="height:90px"></div>
 
-
 <div class = "ml-4 mb-4">
 <h1 class="display-5">Upcoming Appointments</h1>
 </div>
@@ -54,7 +53,8 @@
         <div class="col-4">
       <div class="card border-light bg-light ml-3" style="width: 25rem; height: 15rem;"> 
             <div class="card-body">
-                  <h5 class="card-title">with {{doctor_id}}</h5>
+                {{doctor.id}}
+                  <h5 class="card-title">with {{doctor_name}}</h5>
                   <p class="card-text">{{chief_complaint}}</p>
             </div>
             <a href=/appointments/{{slug}} class="custom-card">
@@ -80,7 +80,7 @@
         <div class="col-4">
       <div class="card border-light bg-light ml-3" style="width: 25rem; height: 15rem;"> 
             <div class="card-body">
-                  <h5 class="card-title">with {{doctor_id}}</h5>
+                  <h5 class="card-title">with {{doctor_email}}</h5>
                   <p class="card-text">{{chief_complaint}}</p>
             </div>
             <a href=/appointments/{{slug}} class="custom-card">
@@ -91,4 +91,3 @@
   {{/each}}
     </div>
 </div>
-
