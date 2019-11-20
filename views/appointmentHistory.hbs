@@ -1,4 +1,5 @@
 <div style="height: 50px"></div>
+
 <div id="loginnavbar" style="width: 100%;box-shadow: lightgrey 0px 1px; position:fixed; height: 60px">
     <table id="table">
         <tr>
@@ -31,6 +32,7 @@
                                     <a href='/info-form'>Profile</a>
                                     <a href='/appointment-history/{{userslug}}'>Appointment</a>
                                     <a href='/info-form'>Chat Room</a>
+                                    <a href='/logout'>Log Out</a>
                                 </div>
                             </div>
                         </td>
@@ -40,32 +42,40 @@
         </tr>
     </table>          
 </div>
-<div style="height:90px"></div>
 
+<div style="height:100px"></div>
+
+<!--Doctor-->
+{{#if is_doctor}}
+
+
+<div style="height:30px"></div>
 
 <div class = "ml-4 mb-4">
-<h1 class="display-5">Upcoming Appointments</h1>
+<h1 style="font-size: 35px;">Upcoming Appointments</h1>
 </div>
 
-
+{{#if upcoming}}
 <div class="container-fluid">
     <div class="row flex-row flex-nowrap overflow-auto">
         {{# each upcoming}}
         <div class="col-4">
-      <div class="card border-light bg-light ml-3" style="width: 25rem; height: 15rem;"> 
+      <div class="card border-light bg-light ml-5" style="width: 25rem; height: 15rem;"> 
             <div class="card-body">
-                  <h5 class="card-title">with {{doctor_id}}</h5>
-                  <p class="card-text" style="">{{title}}</p>
+                  <h5 class="card-title">{{title}}</h5>
                   <p class="card-text">{{start}}</p>
             </div>
             <a href=/appointments/{{slug}} class="custom-card">
-            <div class="card-footer bg-primary border-warning" style="color: white">Details</div>
+            <div class="card-footer border-warning" style="color: white; background-color: rgb(83, 107, 243)">Details</div>
             </a>
       </div>
       </div>
   {{/each}}
     </div>
 </div>
+{{else}}
+<p class="ml-5" style="height: 5rem; font-size: 20px"> No Upcoming Appointments</p>
+{{/if}}
 
 
 <div style="height:50px"></div>
@@ -75,24 +85,92 @@
 </div>
 
 
+{{#if history}}
 <div class="container-fluid">
     <div class="row flex-row flex-nowrap overflow-auto">
         {{# each history}}
         <div class="col-4">
-      <div class="card border-light bg-light ml-3" style="width: 25rem; height: 15rem;"> 
+      <div class="card border-light bg-light ml-5" style="width: 25rem; height: 15rem;"> 
             <div class="card-body">
-                  <h5 class="card-title">with {{doctor_id}}</h5>
-                  <p class="card-text">{{title}}</p>
+                  <h5 class="card-title">{{title}}</h5>
+                  <p class="card-text">{{start}}</p>
             </div>
-            <a href=/appointment-rate/{{slug}} class="custom-card">
-            <div class="card-footer bg-primary border-warning" style="color: white">Rate</div>
+            <a href=/rate/{{slug}} class="custom-card">
+            <div class="card-footer border-warning" style="color: white; background-color: rgb(83, 107, 243)">Feedback</div>
             </a>
       </div>
       </div>
   {{/each}}
     </div>
 </div>
+{{else}}
+<p class="ml-5" style="height: 5rem; font-size: 20px"> No History Appointments</p>
+{{/if}}
+
+<!--Patient-->
+{{else}}
+<button class="ml-4" type="button" onclick="window.location.href='/search-result'" style="height:40px; width:200px; border: solid 1.5px rgb(83, 107, 243); background-color:rgb(83, 107, 243); border-radius: 25px; color:white">Make An Appointment</button>
+</div>
+
+<div style="height:30px"></div>
+
+<div class = "ml-4 mb-4">
+<h1 style="font-size: 35px;">Upcoming Appointments</h1>
+</div>
+
+{{#if upcoming}}
+<div class="container-fluid">
+    <div class="row flex-row flex-nowrap overflow-auto">
+        {{# each upcoming}}
+        <div class="col-4">
+      <div class="card border-light bg-light ml-5" style="width: 25rem; height: 15rem;"> 
+            <div class="card-body">
+                  <h5 class="card-title">Doctor {{doctor_name}}</h5>
+                  <p class="card-text">{{start}}</p>
+                  <a href="mailto:{{doctor_email}}" style="color:black">{{doctor_email}}</a>
+            </div>
+            <a href=/appointments/{{slug}} class="custom-card">
+            <div class="card-footer border-warning" style="color: white; background-color: rgb(83, 107, 243)">Details</div>
+            </a>
+      </div>
+      </div>
+  {{/each}}
+    </div>
+</div>
+{{else}}
+<p class="ml-5" style="height: 5rem; font-size: 20px"> No Upcoming Appointments</p>
+{{/if}}
 
 
+<div style="height:50px"></div>
+
+<div class = "ml-4 mb-4">
+<h1 class="display-5">History Appointments</h1>
+</div>
+
+
+{{#if history}}
+<div class="container-fluid">
+    <div class="row flex-row flex-nowrap overflow-auto">
+        {{# each history}}
+        <div class="col-4">
+      <div class="card border-light bg-light ml-5" style="width: 25rem; height: 15rem;"> 
+            <div class="card-body">
+                  <h5 class="card-title">Doctor {{doctor_name}}</h5>
+                  <p class="card-text">{{start}}</p>
+                  <a href="mailto:{{doctor_email}}" style="color:black">{{doctor_email}}</a>
+            </div>
+            <a href=/rate/{{slug}} class="custom-card">
+            <div class="card-footer border-warning" style="color: white; background-color: rgb(83, 107, 243)">Rate</div>
+            </a>
+      </div>
+      </div>
+  {{/each}}
+    </div>
+</div>
+{{else}}
+<p class="ml-5" style="height: 5rem; font-size: 20px"> No History Appointments</p>
+{{/if}}
+{{/if}}
 
 <div style="height:30px"></div>
