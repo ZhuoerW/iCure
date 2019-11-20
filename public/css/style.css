@@ -181,3 +181,8 @@ display: block;
 }
 
 .dropdown-content a:hover {background-color: rgb(83, 107, 243); color:white; text-decoration: none;}
+
+a.class-title,
+a.class-title:hover {
+    color: inherit;
+}
