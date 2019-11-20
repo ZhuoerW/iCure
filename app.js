@@ -3,6 +3,8 @@ const session = require('express-session');
 const path = require('path');
 const sanitize = require('mongo-sanitize');
 const moment = require('moment');
+const exphbs = require('express-handlebars');
+
 
 require('./db');
 const mongoose = require('mongoose');
@@ -35,6 +37,7 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 
 app.use(function(req, res, next){
+	res.locals.is_doctor = req.session.is_doctor;
 	res.locals.type = req.session.type;
 	res.locals.user = req.session.name;
 	res.locals._id = req.session._id;
@@ -54,6 +57,7 @@ app.get("/loginCheck", function(req,res){
 	if (req.query.usertype=="Doctor") {
 		Doctor.findOne({email:req.query.Email, password: req.query.Password}, function(error, data){
 			if (data) {
+				req.session.is_doctor = true;
 				req.session.type = "Doctor";
 				req.session.name = data.name;
 				req.session._id = data.id;
@@ -68,6 +72,7 @@ app.get("/loginCheck", function(req,res){
 }  else if (req.query.usertype=="Patient"){
 		Patient.findOne({email:req.query.Email, password: req.query.Password}, function(error, data){
 			if (data) {
+				req.session.is_doctor = false;
 				req.session.type = "Patient";
 				req.session.name = data.name;
 				req.session._id = data.id;
@@ -387,26 +392,55 @@ app.get('/appointment-history/:slug',function(req,res){
 	let upcoming = [];
 	let history = [];
 	let current_app = {};
-	Appointment.find({patient_id: req.session._id}, function(err, appointments) {
-	if (err) {
-		res.render('appointmentHistory', {error: true});
-	} else {
-		for (i=0; i<appointments.length; i++ ){
-			current_app = appointments[i];
-			if (appointments[i].status === "Upcoming"){
-				getDoctor(current_app,current_app.doctor_id);
-				upcoming.push(current_app);
-				} else {
-						getDoctor(current_app,current_app.doctor_id);
-						history.push(current_app);
+	if (req.session.type === "Patient") {
+		Appointment.find({patient_id: req.session._id}, function(err, appointments) {
+			if (err) {
+				res.render('appointmentHistory', {error: true});
+			} else {
+				for (i=0; i<appointments.length; i++ ){
+					current_app = appointments[i];
+					if (appointments[i].status === "Upcoming"){
+						getDoctorAndPatient(current_app);
+						current_app.slotEventOverlap=false;
+						upcoming.push(current_app);
+						} else {
+								getDoctorAndPatient(current_app);
+								current_app.slotEventOverlap=false;
+								history.push(current_app);
+						}
+					}
 				}
-			}
-		}
-		res.render('appointmentHistory', {upcoming:upcoming,history:history});
-});
+				console.log(upcoming);
+				res.render('appointmentHistory', {upcoming:upcoming,history:history});
+		});
+	} else if (req.session.type==="Doctor") {
+		console.log("Doctor");
+		Appointment.find({doctor_id: req.session._id}, function(err, appointments) {
+			if (err) {
+				res.render('appointmentHistory', {error: true});
+			} else {
+				for (i=0; i<appointments.length; i++ ){
+					current_app = appointments[i];
+					if (appointments[i].status === "Upcoming"){
+						getDoctorAndPatient(current_app);
+						current_app.slotEventOverlap=false;
+						upcoming.push(current_app);
+						console.log(current_app);
+						} else {
+								getDoctorAndPatient(current_app);
+								current_app.slotEventOverlap=false;
+								history.push(current_app);
+						}
+					}
+				}
+				console.log(upcoming);
+				res.render('appointmentHistory', {upcoming:upcoming,history:history});
 });
 
-app.get('/diagnosis/:slug',function(req,res){
+	}
+});
+
+app.get('/appointments/:slug',function(req,res){
 	let currentAppointment = {};
 	let slug = req.params.slug;
 	let currDoctor;
@@ -418,13 +452,13 @@ app.get('/diagnosis/:slug',function(req,res){
 				if (doctor){
 					MedicalProfile.findOne({patient_id:currentAppointment.patient_id}, function(err,data){
 						if (data){
-							res.render("diagnosisDetail",{appointment:currentAppointment,doctor:currDoctor,medicalProfile:data,slug:slug});
+							res.render("appointmentDetail",{appointment:currentAppointment,doctor:currDoctor,medicalProfile:data,slug:slug});
 						} else {
 							new MedicalProfile({
 								patient_id:currentAppointment.patient_id
 							}).save(function(err,data){
 								if (data){
-									res.render("diagnosisDetail",{appointment:currentAppointment,doctor:currDoctor,medicalProfile:data,slug:slug});
+									res.render("appointmentDetail",{appointment:currentAppointment,doctor:currDoctor,medicalProfile:data,slug:slug});
 								}
 							});
 						}
@@ -435,9 +469,51 @@ app.get('/diagnosis/:slug',function(req,res){
 	});
 });
 
+app.get('/rate/:slug',function(req,res){
+	let currentAppointment = {};
+	let slug = req.params.slug;
+	let currDoctor;
+	Appointment.findOne({slug:slug},function(err,appointment){
+		if (appointment){
+			currentAppointment = appointment;
+			Doctor.findOne({id:appointment.doctor_id},function(err,doctor){
+				currDoctor  = doctor;
+				if (doctor){
+					MedicalProfile.findOne({patient_id:currentAppointment.patient_id}, function(err,data){
+						if (data){
+							res.render("rateDetail",{appointment:currentAppointment,doctor:currDoctor,medicalProfile:data,slug:slug});
+						} else {
+							new MedicalProfile({
+								patient_id:currentAppointment.patient_id
+							}).save(function(err,data){
+								if (data){
+									res.render("rateDetail",{appointment:currentAppointment,doctor:currDoctor,medicalProfile:data,slug:slug});
+								}
+							});
+						}
+					});
+				}
+			});
+		}
+	});
+});
+
+app.post('/rate/:slug',function(req,res){
+ let slug = req.params.slug;
+ let rate = sanitize(req.body.rate);
+ let rawComment = JSON.parse(sanitize(req.body.comment));
+ let comment = rawComment["ops"][0]["insert"].trim();
+ Appointment.findOneAndUpdate({slug:slug},{rate:rate,comment:comment},function(err,appointment){
+  if (appointment){
+    res.redirect('/rate/'+slug);
+   }
+ });
+});
+
 app.post('/diagnosis/:slug',function(req,res){
 	let slug = req.params.slug;
-	let diagnosis = sanitize(req.body.diagnosis);
+	let rawDiagnosis = JSON.parse(sanitize(req.body.diagnosis));
+	let diagnosis = rawDiagnosis["ops"][0]["insert"].trim();
 	let newMedical = {
 		height: sanitize(req.body.height),
 		weight: sanitize(req.body.weight), 
@@ -513,77 +589,32 @@ app.post('/update-profile/:slug',function(req,res){
 });
 
 
-app.get('/appointment-rate/:slug', (req, res) => {
-	let currentAppointment = {};
-	let slug = req.params.slug;
-	let currDoctor;
-	Appointment.findOne({slug:slug},function(err,appointment){
-		if (appointment){
-			currentAppointment = appointment;
-			Doctor.findOne({id:appointment.doctor_id},function(err,doctor){
-				currDoctor  = doctor;
-				if (doctor){
-					MedicalProfile.findOne({patient_id:currentAppointment.patient_id}, function(err,data){
-						if (data){
-							res.render("appointmentRate",{appointment:currentAppointment,doctor:currDoctor,medicalProfile:data,slug:slug});
-						} else {
-							new MedicalProfile({
-								patient_id:currentAppointment.patient_id
-							}).save(function(err,data){
-								if (data){
-									res.render("appointmentRate",{appointment:currentAppointment,doctor:currDoctor,medicalProfile:data,slug:slug});
-								}
-							});
-						}
-					});
-				}
-			});
-		}
-	});
-
-/*
+app.get('/diagnosis/:slug', (req, res) => {
 	const slug = sanitize(req.params.slug);
 	Appointment.findOne({slug: slug}, function(err, appointment) {
 		if (err) {
-			res.render('appointmentDetaill', {error: true});
+			res.render('diagnosisDetaill', {error: true});
 		} else {
-			res.render('appointmentDetail', {appointment: appointment});
+			res.render('diagnosisDetail', {appointment: appointment});
 
 		}
 	});
-	*/
 });
-
-app.get('/appointments/:slug', (req, res) => {
-	let currentAppointment = {};
-	let slug = req.params.slug;
-	let currDoctor;
-	Appointment.findOne({slug:slug},function(err,appointment){
-		if (appointment){
-			currentAppointment = appointment;
-			Doctor.findOne({id:appointment.doctor_id},function(err,doctor){
-				currDoctor  = doctor;
-				if (doctor){
-					MedicalProfile.findOne({patient_id:currentAppointment.patient_id}, function(err,data){
-						if (data){
-							res.render("appointmentDetail",{appointment:currentAppointment,doctor:currDoctor,medicalProfile:data,slug:slug});
-						} else {
-							new MedicalProfile({
-								patient_id:currentAppointment.patient_id
-							}).save(function(err,data){
-								if (data){
-									res.render("appointmentDetail",{appointment:currentAppointment,doctor:currDoctor,medicalProfile:data,slug:slug});
-								}
-							});
-						}
-					});
-				}
+async function getDoctorAndPatient(current_app){
+	current_app = await Doctor.findOne({id:current_app.doctor_id}, function(error, doctor){
+		if (doctor){
+			console.log(doctor);
+			current_app.doctor_name = doctor.name;
+			current_app.doctor_email = doctor.email;
+			Patient.findOne({id:current_app.patient_id},function(err,patient){
+				if (patient) {
+				console.log(patient);
+				current_app.patient_name = patient.name;
+				current_app.patient_email = patient.email;
+			}
 			});
 		}
 	});
-});
-function getDoctor(current_app, doctor_id){
-	current_app.doctor = Doctor.findOne({id:current_app.doctor_id}, function(error, doctor){});
 };
 
 function getRandom(arr, n) {
@@ -599,7 +630,6 @@ function getRandom(arr, n) {
     }
     return result;
 }
-
 
 app.listen(3000);
 

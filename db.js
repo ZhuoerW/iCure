@@ -57,7 +57,8 @@ const Appointment = new mongoose.Schema({
 	diagnosis: String,
 	prescription: String,
 	status: {type: String,default: "Upcoming",required: true},
-	rating: {type: Number},
+	rate: {type: String},
+	comment:{type: String},
 	related_profile: {type: mongoose.Schema.Types.ObjectId, ref:'MedicalProfile'}
 });
 
