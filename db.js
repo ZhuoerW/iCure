@@ -51,14 +51,15 @@ const Appointment = new mongoose.Schema({
 	title: {type:String, default:''},
 	start: {type: Date, default: Date.now, required: true},
 	end: {type: Date, default: Date.now, required: true},
-	doctor_id: {type: String, required: true, minlength: 10, maxlength: 10, default:''},
-	patient_id: {type: String, required: true, minlength: 10, maxlength: 10, default:''},
-	chief_complaint: {type: String, required: true, default:' '},
-	diagnosis: {type: String},
-	prescription: {type: String},
-	status: {type: String,default: 'Upcoming',required: true},
-	rating: {type: Number,default:0},
-	comments: {type: String},
+	doctor_id: {type: String, required: true, minlength: 10, maxlength: 10},
+	patient_id: {type: String, required: true, minlength: 10, maxlength: 10},
+	chief_complaint: {type: String, required: true},
+	diagnosis: String,
+	prescription: String,
+	status: {type: String,default: "Upcoming",required: true},
+	rate: {type: String},
+	comment:{type: String},
+	related_profile: {type: mongoose.Schema.Types.ObjectId, ref:'MedicalProfile'}
 });
 
 //message

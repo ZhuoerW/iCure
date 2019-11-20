@@ -18,7 +18,7 @@
                             <p class = "nav">/</p>
                         </td>
                         <td>
-                            <p class = "nav">Appointment Details</p>
+                            <p class = "nav">Ratings</p>
                         </td>
                         
                     </tr>
@@ -56,36 +56,15 @@
         <h1 style="color:white; font-size: 25px" class="mb-3">Appointment Information</h1> 
         <p style="color:white; font-size: 18px" class="mb-3">Start at: {{appointment.start}}</p>
         <p style="color:white; font-size: 18px" class="mb-3">End at: {{appointment.end}}</p>
-        <p style="color:white; font-size: 18px" class="mb-5">Locate at: {{doctor.hospital}}</p>
-        <a href="/diagnosis/{{appointment.slug}}"><button class="btn btn-primary">Diagnosis</button></a>
-    </div>
-
-    <div class=" " style="height: 40px">
-    </div>
-
-    <div class="container-fluid" style="color:black; background: lightgrey; padding-top: 30px; padding-bottom: 50px; padding-left: 250px">
-        <h1 style="font-size: 25px" class="mb-3">Cheif Complaint</h1>
-        <p style="font-size: 18px" class="mb-3">{{appointment.chief_complaint}}</p>
-    </div>
-
-{{else}}
-<div class="container-fluid" style="padding-top: 50px; padding-bottom: 30px; padding-left: 250px; background-color: #00243b">
-        <h1 style="color:white; font-size: 25px" class="mb-3">Appointment Information</h1> 
-        <p style="color:white; font-size: 18px" class="mb-3">Start at: {{appointment.start}}</p>
-        <p style="color:white; font-size: 18px" class="mb-3">End at: {{appointment.end}}</p>
         <p style="color:white; font-size: 18px">Locate at: {{doctor.hospital}}</p>
-        
     </div>
 
     <div class=" " style="height: 40px">
     </div>
 
     <div class="container-fluid" style="color: black; background: lightgrey; padding-top: 30px; padding-bottom: 30px; padding-left: 250px">
-        <h1 style="font-size: 25px" class="mb-3">Doctor {{doctor.name}}</h1> 
-        <p style="font-size: 18px" class="mb-3">Email: <a href="mailto:{{doctor_email}}" style="color:black">{{doctor.email}}</a></p>
-        <p style="font-size: 18px" class="mb-3">Department: {{doctor.department}}</p>
-        <p style="font-size: 18px" class="mb-3">Position: {{doctor.position}}</p>
-        <p style="font-size: 18px" class="mb-3">Introduction: {{doctor.resume}}</p>
+        <h1 style="font-size: 25px" class="mb-3">Diagnosis</h1> 
+        <p style="font-size: 18px" >{{appointment.diagnosis}}</p>
     </div>
 
     <div class=" " style="height: 40px">
@@ -93,7 +72,107 @@
 
     <div class="container-fluid" style="color:black; background: lightgrey; padding-top: 30px; padding-bottom: 50px; padding-left: 250px">
         <h1 style="font-size: 25px" class="mb-3">Cheif Complaint</h1>
-        <p style="font-size: 18px" class="mb-3">{{appointment.chief_complaint}}</p>
-        
+        <p style="font-size: 18px">{{appointment.chief_complaint}}</p>
     </div>
+
+    {{# if appointment.rate}}
+    <div class="container-fluid" style="color:black; background: lightgrey; padding-top: 30px; padding-left: 250px; height: 650px">
+     <h1 style="font-size: 25px" class="mb-4">Feedback</h1>
+     <div style="width: 70%">
+     <input type="number" name="rate" id="rating1" class="rating" value={{appointment.rate}} data-readonly>
+     <div class=" " style="height: 10px"></div>
+     <p>{{appointment.comment}}</p>
+     </div>
+    {{/if}}
+
+{{else}}
+<div class="container-fluid" style="padding-top: 50px; padding-bottom: 30px; padding-left: 250px; background-color: #00243b">
+        <h1 style="color:white; font-size: 25px" class="mb-3">Appointment Information</h1> 
+        <p style="color:white; font-size: 20px" class="mb-3">With Doctor {{doctor.name}}</p>
+        <p style="color:white; font-size: 18px" class="mb-3">Start at: {{appointment.start}}</p>
+        <p style="color:white; font-size: 18px" class="mb-3">End at: {{appointment.end}}</p>
+        <p style="color:white; font-size: 18px">Locate at: {{doctor.hospital}}</p>
+    </div>
+
+    <div class=" " style="height: 40px">
+    </div>
+
+    <div class="container-fluid" style="color: black; background: lightgrey; padding-top: 30px; padding-bottom: 30px; padding-left: 250px">
+        <h1 style="font-size: 25px" class="mb-3">Diagnosis</h1> 
+        <p style="font-size: 18px">{{appointment.diagnosis}}</p>
+    </div>
+
+    <div class=" " style="height: 40px">
+    </div>
+
+    <div class="container-fluid" style="color:black; background: lightgrey; padding-top: 30px; padding-bottom: 50px; padding-left: 250px">
+        <h1 style="font-size: 25px" class="mb-3">Cheif Complaint</h1>
+        <p style="font-size: 18px">{{appointment.chief_complaint}}</p>
+    </div>
+
+    <div class=" " style="height: 40px">
+    </div>
+
+    {{#if appointment.rate}}
+     <div class="container-fluid" style="color:black; background: lightgrey; padding-top: 30px; padding-left: 250px; height: 650px">
+     <h1 style="font-size: 25px" class="mb-4">Feedback</h1>
+     <div style="width: 70%">
+     <input type="number" name="rate" id="rating1" class="rating" value={{appointment.rate}} data-readonly>
+     <div class=" " style="height: 10px"></div>
+     <p>{{appointment.comment}}</p>
+     </div>
+    {{else}}
+    <form id= "rate" method = "POST" action="/rate/{{appointment.slug}}">
+    <div class="container-fluid" style="color:black; background: lightgrey; padding-top: 30px; padding-left: 250px; height: 650px">
+    <h1 style="font-size: 25px" class="mb-4">Feedback</h1>
+    <div style="width: 70%">
+    <input type="number" name="rate" id="rating1" class="rating" data-clearable="remove"/>
+
+    <div class=" " style="height: 10px"></div>
+
+    <!-- Include stylesheet -->
+    <link href="https://cdn.quilljs.com/1.1.6/quill.snow.css" rel="stylesheet">
+    <!-- Create the editor container -->
+    <input type="hidden" name="comment">
+    <div id="editor" style="height:400px; background-color: white; overflow:auto"></div>
+
+
+    <!-- Include the Quill library -->
+    <script src="https://cdn.quilljs.com/1.1.6/quill.js"></script>
+
+    <!-- Initialize Quill editor -->
+    <script>
+    var quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+    var form = document.querySelector('form');
+    form.onsubmit = function() {
+        // Populate hidden form on submit
+        var comment = document.querySelector('input[name=comment]');
+        comment.value = JSON.stringify(quill.getContents());
+        console.log("contentyeah", $(form).serialize())
+    };
+    </script>
+
+    <div class="" style="height: 25px"></div>
+
+    <button class="btn btn-primary" type="submit" style="background-color: rgb(83, 107, 243)">Submit</button>
+    </form>
+    </div>
+    {{/if}}
 {{/if}}
+
+<div style="height: 30px"></div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="../public/javascripts/bootstrap-rating-input.min.js">
+<script>
+$(function(){
+$('input').on('change', function(){
+  alert("Changed: " + $(this).val())
+});
+});
+</script>
