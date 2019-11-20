@@ -440,6 +440,7 @@ app.get('/appointment-history/:slug',function(req,res){
 	}
 });
 
+
 app.get('/appointments/:slug',function(req,res){
 	let currentAppointment = {};
 	let slug = req.params.slug;
@@ -459,6 +460,35 @@ app.get('/appointments/:slug',function(req,res){
 							}).save(function(err,data){
 								if (data){
 									res.render("appointmentDetail",{appointment:currentAppointment,doctor:currDoctor,medicalProfile:data,slug:slug});
+								}
+							});
+						}
+					});
+				}
+			});
+		}
+	});
+});
+
+app.get('/diagnosis/:slug',function(req,res){
+	let currentAppointment = {};
+	let slug = req.params.slug;
+	let currDoctor;
+	Appointment.findOne({slug:slug},function(err,appointment){
+		if (appointment){
+			currentAppointment = appointment;
+			Doctor.findOne({id:appointment.doctor_id},function(err,doctor){
+				currDoctor  = doctor;
+				if (doctor){
+					MedicalProfile.findOne({patient_id:currentAppointment.patient_id}, function(err,data){
+						if (data){
+							res.render("diagnosisDetail",{appointment:currentAppointment,doctor:currDoctor,medicalProfile:data,slug:slug});
+						} else {
+							new MedicalProfile({
+								patient_id:currentAppointment.patient_id
+							}).save(function(err,data){
+								if (data){
+									res.render("diagnosisDetail",{appointment:currentAppointment,doctor:currDoctor,medicalProfile:data,slug:slug});
 								}
 							});
 						}
@@ -588,18 +618,6 @@ app.post('/update-profile/:slug',function(req,res){
 	}
 });
 
-
-app.get('/diagnosis/:slug', (req, res) => {
-	const slug = sanitize(req.params.slug);
-	Appointment.findOne({slug: slug}, function(err, appointment) {
-		if (err) {
-			res.render('diagnosisDetaill', {error: true});
-		} else {
-			res.render('diagnosisDetail', {appointment: appointment});
-
-		}
-	});
-});
 async function getDoctorAndPatient(current_app){
 	current_app = await Doctor.findOne({id:current_app.doctor_id}, function(error, doctor){
 		if (doctor){
