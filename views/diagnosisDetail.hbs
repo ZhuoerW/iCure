@@ -44,6 +44,7 @@
                                     <a href='/info-form'>Profile</a>
                                     <a href='/appointment-history/{{userslug}}'>Appointment</a>
                                     <a href='/info-form'>Chat Room</a>
+                                    <a href='/logout'>Log Out</a>
                                 </div>
                             </div>
                         </td>
@@ -59,7 +60,7 @@
 
 <div class="container" style="padding-left: 10%; padding-right: 10%">
     <div class="diagnosis-form" style="box-shadow: lightgrey 0px 1px; padding: 30px ">
-    <form id= "diagnosis" method = "POST" action="/diagnosis/{{slug}}">
+    <form id= "diagnosis" method = "POST" action="/appointment-history/{{appointment.doctor.id}}">
         <div style="border-bottom:solid 1px lightgrey; width: 100%; align: centre; margin-bottom: 15px">
             <h5 for="add-comment-box" style="color:#00243b">Health Data</h5>
         </div>
@@ -78,7 +79,7 @@
                 <div class="form-inline">
                     <input type="text" name="weight" class="form-control" style="text-align: right" placeholder="Weight" value="{{medicalProfile.weight}}" required>
                     <medium id="passwordHelpInline" class="text-muted ml-2">
-                        cm
+                        kg
                     </medium>
                 </div>
             </div>
@@ -152,8 +153,8 @@
         var form = document.querySelector('form');
         form.onsubmit = function() {
             // Populate hidden form on submit
-            var content = document.querySelector('input[name=content]');
-            content.value = JSON.stringify(quill.getContents());
+            var diagnosis = document.querySelector('input[name=diagnosis]');
+            diagnosis.value = JSON.stringify(quill.getContents());
             console.log("contentyeah", $(form).serialize())
         };
         </script>
