@@ -3,7 +3,7 @@ const session = require('express-session');
 const path = require('path');
 const sanitize = require('mongo-sanitize');
 const moment = require('moment');
-const exphbs = require('express-handlebars');
+//const exphbs = require('express-handlebars');
 
 
 
@@ -611,7 +611,7 @@ app.get('/diagnosis/:slug', (req, res) => {
 			res.render('diagnosisDetail', {appointment: appointment});
 
 		}
-	});
+});
 });
 async function getDoctorAndPatient(current_app){
 	current_app = await Doctor.findOne({id:current_app.doctor_id}, function(error, doctor){
@@ -625,18 +625,6 @@ async function getDoctorAndPatient(current_app){
 				current_app.patient_name = patient.name;
 				current_app.patient_email = patient.email;
 			}
-			});
-		}
-	});
-});
-async function getDoctorAndPatient(current_app){
-	current_app = await Doctor.findOne({id:current_app.doctor_id}, function(error, doctor){
-		if (doctor){
-			current_app.doctor_name = doctor.name;
-			current_app.doctor_email = doctor.email;
-			Patient.findOne({id:current_app.patient_id},function(err,patient){
-				current_app.patient_name = patient.name;
-				current_app.patient_email = patient.email;
 			});
 		}
 	});
