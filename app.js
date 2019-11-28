@@ -559,7 +559,7 @@ app.post('/diagnosis/:slug',function(req,res){
 	Appointment.findOneAndUpdate({slug:slug},{diagnosis:diagnosis,status:"History"},function(err,appointment){
 		if (appointment){
 			MedicalProfile.findOneAndUpdate({patient_id:appointment.patient_id},newMedical,function(err,data){
-				res.redirect('/appointment-history/'+req.session.slug);
+				res.redirect('/appointments/'+slug);
 			});
 		}
 	});
