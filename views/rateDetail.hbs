@@ -76,18 +76,20 @@
     </div>
 
     {{# if appointment.rate}}
-    <div class="container-fluid" style="color:black; background: lightgrey; padding-top: 30px; padding-left: 250px; height: 650px">
+    <div class=" " style="height: 40px">
+    </div>
+    <div class="container-fluid" style="color:black; background: lightgrey; padding-top: 30px; padding-left: 250px; padding-bottom: 50px">
      <h1 style="font-size: 25px" class="mb-4">Feedback</h1>
      <div style="width: 70%">
      <input type="number" name="rate" id="rating1" class="rating" value={{appointment.rate}} data-readonly>
      <div class=" " style="height: 10px"></div>
-     <p>{{appointment.comment}}</p>
+     <p style="font-size: 18px">{{appointment.comment}}</p>
      </div>
     {{/if}}
 
 {{else}}
 <div class="container-fluid" style="padding-top: 50px; padding-bottom: 30px; padding-left: 250px; background-color: #00243b">
-        <h1 style="color:white; font-size: 25px" class="mb-3">Appointment Information</h1> 
+        <h1 style="color:white; font-size: 25px" class="mb-4">Appointment Information</h1> 
         <p style="color:white; font-size: 20px" class="mb-3">With Doctor {{doctor.name}}</p>
         <p style="color:white; font-size: 18px" class="mb-3">Start at: {{appointment.start}}</p>
         <p style="color:white; font-size: 18px" class="mb-3">End at: {{appointment.end}}</p>
@@ -114,12 +116,13 @@
     </div>
 
     {{#if appointment.rate}}
-     <div class="container-fluid" style="color:black; background: lightgrey; padding-top: 30px; padding-left: 250px; height: 650px">
+    
+     <div class="container-fluid" style="color:black; background: lightgrey; padding-top: 30px; padding-left: 250px; padding-bottom: 50px">
      <h1 style="font-size: 25px" class="mb-4">Feedback</h1>
      <div style="width: 70%">
      <input type="number" name="rate" id="rating1" class="rating" value={{appointment.rate}} data-readonly>
      <div class=" " style="height: 10px"></div>
-     <p>{{appointment.comment}}</p>
+     <p style="font-size:18px">{{appointment.comment}}</p>
      </div>
     {{else}}
     <form id= "rate" method = "POST" action="/rate/{{appointment.slug}}">
@@ -161,9 +164,6 @@
     </div>
     {{/if}}
 {{/if}}
-
-<div style="height: 30px"></div>
-
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
 <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
@@ -176,3 +176,6 @@ $('input').on('change', function(){
 });
 });
 </script>
+
+</div>
+<div style="height: 30px"></div>
