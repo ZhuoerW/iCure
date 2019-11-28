@@ -3,7 +3,8 @@ const session = require('express-session');
 const path = require('path');
 const sanitize = require('mongo-sanitize');
 const moment = require('moment');
-const exphbs = require('express-handlebars');
+//const exphbs = require('express-handlebars');
+
 
 
 require('./db');
@@ -562,6 +563,18 @@ app.post('/diagnosis/:slug',function(req,res){
 			});
 		}
 	});
+});
+
+app.post('/rate/:slug',function(req,res){
+	let slug = req.params.slug;
+	let rate = sanitize(req.body.rate);
+	let rawComment = JSON.parse(sanitize(req.body.comment));
+	let comment = rawComment["ops"][0]["insert"].trim();
+	Appointment.findOneAndUpdate({slug:slug},{rate:rate,comment:comment},function(err,appointment){
+		if (appointment){
+				res.redirect('/rate/'+slug);
+			}
+		});
 });
 
 app.get('/logout', (req,res) => {
