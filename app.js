@@ -35,6 +35,7 @@ const sessionOptions = {
 	saveUninitialized: false,
 	resave: false
 };
+
 app.use(session(sessionOptions));
 
 app.use(function(req, res, next){
@@ -532,13 +533,36 @@ app.get('/rate/:slug',function(req,res){
 app.post('/rate/:slug',function(req,res){
  let slug = req.params.slug;
  let rate = sanitize(req.body.rate);
+ let doctor_id;
+ let doc_rate = 0;
+ let num = 0;
+ let avg_rate = 0;
  let rawComment = JSON.parse(sanitize(req.body.comment));
  let comment = rawComment["ops"][0]["insert"].trim();
  Appointment.findOneAndUpdate({slug:slug},{rate:rate,comment:comment},function(err,appointment){
-  if (appointment){
-    res.redirect('/rate/'+slug);
-   }
- });
+  	if (appointment){
+  		doctor_id = appointment.doctor_id;
+  		Appointment.find({doctor_id:doctor_id}, function(err, doc_apps){
+  			if (doc_apps){
+  				for (i=1; i<doc_apps.length; i++) {
+  					if (doc_apps[i].rate && doc_apps[i].rate !== "0") {
+  						doc_rate  += parseInt(doc_apps[i].rate);
+  						num += 1;
+  					} 
+  				}
+  				if (num !== 0) {
+  					avg_rate = doc_rate/num;
+  				}
+  				Doctor.findOneAndUpdate({id:doctor_id},{rating: avg_rate.toFixed(1)}, function(err, doctor){
+  					if (doctor) {
+  						console.log("here");
+  						res.redirect('/rate/'+slug);
+  					}
+  				});
+  			}
+  		});
+   		}
+ 	});
 });
 
 app.post('/diagnosis/:slug',function(req,res){
