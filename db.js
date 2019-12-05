@@ -18,7 +18,7 @@ const Id = new mongoose.Schema({
 const Patient = new mongoose.Schema({
 	id: {type: String, required: true, minlength: 10, maxlength: 10},
 	name: {type: String, required: true},
-	password: {type: String, required: true, minlength: 5, maxlength: 20},
+	password: {type: String, required: true, minlength: 5},
 	date_of_birth: {type: Date, required: true},
 	gender: {type: String, required: true},
 	phone: {type: String, required: true},
@@ -30,7 +30,7 @@ const Patient = new mongoose.Schema({
 const Doctor = new mongoose.Schema({
 	id: {type: String,required: true},
 	name: {type: String, required: true},
-	password: {type: String, required: true, minlength: 5, maxlength: 20},
+	password: {type: String, required: true, minlength: 5},
 	date_of_birth: {type: Date, required: true},
 	gender: {type: String, required: true},
 	phone: {type: String, required: true},
