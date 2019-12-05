@@ -9,7 +9,7 @@ const moment = require('moment');
 
 require('./db');
 const mongoose = require('mongoose');
-const Visitor = mongoose.model('Visitor');
+//const Visitor = mongoose.model('Visitor');
 const Patient = mongoose.model('Patient');
 const Doctor = mongoose.model('Doctor');
 const Appointment = mongoose.model('Appointment');
@@ -55,7 +55,7 @@ app.get("/signup", function(req, res) {
 });
 
 app.get("/loginCheck", function(req,res){
-	if (req.query.usertype=="Doctor") {
+	if (req.query.usertype==="Doctor") {
 		Doctor.findOne({email:req.query.Email, password: req.query.Password}, function(error, data){
 			if (data) {
 				req.session.is_doctor = true;
@@ -64,13 +64,12 @@ app.get("/loginCheck", function(req,res){
 				req.session._id = data.id;
 				req.session.slug = data.slug;
 				res.redirect("/");
-			}
-			else {
+			} else {
 				const errormessage="Sorry! Incorrect username or password. Please try again.";
 				res.render("login", {"error": errormessage, layout: false});
 			}
-		});4
-}  else if (req.query.usertype=="Patient"){
+		});
+	} else if (req.query.usertype==="Patient"){
 		Patient.findOne({email:req.query.Email, password: req.query.Password}, function(error, data){
 			if (data) {
 				req.session.is_doctor = false;
@@ -102,7 +101,7 @@ app.get('/registerPatient', function(req, res){
 app.post('/registerPatient', function(req, res){
 	Id.findOne({type:'init'},function(error, data){
 		if (data) {
-			let id = data.id;
+			const id = data.id;
 		new Patient({
 		name: sanitize(req.body.Name),
 		password: sanitize(req.body.Password),
@@ -118,8 +117,8 @@ app.post('/registerPatient', function(req, res){
 			const errormessage = "Invalid register information!";
 			res.render('registerPatient', {"error": errormessage, layout: false});
 		} else {
-			let NewId = id+1;
-			Id.findOneAndUpdate({type:'init'},{id:NewId},function(error,data){
+			const NewId = id+1;
+			Id.findOneAndUpdate({type:'init'},{id:NewId},function(error){
 				if (error) {
 					console.log(error);
 				} else {
@@ -135,7 +134,7 @@ app.post('/registerPatient', function(req, res){
 app.post('/registerDoctor', function(req, res){
 	Id.findOne({type:'init'},function(error, data){
 		if (data) {
-			let id = data.id;
+			const id = data.id;
 		new Doctor({
 		name: sanitize(req.body.Name),
 		password: sanitize(req.body.Password),
@@ -156,8 +155,8 @@ app.post('/registerDoctor', function(req, res){
 			const errormessage = "Invalid register information!";
 			res.render('registerDoctor', {"error": errormessage, layout: false});
 		} else {
-			let NewId = id+1;
-			Id.findOneAndUpdate({type:'init'},{id:NewId},function(error,data){
+			const NewId = id+1;
+			Id.findOneAndUpdate({type:'init'},{id:NewId},function(error){
 				if (error) {
 					console.log(error);
 				} else {
@@ -200,7 +199,7 @@ app.get('/search-result', (req, res) => {
 		} else {
 			const option = sanitize(req.query.option);
 			const filter = sanitize(req.query.filter);
-			let filteredDoctors = doctors.filter(function(doctorObj) {
+			const filteredDoctors = doctors.filter(function(doctorObj) {
 				return doctorObj[filter] === option;
 			});
 			filteredDoctors.sort((a, b) => (a.rating < b.rating) ? 1:-1);
@@ -318,13 +317,13 @@ app.post('/posts/:slug/comments', (req, res) => {
 	const slug = sanitize(req.params.slug);
 	const comment = sanitize(req.body.comment);
 	const name = req.session.name;
-	const author_id = req.session._id;
+	const authorId = req.session._id;
 	const myDate = new Date();
 	const time = myDate.getTime();
 	const stringTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
 	const newComment = new Comment({
 		content: comment,
-		author_id: author_id,
+		author_id: authorId,
 		create_time: stringTime,
 		name: name
 	});
@@ -370,12 +369,12 @@ app.get('/make-appointment/:slug', function(req, res){
 });
 app.post('/update-appointment',function(req,res){
 	const event = JSON.parse(req.body.newEvent);
-	let doctor_id = sanitize(req.body.doctor_id).toString();
-	newEvent = new Appointment({
+	const doctorId = sanitize(req.body.doctor_id).toString();
+	const newEvent = new Appointment({
 		title: event.title,
 		start: event.start,
 		end:event.end,
-		doctor_id: doctor_id,
+		doctor_id: doctorId,
 		patient_id:req.session._id,
 		chief_complaint:event.chief_complaint,
 	});
@@ -390,15 +389,15 @@ app.post('/update-appointment',function(req,res){
 });
 
 app.get('/appointment-history/:slug',function(req,res){
-	let upcoming = [];
-	let history = [];
+	const upcoming = [];
+	const history = [];
 	let current_app = {};
 	if (req.session.type === "Patient") {
 		Appointment.find({patient_id: req.session._id}, function(err, appointments) {
 			if (err) {
 				res.render('appointmentHistory', {error: true});
 			} else {
-				for (i=0; i<appointments.length; i++ ){
+				for (let i=0; i<appointments.length; i++ ){
 					current_app = appointments[i];
 					if (appointments[i].status === "Upcoming"){
 						getDoctorAndPatient(current_app);
@@ -420,7 +419,7 @@ app.get('/appointment-history/:slug',function(req,res){
 			if (err) {
 				res.render('appointmentHistory', {error: true});
 			} else {
-				for (i=0; i<appointments.length; i++ ){
+				for (let i=0; i<appointments.length; i++ ){
 					current_app = appointments[i];
 					if (appointments[i].status === "Upcoming"){
 						getDoctorAndPatient(current_app);
@@ -444,13 +443,13 @@ app.get('/appointment-history/:slug',function(req,res){
 
 app.get('/appointments/:slug',function(req,res){
 	let currentAppointment = {};
-	let slug = req.params.slug;
+	const slug = req.params.slug;
 	let currDoctor;
 	Appointment.findOne({slug:slug},function(err,appointment){
 		if (appointment){
 			currentAppointment = appointment;
 			Doctor.findOne({id:appointment.doctor_id},function(err,doctor){
-				currDoctor  = doctor;
+				currDoctor = doctor;
 				if (doctor){
 					MedicalProfile.findOne({patient_id:currentAppointment.patient_id}, function(err,data){
 						if (data){
@@ -473,13 +472,13 @@ app.get('/appointments/:slug',function(req,res){
 
 app.get('/diagnosis/:slug',function(req,res){
 	let currentAppointment = {};
-	let slug = req.params.slug;
+	const slug = req.params.slug;
 	let currDoctor;
 	Appointment.findOne({slug:slug},function(err,appointment){
 		if (appointment){
 			currentAppointment = appointment;
 			Doctor.findOne({id:appointment.doctor_id},function(err,doctor){
-				currDoctor  = doctor;
+				currDoctor = doctor;
 				if (doctor){
 					MedicalProfile.findOne({patient_id:currentAppointment.patient_id}, function(err,data){
 						if (data){
@@ -502,13 +501,13 @@ app.get('/diagnosis/:slug',function(req,res){
 
 app.get('/rate/:slug',function(req,res){
 	let currentAppointment = {};
-	let slug = req.params.slug;
+	const slug = req.params.slug;
 	let currDoctor;
 	Appointment.findOne({slug:slug},function(err,appointment){
 		if (appointment){
 			currentAppointment = appointment;
 			Doctor.findOne({id:appointment.doctor_id},function(err,doctor){
-				currDoctor  = doctor;
+				currDoctor = doctor;
 				if (doctor){
 					MedicalProfile.findOne({patient_id:currentAppointment.patient_id}, function(err,data){
 						if (data){
@@ -530,10 +529,10 @@ app.get('/rate/:slug',function(req,res){
 });
 
 app.post('/rate/:slug',function(req,res){
- let slug = req.params.slug;
- let rate = sanitize(req.body.rate);
- let rawComment = JSON.parse(sanitize(req.body.comment));
- let comment = rawComment["ops"][0]["insert"].trim();
+ const slug = req.params.slug;
+ const rate = sanitize(req.body.rate);
+ const rawComment = JSON.parse(sanitize(req.body.comment));
+ const comment = rawComment["ops"][0]["insert"].trim();
  Appointment.findOneAndUpdate({slug:slug},{rate:rate,comment:comment},function(err,appointment){
   if (appointment){
     res.redirect('/rate/'+slug);
@@ -542,10 +541,10 @@ app.post('/rate/:slug',function(req,res){
 });
 
 app.post('/diagnosis/:slug',function(req,res){
-	let slug = req.params.slug;
-	let rawDiagnosis = JSON.parse(sanitize(req.body.diagnosis));
-	let diagnosis = rawDiagnosis["ops"][0]["insert"].trim();
-	let newMedical = {
+	const slug = req.params.slug;
+	const rawDiagnosis = JSON.parse(sanitize(req.body.diagnosis));
+	const diagnosis = rawDiagnosis["ops"][0]["insert"].trim();
+	const newMedical = {
 		height: sanitize(req.body.height),
 		weight: sanitize(req.body.weight), 
 		right_eye_sight: sanitize(req.body.right_eye_sight),
@@ -558,7 +557,7 @@ app.post('/diagnosis/:slug',function(req,res){
 	};
 	Appointment.findOneAndUpdate({slug:slug},{diagnosis:diagnosis,status:"History"},function(err,appointment){
 		if (appointment){
-			MedicalProfile.findOneAndUpdate({patient_id:appointment.patient_id},newMedical,function(err,data){
+			MedicalProfile.findOneAndUpdate({patient_id:appointment.patient_id},newMedical,function(err){
 				res.redirect('/appointments/'+slug);
 			});
 		}
@@ -566,10 +565,10 @@ app.post('/diagnosis/:slug',function(req,res){
 });
 
 app.post('/rate/:slug',function(req,res){
-	let slug = req.params.slug;
-	let rate = sanitize(req.body.rate);
-	let rawComment = JSON.parse(sanitize(req.body.comment));
-	let comment = rawComment["ops"][0]["insert"].trim();
+	const slug = req.params.slug;
+	const rate = sanitize(req.body.rate);
+	const rawComment = JSON.parse(sanitize(req.body.comment));
+	const comment = rawComment["ops"][0]["insert"].trim();
 	Appointment.findOneAndUpdate({slug:slug},{rate:rate,comment:comment},function(err,appointment){
 		if (appointment){
 				res.redirect('/rate/'+slug);
@@ -601,7 +600,7 @@ app.get('/info-form/:slug',function(req,res){
 });
 
 app.post('/update-profile/:slug',function(req,res){
-	let newProfile = {}
+	let newProfile = {};
 	if (req.session.type === "Doctor"){
 		newProfile = {
 			phone: sanitize(req.body.phone),
@@ -646,16 +645,17 @@ async function getDoctorAndPatient(current_app){
 			});
 		}
 	});
-};
+}
 
 function getRandom(arr, n) {
-    let result = new Array(n),
-        len = arr.length,
-        taken = new Array(len);
-    if (n > len)
+    const result = new Array(n);
+    let len = arr.length;
+    const taken = new Array(len);
+    if (n > len) {
         throw new RangeError("getRandom: more elements taken than available");
+    }
     while (n--) {
-        let x = Math.floor(Math.random() * len);
+        const x = Math.floor(Math.random() * len);
         result[n] = arr[x in taken ? taken[x] : x];
         taken[x] = --len in taken ? taken[len] : len;
     }
