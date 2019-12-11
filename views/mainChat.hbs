@@ -1,0 +1,22 @@
+{{#if error}}
+	<div>Error!</div>
+{{/if}}
+{{#if chat}}
+	
+	<div id="message-wrapper">
+		<div id="message-list">
+			{{#each messages}}
+			<div>{{time}} - {{text}} sent by {{sender_name}}</div>
+			{{/each}}
+		</div>
+	</div>
+	
+
+	<form method="POST" action="/chat/{{chat.slug}}/send">
+		<p><label for="send-message-box">Send a Message:</label></p>
+		<p><textarea name="message" id="send-message-box"></textarea></p>
+		<input type="hidden" id="chat-id" value="{{chat.slug}}">
+		<p><input type="submit" name="" value="POST!" class="submit-button" id="send-message-button"></p>
+	</form>
+{{/if}}
+<script type="text/javascript" src="/public/javascripts/index.js"></script>
