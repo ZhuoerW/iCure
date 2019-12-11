@@ -948,5 +948,3 @@ function getRandom(arr, n) {
 }
 
 app.listen(3000);
-
-
