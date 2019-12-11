@@ -66,8 +66,13 @@ const Appointment = new mongoose.Schema({
 // * each message is related to one doctor and one patient
 // * each message has a unique create time
 const Message = new mongoose.Schema({
-	doctor_id: {type: String,required: true, minlength: 10, maxlength: 10},
-	patient_id: {type: String,required: true, minlength: 10, maxlength: 10},
+	//doctor_id: {type: String,required: true, minlength: 10, maxlength: 10},
+	//patient_id: {type: String,required: true, minlength: 10, maxlength: 10},
+	//doctor_name: {type: String, required: true},
+	//patient_name: {type: String, required: true},
+	sender_type: {type: String, required: true},
+	sender_name: {type: String, required: true},
+	sender_id: {type: String,required: true, minlength: 10, maxlength: 10},
 	time: {type: Date, default: Date.now, required: true},
 	text: {type: String,required: true}
 });
@@ -78,6 +83,8 @@ const Message = new mongoose.Schema({
 const Chat = new mongoose.Schema({
 	doctor_id: {type: String,required: true, minlength: 10, maxlength: 10},
 	patient_id: {type: String,required: true, minlength: 10, maxlength: 10},
+	doctor_name: {type: String, required: true},
+	patient_name: {type: String, required: true},
 	messages: [{type: mongoose.Schema.Types.ObjectId, ref:'Message'}]
 });
 
@@ -129,7 +136,7 @@ const MedicalProfile = new mongoose.Schema({
 Patient.plugin(URLSlugs('id name'));
 Doctor.plugin(URLSlugs('id name'));
 Appointment.plugin(URLSlugs('doctor_id patient_id time'));
-Message.plugin(URLSlugs('doctor_id patient_id time'));
+Message.plugin(URLSlugs('sender_id time'));
 Chat.plugin(URLSlugs('doctor_id patient_id'));
 Post.plugin(URLSlugs('author_id create_time'));
 Comment.plugin(URLSlugs('author_id create_time'));

@@ -191,7 +191,6 @@ app.get('/', (req, res) => {
 			postObj.content = postObj.content.slice(0, 300);
 			return postObj;
 		});
-		console.log(posts);
 		if (req.session.name===undefined) {
 			res.render('HomePage',{NotLogin: true,posts:selectedPosts});
 		}
@@ -393,7 +392,24 @@ app.post('/update-appointment',function(req,res){
 		if (err){
 			console.log(err);
 		} else {
-			console.log("success");
+			Doctor.find({id: doctorId}, function(err, doctor) {
+				if (err) {
+					console.log(err);
+				} else {
+					const newChat = new Chat({
+						doctor_id: doctorId,
+						patient_id: req.session._id,
+						doctor_name: doctor[0].name,
+						patient_name: req.session.name,
+						messages: []
+					});
+					newChat.save(function(err, chat) {
+						if (err) {
+							console.log(err);
+						}
+					});
+				}
+			});
 		}
 	});
 
@@ -421,11 +437,9 @@ app.get('/appointment-history/:slug',function(req,res){
 						}
 					}
 				}
-				console.log(upcoming);
 				res.render('appointmentHistory', {upcoming:upcoming,history:history});
 		});
 	} else if (req.session.type==="Doctor") {
-		console.log("Doctor");
 		Appointment.find({doctor_id: req.session._id}, function(err, appointments) {
 			if (err) {
 				res.render('appointmentHistory', {error: true});
@@ -436,7 +450,7 @@ app.get('/appointment-history/:slug',function(req,res){
 						getDoctorAndPatient(current_app);
 						current_app.slotEventOverlap=false;
 						upcoming.push(current_app);
-						console.log(current_app);
+						//console.log(current_app);
 						} else {
 								getDoctorAndPatient(current_app);
 								current_app.slotEventOverlap=false;
@@ -444,7 +458,7 @@ app.get('/appointment-history/:slug',function(req,res){
 						}
 					}
 				}
-				console.log(upcoming);
+				//console.log(upcoming);
 				res.render('appointmentHistory', {upcoming:upcoming,history:history});
 });
 
@@ -748,15 +762,168 @@ app.post('/update-profile/:slug',function(req,res){
 	}
 });
 
+app.get('/chat', (req, res) => {
+	if (req.session.name === undefined) {
+		res.redirect('/login');
+	}
+	if (req.session.type === "Doctor") {
+		Appointment.find({doctor_id: req.session._id, status: ["Upcoming", "Ongoing"]}, function(err, appointments) {
+			if (err) {
+				console.log(err);
+				res.render('avaiChat', {error: true});
+			} else {
+				const appids = appointments.map(function(obj) {
+					return obj.patient_id;
+				});
+				Patient.find({id: appids}, function(err, patients) {
+					if (err) {
+						console.log(err);
+						res.render('avaiChat', {error: true});
+					} else {
+						//res.render('avaiChat', {clients: patients});
+						const patientids = patients.map(function(obj) {
+							return obj.id;
+						});
+						Chat.find({doctor_id: req.session._id, patient_id: patientids}, function(err, chats) {
+							if (err) {
+								res.render('avaiChat', {error: true});
+							} else {
+								res.render('avaiChat', {chats: chats});
+							}
+						});
+					}
+				});
+			}
+		});
+	} else {
+		Appointment.find({patient_id: req.session._id, status: ["Upcoming", "Ongoing"]}, function(err, appointments) {
+			if (err) {
+				res.render('avaiChat', {error: true});
+			} else {
+				const appids = appointments.map(function(obj) {
+					return obj.doctor_id;
+				});
+				Doctor.find({id: appids}, function(err, doctors) {
+					if (err) {
+						res.render('avaiChat', {error: true});
+					} else {
+						//res.render('avaiChat', {clients: doctors});
+						const doctorids = doctors.map(function(obj) {
+							return obj.id;
+						});
+						Chat.find({patient_id: req.session._id, doctor_id: doctorids}, function(err, chats) {
+							if (err) {
+								res.render('avaiChat', {error: true});
+							} else {
+								res.render('avaiChat', {chats: chats});
+							}
+						});
+					}
+				});
+			}
+		});
+	}
+});
+
+app.get('/chat/:slug', (req, res) => {
+	if (req.session.name === undefined) {
+		res.redirect('/login');
+	}
+	const slug = req.params.slug;
+	if (req.session.type === "Doctor") {
+		Chat.findOne({slug:slug}, function(err, chat) {
+			if (err) {
+				res.render('mainChat', {error: true});
+			} else {
+				Message.find({_id: chat.messages}, function(err, messages) {
+					if (err) {
+						res.render('mainChat', {error: true});
+					} else {
+						messages.sort((a, b) => (a.time < b.time) ? 1:-1);
+						res.render('mainChat', {messages: messages, chat: chat});
+					}
+				});
+			}
+		});
+	} else {
+		Chat.findOne({slug:slug}, function(err, chat) {
+			if (err) {
+				res.render('mainChat', {error: true});
+			} else {
+				Message.find({_id: chat.messages}, function(err, messages) {
+					if (err) {
+						res.render('mainChat', {error: true});
+					} else {
+						messages.sort((a, b) => (a.time < b.time) ? 1:-1);
+						res.render('mainChat', {messages: messages, chat: chat});
+					}
+				});
+			}
+		});
+	}
+});
+
+app.get('/chat/:slug/send', (req, res) => {
+	if (req.session.name === undefined) {
+		res.redirect('/login');
+	}
+	const slug = sanitize(req.params.slug);
+	Chat.findOne({slug: slug}, function(err, chat) {
+		Message.find({_id: chat.messages}, function(err, messages) {
+			if (err) {
+				console.log(err);
+			} else {
+				messages.sort((a, b) => (a.time < b.time) ? 1:-1);
+		res.json(messages);
+			}
+		});	
+	});
+});
+
+app.post('/chat/:slug/send', (req, res) => {
+	if (req.session.name === undefined) {
+		res.redirect('/login');
+	}
+	const slug = sanitize(req.params.slug);
+	const text = sanitize(req.body.text);
+	const sender_type = req.session.type;
+	const sender_name = req.session.name;
+	const sender_id = req.session._id;
+	const myDate = new Date();
+	const time = myDate.getTime();
+	const stringTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
+	const newMessage = new Message({
+		sender_type: sender_type,
+		sender_name: sender_name,
+		sender_id: sender_id,
+		time: stringTime,
+		text: text
+	});
+	newMessage.save(function(err, savedMessage) {
+		if (err) {
+			console.log('error 10', err);
+			res.render('mainChat', {error: true});
+		} else {
+			Chat.findOneAndUpdate({slug: slug}, {$push: {messages: savedMessage._id}}, function(err) {
+				if (err) {
+					console.log('error 20',err);
+					res.render('mainChat', {error: true});
+				} else {
+					res.json(savedMessage);
+					//res.redirect('/topics/' + slug);
+				}
+			});
+		}
+	});
+});
+
 async function getDoctorAndPatient(current_app){
 	current_app = await Doctor.findOne({id:current_app.doctor_id}, function(error, doctor){
 		if (doctor){
-			console.log(doctor);
 			current_app.doctor_name = doctor.name;
 			current_app.doctor_email = doctor.email;
 			Patient.findOne({id:current_app.patient_id},function(err,patient){
 				if (patient) {
-				console.log(patient);
 				current_app.patient_name = patient.name;
 				current_app.patient_email = patient.email;
 			}

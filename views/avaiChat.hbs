@@ -1,0 +1,7 @@
+{{#if error}}
+<div>Error!</div>
+{{/if}}
+<div style="height:100px"></div>
+{{#each chats}}
+<a href=/chat/{{slug}}>{{doctor_name}} with {{patient_name}}
+{{/each}}
