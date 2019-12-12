@@ -396,18 +396,24 @@ app.post('/update-appointment',function(req,res){
 				if (err) {
 					console.log(err);
 				} else {
-					const newChat = new Chat({
-						doctor_id: doctorId,
-						patient_id: req.session._id,
-						doctor_name: doctor[0].name,
-						patient_name: req.session.name,
-						messages: []
-					});
-					newChat.save(function(err, chat) {
+					Chat.findOne({doctor_id: doctorId, patient_id: req.session._id}, function(err, chat) {
 						if (err) {
 							console.log(err);
+						} else if (chat == undefined) {
+							const newChat = new Chat({
+							doctor_id: doctorId,
+							patient_id: req.session._id,
+							doctor_name: doctor[0].name,
+							patient_name: req.session.name,
+							messages: []
+							});
+							newChat.save(function(err, chat) {
+								if (err) {
+									console.log(err);
+								}
+							});
 						}
-					});
+					});		
 				}
 			});
 		}
@@ -590,10 +596,10 @@ app.post('/rate/:slug',function(req,res){
  let doc_rate = 0;
  let num = 0;
  let avg_rate = 0;
- const comment = rawComment["ops"][0]["insert"].trim();
  const slug = req.params.slug;
  const rate = sanitize(req.body.rate);
  const rawComment = JSON.parse(sanitize(req.body.comment));
+ const comment = rawComment["ops"][0]["insert"].trim();
  Appointment.findOneAndUpdate({slug:slug},{rate:rate,comment:comment},function(err,appointment){
   	if (appointment){
   		doctor_id = appointment.doctor_id;
@@ -653,20 +659,6 @@ app.post('/diagnosis/:slug',function(req,res){
 	});
 });
 
-app.post('/rate/:slug',function(req,res){
-	const slug = req.params.slug;
-	const rate = sanitize(req.body.rate);
-	const rawComment = JSON.parse(sanitize(req.body.comment));
-	const comment = rawComment["ops"][0]["insert"].trim();
-	Appointment.findOneAndUpdate({slug:slug},{rate:rate,comment:comment},function(err,appointment){
-		if (err) {
-			const errormessage = "errormessage";
-			res.render('error', {"error": errormessage});
-		} else{
-			res.redirect('/rate/'+slug);
-			}
-		});
-});
 
 app.get('/logout', (req,res) => {
 	req.session.name = undefined;
@@ -825,6 +817,8 @@ app.get('/chat', (req, res) => {
 	}
 });
 
+
+
 app.get('/chat/:slug', (req, res) => {
 	if (req.session.name === undefined) {
 		res.redirect('/login');
@@ -874,18 +868,19 @@ app.get('/chat/:slug/send', (req, res) => {
 				console.log(err);
 			} else {
 				messages.sort((a, b) => (a.time < b.time) ? 1:-1);
-		res.json(messages);
+				res.json(messages);
 			}
 		});	
 	});
 });
 
-app.post('/chat/:slug/send', (req, res) => {
+
+app.post('/chat/:slug', (req, res) => {
 	if (req.session.name === undefined) {
 		res.redirect('/login');
 	}
 	const slug = sanitize(req.params.slug);
-	const text = sanitize(req.body.text);
+	const text = sanitize(req.body.message);
 	const sender_type = req.session.type;
 	const sender_name = req.session.name;
 	const sender_id = req.session._id;
@@ -909,13 +904,18 @@ app.post('/chat/:slug/send', (req, res) => {
 					console.log('error 20',err);
 					res.render('mainChat', {error: true});
 				} else {
-					res.json(savedMessage);
+					//res.json(savedMessage);
 					//res.redirect('/topics/' + slug);
+					res.redirect('/chat/'+ slug);
 				}
 			});
 		}
 	});
 });
+
+
+
+
 
 async function getDoctorAndPatient(current_app){
 	current_app = await Doctor.findOne({id:current_app.doctor_id}, function(error, doctor){
