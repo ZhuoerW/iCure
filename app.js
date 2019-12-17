@@ -674,7 +674,7 @@ app.get('/info-form/:slug',function(req,res){
 				const errormessage = "errormessage";
 				res.render('error', {"error": errormessage});
 			} else{
-				res.render("patientInfoForm",{my:doctor});
+				res.render("infoForm",{my:doctor});
 			}
 		});
 	} else if(req.session.type === "Patient"){
@@ -686,7 +686,7 @@ app.get('/info-form/:slug',function(req,res){
 						res.render('error', {"error": errormessage});
 						console.log(err);
 					} else {
-						res.render("patientInfoForm",{my:patient, medicalProfile:medicalProfile});
+						res.render("infoForm",{my:patient, medicalProfile:medicalProfile});
 					}
 				});
 			}
