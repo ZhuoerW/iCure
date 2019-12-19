@@ -16,7 +16,7 @@ https://nodejs.org/en/
 
 Mongodb
 
-To install MongoDB, use a package manager like apt on Linux or homebrew on MacOS (brew install mongodb)
+To install MongoDB, use a package manager like apt on Linux or homebrew on MacOS 'brew install mongodb'
 
 An alternative way is to follow the instruction on this website https://docs.mongodb.com/manual/installation/.
 
