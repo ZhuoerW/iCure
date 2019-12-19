@@ -67,7 +67,7 @@ app.get("/loginCheck", function(req,res){
 				res.redirect("/");
 			} else {
 				const errormessage="Sorry! Incorrect username or password. Please try again.";
-				res.render("login", {"error": errormessage});
+				res.render("error", {"error": errormessage});
 			}
 		});
 	} else if (req.query.usertype==="Patient"){
@@ -82,7 +82,7 @@ app.get("/loginCheck", function(req,res){
 			}
 			else {
 				const errormessage="Sorry! Incorrect username or password. Please try again.";
-				res.render("login", {"error": errormessage});
+				res.render("error", {"error": errormessage});
 			}
 		});
 	}
@@ -101,10 +101,13 @@ app.get('/registerPatient', function(req, res){
 
 app.post('/registerPatient', function(req, res){
 	let patient;
+	let id = '1000000000';
 	Id.findOne({type:'init'},function(error, data){
 		if (data) {
-		const id = data.id;
-		new Patient({
+			id = data.id;
+		}
+	});
+	new Patient({
 		name: sanitize(req.body.Name),
 		password: sanitize(req.body.Password),
 		gender: sanitize(req.body.Gender),
@@ -128,7 +131,7 @@ app.post('/registerPatient', function(req, res){
 					console.log(error);
 				} else {
 					new MedicalProfile({
-						patient_id:currentAppointment.patient_id
+						patient_id:id
 							}).save(function(error,data){
 								if (data) {
 									res.redirect('/');
@@ -138,45 +141,45 @@ app.post('/registerPatient', function(req, res){
 			});
 		}
 	});
-		} 
-	});
 });
 
 app.post('/registerDoctor', function(req, res){
+	let id = '1000000000';
 	Id.findOne({type:'init'},function(error, data){
 		if (data) {
-				const id = data.id;
-				new Doctor({
-				name: sanitize(req.body.Name),
-				password: sanitize(req.body.Password),
-				gender: sanitize(req.body.Gender),
-				id: id.toString(),
-				date_of_birth: sanitize(req.body.DateOfBirth),
-				phone: sanitize(req.body.Phone),
-				address: sanitize(req.body.Address),
-				email: sanitize(req.body.Email),
-				resume: sanitize(req.body.Resume),
-				department: sanitize(req.body.Department),
-				hospital: sanitize(req.body.Hospital),
-				position: sanitize(req.body.Position),
-				rating: 0
-			}).save(function(error){
-		if (error) {
-			console.log(error);
-			const errormessage = "Invalid register information!";
-			res.render('error', {"error": errormessage});
-		} else {
-			const NewId = id+1;
-			Id.findOneAndUpdate({type:'init'},{id:NewId},function(error){
-				if (error) {
-					console.log(error);
-				} else {
-					res.redirect('/');
-				}
-			});
-		}
-	});
+				id = data.id;
 		} 
+	});
+	new Doctor({
+		name: sanitize(req.body.Name),
+		password: sanitize(req.body.Password),
+		gender: sanitize(req.body.Gender),
+		id: id.toString(),
+		date_of_birth: sanitize(req.body.DateOfBirth),
+		phone: sanitize(req.body.Phone),
+		address: sanitize(req.body.Address),
+		email: sanitize(req.body.Email),
+		resume: sanitize(req.body.Resume),
+		department: sanitize(req.body.Department),
+		hospital: sanitize(req.body.Hospital),
+		position: sanitize(req.body.Position),
+		rating: 0
+	}).save(function(error){
+	if (error) {
+		console.log(error);
+		const errormessage = "Invalid register information!";
+		res.render('error', {"error": errormessage});
+	} else {
+		const NewId = id+1;
+		Id.findOneAndUpdate({type:'init'},{id:NewId},function(error){
+			if (error) {
+				const errormessage = "Server Error!";
+				res.render('error', {"error": errormessage});
+			} else {
+				res.redirect('/');
+			}
+		});
+		}
 	});
 	});
 
@@ -259,7 +262,6 @@ app.get('/posts-new', (req, res) => {
 	if (req.session.name !== undefined){
 	res.render('addPost'); 
 	} else {
-
 		res.redirect('/login');
 	}
 });
@@ -364,11 +366,15 @@ app.get('/make-appointment/:slug', function(req, res){
 	const doctorSlug = req.params.slug;
 	Doctor.findOne({slug:doctorSlug}, function(error,doctor){
 		if (error){
+			const errormessage = "Server Error!";
+			res.render('error', {"error": errormessage});
 			console.log(error);
 		}
 		else {
 			Appointment.find({doctor_id:doctor.id},function(error,appointment){
 				if (error){
+					const errormessage = "Server Error!";
+					res.render('error', {"error": errormessage});
 					console.log(error);
 				} else {
 					res.render('makeAppointment',{doctor:doctor,appointment:JSON.stringify(appointment),slug:req.session.slug});
@@ -390,10 +396,14 @@ app.post('/update-appointment',function(req,res){
 	});
 	newEvent.save(function(err, appointment){
 		if (err){
+			const errormessage = "Server Error!";
+			res.render('error', {"error": errormessage});
 			console.log(err);
 		} else {
 			Doctor.find({id: doctorId}, function(err, doctor) {
 				if (err) {
+					const errormessage = "Server Error!";
+					res.render('error', {"error": errormessage});
 					console.log(err);
 				} else {
 					const newChat = new Chat({
@@ -405,6 +415,8 @@ app.post('/update-appointment',function(req,res){
 					});
 					newChat.save(function(err, chat) {
 						if (err) {
+							const errormessage = "Server Error!";
+							res.render('error', {"error": errormessage});
 							console.log(err);
 						}
 					});
@@ -590,10 +602,10 @@ app.post('/rate/:slug',function(req,res){
  let doc_rate = 0;
  let num = 0;
  let avg_rate = 0;
- const comment = rawComment["ops"][0]["insert"].trim();
  const slug = req.params.slug;
  const rate = sanitize(req.body.rate);
  const rawComment = JSON.parse(sanitize(req.body.comment));
+ const comment = rawComment["ops"][0]["insert"].trim();
  Appointment.findOneAndUpdate({slug:slug},{rate:rate,comment:comment},function(err,appointment){
   	if (appointment){
   		doctor_id = appointment.doctor_id;
@@ -653,20 +665,6 @@ app.post('/diagnosis/:slug',function(req,res){
 	});
 });
 
-app.post('/rate/:slug',function(req,res){
-	const slug = req.params.slug;
-	const rate = sanitize(req.body.rate);
-	const rawComment = JSON.parse(sanitize(req.body.comment));
-	const comment = rawComment["ops"][0]["insert"].trim();
-	Appointment.findOneAndUpdate({slug:slug},{rate:rate,comment:comment},function(err,appointment){
-		if (err) {
-			const errormessage = "errormessage";
-			res.render('error', {"error": errormessage});
-		} else{
-			res.redirect('/rate/'+slug);
-			}
-		});
-});
 
 app.get('/logout', (req,res) => {
 	req.session.name = undefined;
