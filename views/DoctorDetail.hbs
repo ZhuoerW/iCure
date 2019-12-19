@@ -20,8 +20,7 @@ function goBack() {
                             <p class = "nav">/</p>
                         </td>
                         <td>
-                            <button onclick="goBack()">Go Back</button>
-                            <a href="/search-result" style="color: rgb(83, 107, 243)">Search Result</a>
+                            <a onclick="goBack()" style="color: rgb(83, 107, 243)">Go Back</a>
                         </td>
                         <td style="width: 16px">
                             <p class = "nav">/</p>
@@ -44,9 +43,9 @@ function goBack() {
                             <div class="dropdown">
                                 <button class="dropdown"><img id="user_image" src="../public/img/user_grey.png" height="20px" href='/info-form'/></button>
                                 <div class="dropdown-content">
-                                    <a href='/info-form'>Profile</a>
+                                    <a href='/info-form/{{userslug}}'>Profile</a>
                                     <a href='/appointment-history/{{userslug}}'>Appointment</a>
-                                    <a href='/info-form'>Chat Room</a>
+                                    <a href='/chat'>Chat Room</a>
                                     <a href='/logout'>Log Out</a>
                                 </div>
                             </div>
