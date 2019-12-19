@@ -37,6 +37,8 @@ const sessionOptions = {
 
 app.use(session(sessionOptions));
 
+//use the middleware to store the session information of users
+
 app.use(function(req, res, next){
 	res.locals.is_doctor = req.session.is_doctor;
 	res.locals.type = req.session.type;
@@ -46,13 +48,38 @@ app.use(function(req, res, next){
   next();
 });
 
+//get the homepage
+app.get('/', (req, res) => {
+	let twentyPosts;
+	let selectedPosts;
+	Post.find(function(err,posts){
+		posts.sort((a, b) => (a.hit < b.hit) ? 1:-1);
+		twentyPosts = posts.slice(0,20);
+		selectedPosts = getRandom(twentyPosts, Math.min(10,twentyPosts.length))
+		.map(function(postObj) {
+			postObj.content = postObj.content.slice(0, 300);
+			return postObj;
+		});
+		if (req.session.name===undefined) {
+			res.render('HomePage',{NotLogin: true,posts:selectedPosts});
+		}
+	else {
+		res.render('HomePage',{posts:selectedPosts});
+	}
+		});
+});
+
+//load the login page
 app.get("/login", function(req, res) {
     res.render('login', {layout: false});
 });
 
+//load the registerpage
 app.get("/signup", function(req, res) {
     res.render('signup', {layout: false});
 });
+
+//check whether the login is valid with email and password 
 
 app.get("/loginCheck", function(req,res){
 	if (req.query.usertype==="Doctor") {
@@ -87,17 +114,17 @@ app.get("/loginCheck", function(req,res){
 	}
 });
 
-
+//get the register form for doctor
 app.get('/registerDoctor', function(req, res){
 	res.render("registerDoctor",{layout: false});
 });
 
-
+//get the register form for patient
 app.get('/registerPatient', function(req, res){
 	res.render("registerPatient",{layout: false});
 });
 
-
+//store the register information of new patient into database
 app.post('/registerPatient', function(req, res){
 	let id = '1000000000';
 	Id.findOne({type:'init'},function(error, data){
@@ -141,6 +168,7 @@ app.post('/registerPatient', function(req, res){
 	});
 });
 
+//store the register information of new doctor into database
 app.post('/registerDoctor', function(req, res){
 	let id = '1000000000';
 	Id.findOne({type:'init'},function(error, data){
@@ -181,27 +209,7 @@ app.post('/registerDoctor', function(req, res){
 	});
 	});
 
-app.get('/', (req, res) => {
-	let twentyPosts;
-	let selectedPosts;
-	Post.find(function(err,posts){
-		posts.sort((a, b) => (a.hit < b.hit) ? 1:-1);
-		twentyPosts = posts.slice(0,20);
-		selectedPosts = getRandom(twentyPosts, Math.min(10,twentyPosts.length))
-		.map(function(postObj) {
-			postObj.content = postObj.content.slice(0, 300);
-			return postObj;
-		});
-		if (req.session.name===undefined) {
-			res.render('HomePage',{NotLogin: true,posts:selectedPosts});
-		}
-	else {
-		res.render('HomePage',{posts:selectedPosts});
-	}
-		});
-});
-
-
+//get the result of doctor search from database and sent to front-end
 app.get('/search-result', (req, res) => {
 	Doctor.find(function(err, doctors) {
 		if (req.query.option === "") {
@@ -219,6 +227,7 @@ app.get('/search-result', (req, res) => {
 	});
 });
 
+//get the detailed doctor profile
 app.get('/doctors/:slug', (req, res) => {
 	const slug = sanitize(req.params.slug);
 	Doctor.findOne({slug: slug}, function(err, doctor) {
@@ -231,7 +240,7 @@ app.get('/doctors/:slug', (req, res) => {
 	});
 });
 
-// Forum
+//enter the mian form page
 app.get('/main-forum', (req, res) => {
 	Post.find(function(err, posts) {
 		if (req.query.option === "") {
@@ -256,6 +265,7 @@ app.get('/main-forum', (req, res) => {
 	});
 });
 
+//get the page of creating a new post
 app.get('/posts-new', (req, res) => {
 	if (req.session.name !== undefined){
 	res.render('addPost'); 
@@ -264,6 +274,7 @@ app.get('/posts-new', (req, res) => {
 	}
 });
 
+//add the new post into database and go back to the main form
 app.post('/posts-new', (req, res) => {
 	const rawContent = JSON.parse(sanitize(req.body.content));
 	const title = sanitize(req.body.title);
@@ -289,6 +300,7 @@ app.post('/posts-new', (req, res) => {
 	});
 });
 
+//get the detailed information and comments of the post
 app.get('/posts/:slug',(req, res) => {
 	const slug = sanitize(req.params.slug);
 
@@ -318,6 +330,7 @@ app.get('/posts/:slug/comments', (req, res) => {
 	res.redirect('/posts/'+slug);
 });
 
+//make new comments under the post
 app.post('/posts/:slug/comments', (req, res) => {
 	
 	if (req.session.name === undefined) {
@@ -356,6 +369,7 @@ app.post('/posts/:slug/comments', (req, res) => {
 	});
 });
 
+//get the page(calendar) for making an appointment with a doctor
 app.get('/make-appointment/:slug', function(req, res){
 	if (req.session.name === undefined) {
 		res.redirect('/login');
@@ -380,6 +394,8 @@ app.get('/make-appointment/:slug', function(req, res){
 		}
 	});
 });
+
+//store the new appointment into database
 app.post('/update-appointment',function(req,res){
 	const event = JSON.parse(req.body.newEvent);
 	const doctorId = sanitize(req.body.doctor_id).toString();
@@ -430,6 +446,7 @@ app.post('/update-appointment',function(req,res){
 
 });
 
+//view all the appointments, including history and upcoming
 app.get('/appointment-history/:slug',function(req,res){
 	const upcoming = [];
 	const history = [];
@@ -480,7 +497,7 @@ app.get('/appointment-history/:slug',function(req,res){
 	}
 });
 
-
+//view the detail of an appointment
 app.get('/appointments/:slug',function(req,res){
 	let currentAppointment = {};
 	const slug = req.params.slug;
@@ -521,6 +538,7 @@ app.get('/appointments/:slug',function(req,res){
 	});
 });
 
+//view and edit the diagnosis corresponding to one appointment
 app.get('/diagnosis/:slug',function(req,res){
 	let currentAppointment = {};
 	const slug = req.params.slug;
@@ -562,6 +580,7 @@ app.get('/diagnosis/:slug',function(req,res){
 	});
 });
 
+//get the page of rating an appoitment
 app.get('/rate/:slug',function(req,res){
 	let currentAppointment = {};
 	const slug = req.params.slug;
@@ -600,6 +619,7 @@ app.get('/rate/:slug',function(req,res){
 	});
 });
 
+//post and store the rate and comments of an appointment
 app.post('/rate/:slug',function(req,res){
 	let doctor_id;
 	let doc_rate = 0;
@@ -640,6 +660,7 @@ app.post('/rate/:slug',function(req,res){
 	});
 });
 
+//store the diagnosis 
 app.post('/diagnosis/:slug',function(req,res){
 	const slug = req.params.slug;
 	const rawDiagnosis = JSON.parse(sanitize(req.body.diagnosis));
@@ -668,13 +689,7 @@ app.post('/diagnosis/:slug',function(req,res){
 });
 
 
-app.get('/logout', (req,res) => {
-	req.session.name = undefined;
-	req.session._id = undefined;
-	req.session.slug = undefined;
-	res.redirect('/');
-});
-
+//get the profile of doctors and patients
 app.get('/info-form/:slug',function(req,res){
 	if (req.session.type === "Doctor"){
 		Doctor.findOne({slug:req.session.slug},function(err,doctor){
@@ -702,6 +717,7 @@ app.get('/info-form/:slug',function(req,res){
 	}
 });
 
+//update the profile for patients and doctors after editing the profile
 app.post('/update-profile/:slug',function(req,res){
 	let newProfile = {};
 	if (req.session.type === "Doctor"){
@@ -923,7 +939,7 @@ app.post('/chat/:slug', (req, res) => {
 
 
 
-
+//help fnction for get patient and doctor profile for an appointment
 function getDoctorAndPatient(currentApp){
 	currentApp = Doctor.findOne({id:currentApp.doctor_id}, function(error, doctor){
 		if (doctor){
@@ -939,6 +955,7 @@ function getDoctorAndPatient(currentApp){
 	});
 }
 
+//help function for randomly generating top posts on the homepage 
 function getRandom(arr, n) {
     const result = new Array(n);
     let len = arr.length;
@@ -953,5 +970,13 @@ function getRandom(arr, n) {
     }
     return result;
 }
+
+//log out 
+app.get('/logout', (req,res) => {
+	req.session.name = undefined;
+	req.session._id = undefined;
+	req.session.slug = undefined;
+	res.redirect('/');
+});
 
 app.listen(3000);
