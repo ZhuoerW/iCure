@@ -6,20 +6,29 @@ The iCure allowing three types of users, including visitors, patients, and docto
 
 ## Prerequisites
 The iCure system requirs the installation of mongodb and node.js 
-Node.js
+
+###Node.js
+
 Open the terminal or DOS Shell and run (node -v) and (npm -v). Both commands should output a version number if the Node.js is successfully installed.
+
 Please follow the instruction in this website to download node.js. 
 https://nodejs.org/en/
 
-Mongodb
+###Mongodb
+
 To install MongoDB, use a package manager like apt on Linux or homebrew on MacOS (brew install mongodb)
+
 An alternative way is to follow the instruction on this website https://docs.mongodb.com/manual/installation/.
 
 ## Installing and get start
 a) Open the terminal or DOS Shell and go to the program folder. 
+
 b) Run (npm install) to install all required modules. 
+
 c) Open another window of terminal/DOS Shell, run (mongod) and then (mongo) to start the database of mongodb.
+
 d) Go back to the window under the program folder and run (node app.js) to start the server. 
+
 c) Open an browser and go to http://localhost:3000 to start the web application.
 
 ## Running the tests
@@ -27,8 +36,11 @@ c) Open an browser and go to http://localhost:3000 to start the web application.
 ## Contributors
 
 Wenxin Feng -- Front-end development and test
+
 Wujie Duan -- Back-end development and front-end development
+
 Xinyi Wang -- Front-end development and project management
+
 Zhuoer Wang -- Back-end development and test
 
 ## Documentation 
